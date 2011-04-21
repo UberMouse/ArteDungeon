@@ -10,8 +10,10 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.Strategy;
 import nz.artedungeon.dungeon.*;
 import nz.artedungeon.misc.GameConstants;
+import nz.uberutils.helpers.Utils;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyGroundItems;
+import nz.uberutils.methods.MyInventory;
 import nz.uberutils.methods.MyMovement;
 
 import java.awt.*;
@@ -103,35 +105,42 @@ public class DungeonStart extends Strategy
                 while (Calculations.distanceTo(smuggler) > 4 && ++timeout <= 15)
                     sleep(100);
                 if (!Widgets.getComponent(GameConstants.STORE_COMPONENT, 0).isValid()) {
-                    smuggler.interact("Trade");
+                    if (smuggler.interact("Trade")) {
+                        timeout = 0;
+                        while (!Widgets.getComponent(GameConstants.STORE_COMPONENT).isValid() && ++timeout <= 15)
+                            sleep(100);
+                    }
                 }
                 else {
-                    timeout = 0;
-                    while (!Widgets.getComponent(GameConstants.STORE_COMPONENT).isValid() && ++timeout <= 15)
-                        sleep(100);
                     com.rsbuddy.script.wrappers.Component toolkit = Widgets.getComponent(GameConstants.STORE_COMPONENT,
                                                                                          GameConstants.STORE_SUB_COMPONENT)
                                                                            .getComponent(TOOLKIT_COMPONENT);
                     com.rsbuddy.script.wrappers.Component storeSubComp = Widgets.getComponent(GameConstants.STORE_COMPONENT,
                                                                                               GameConstants.STORE_SUB_COMPONENT);
-                    Rectangle storeSubBounds = storeSubComp.getBoundingRect();
-                    Mouse.move((int) storeSubBounds.getCenterX(), (int) storeSubBounds.getCenterY());
-                    for (int i = 0; i < 7; i++)
-                        Mouse.scroll(false);
                     if (toolkit != null && toolkit.isValid() && Inventory.getCount(true, GameConstants.COINS) >= 1320) {
-                        toolkit.interact("Buy");
-                        Widgets.getComponent(GameConstants.STORE_COMPONENT, 18).click();
+                        Rectangle storeSubBounds = storeSubComp.getBoundingRect();
+                        Mouse.move((int) storeSubBounds.getCenterX(), (int) storeSubBounds.getCenterY());
+                        for (int i = 0; i < 7; i++) {
+                            Utils.debug("scrolling");
+                            Mouse.scroll(false);
+                        }
+                        if (toolkit.interact("Buy"))
+                            Widgets.getComponent(GameConstants.STORE_COMPONENT, 18).click();
                     }
                     else {
-                        for (Item item : Inventory.getItems()) {
+                        for (Item item : MyInventory.getItems(true)) {
                             Equipable check = new Equipable(item.getName());
+                            Utils.debug(ItemHandler.shouldEquip(check, check.getEquipmentIndex()) +
+                                        " " +
+                                        check.getName());
                             if (check.getStyle() != ItemHandler.UNKNOWN &&
                                 !ItemHandler.shouldEquip(check, check.getEquipmentIndex())) {
                                 item.interact("Sell 50");
                             }
                         }
-                        if (Inventory.getCount(true, GameConstants.COINS) <= 1320)
+                        if (Inventory.getCount(true, GameConstants.COINS) <= 1320) {
                             Widgets.getComponent(GameConstants.STORE_COMPONENT, 18).click();
+                        }
                     }
                 }
             }

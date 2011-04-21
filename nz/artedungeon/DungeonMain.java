@@ -22,7 +22,7 @@ import nz.artedungeon.dungeon.EnemyDef;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.doors.Door;
-import nz.artedungeon.dungeon.doors.SkillDoor;
+import nz.artedungeon.dungeon.doors.Skill;
 import nz.artedungeon.dungeon.rooms.NormalRoom;
 import nz.artedungeon.dungeon.rooms.PuzzleRoom;
 import nz.artedungeon.dungeon.rooms.Room;
@@ -34,7 +34,6 @@ import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.RoomUpdater;
 import nz.artedungeon.utils.util;
 import nz.uberutils.helpers.Options;
-import nz.uberutils.helpers.Skill;
 import nz.uberutils.helpers.Utils;
 import nz.uberutils.paint.PaintController;
 import nz.uberutils.paint.components.*;
@@ -84,13 +83,13 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     public boolean loadState = false;
 
     // Stats
-    private Skill attSkill;
-    private Skill strSkill;
-    private Skill defSkill;
-    private Skill rangeSkill;
-    private Skill magicSkill;
-    private Skill dungSkill;
-    private Skill conSkill;
+    private nz.uberutils.helpers.Skill attSkill;
+    private nz.uberutils.helpers.Skill strSkill;
+    private nz.uberutils.helpers.Skill defSkill;
+    private nz.uberutils.helpers.Skill rangeSkill;
+    private nz.uberutils.helpers.Skill magicSkill;
+    private nz.uberutils.helpers.Skill dungSkill;
+    private nz.uberutils.helpers.Skill conSkill;
     public int dungeonsDone = 0;
     public int prestiegeCount = 0;
     private int lastDungeonsDone;
@@ -179,13 +178,13 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             log("Start script logged in");
             return false;
         }
-        attSkill = new Skill(Skills.ATTACK);
-        strSkill = new Skill(Skills.STRENGTH);
-        defSkill = new Skill(Skills.DEFENSE);
-        rangeSkill = new Skill(Skills.RANGE);
-        magicSkill = new Skill(Skills.MAGIC);
-        dungSkill = new Skill(Skills.DUNGEONEERING);
-        conSkill = new Skill(Skills.CONSTITUTION);
+        attSkill = new nz.uberutils.helpers.Skill(Skills.ATTACK);
+        strSkill = new nz.uberutils.helpers.Skill(Skills.STRENGTH);
+        defSkill = new nz.uberutils.helpers.Skill(Skills.DEFENSE);
+        rangeSkill = new nz.uberutils.helpers.Skill(Skills.RANGE);
+        magicSkill = new nz.uberutils.helpers.Skill(Skills.MAGIC);
+        dungSkill = new nz.uberutils.helpers.Skill(Skills.DUNGEONEERING);
+        conSkill = new nz.uberutils.helpers.Skill(Skills.CONSTITUTION);
         loadPlugins();
         getContainer().submit(new updateThread());
         getContainer().submit(new FailSafeThread());
@@ -550,9 +549,9 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             infoFrame.removeComponent(mainLayoutColTwo);
             miscFrame.removeComponent(miscLayout);
         }
-        Skill[] skillIndex = {dungSkill, attSkill, strSkill, defSkill, rangeSkill, magicSkill, conSkill};
+        nz.uberutils.helpers.Skill[] skillIndex = {dungSkill, attSkill, strSkill, defSkill, rangeSkill, magicSkill, conSkill};
         int y = 375;
-        for (Skill skill : skillIndex) {
+        for (nz.uberutils.helpers.Skill skill : skillIndex) {
             if (skill.xpGained() > 0) {
                 PSkill skillComp = new PSkill(135, y, skill.getSkill(), PSkill.ColorScheme.GRAPHITE);
                 if (!skillFrame.containsComponent(skillComp)) {
@@ -591,7 +590,8 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                         String[] text = {"Open: " + door.isOpen(),
                                          "Locked: " + door.isLocked(),
                                          "Connector: " + Explore.getRooms().indexOf(door.getConnector()),
-                                         "Can Open: " + door.canOpen(),};
+                                         "Can Open: " + door.canOpen(),
+                                         "Door type: " + door.getType()};
                         drawDoor(g, door, text, color4);
                     }
                 }
@@ -713,7 +713,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             if (MyPlayer.lastDoorOpened() != null &&
                 MyPlayer.lastDoorOpened().getType() == Door.SKILL &&
                 !MyPlayer.lastDoorOpened().isOpen()) {
-                SkillDoor skillDoor = (SkillDoor) MyPlayer.lastDoorOpened();
+                Skill skillDoor = (Skill) MyPlayer.lastDoorOpened();
                 skillDoor.messageReceived(e);
             }
             String txt = e.getMessage();

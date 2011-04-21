@@ -25,7 +25,7 @@ public class EnterDungeon extends Strategy
         GameObject entrance = Objects.getNearest(GameConstants.ENTRANCE);
         MyMovement.turnTo(entrance);
         if (Widgets.getComponent(939, 83).isValid() &&
-            (Integer.parseInt(Widgets.getComponent(939, 83).getText()) > 16)) {
+            (Integer.parseInt(Widgets.getComponent(939, 83).getText()) > 29)) {
             parent.prestige = true;
             return random(400, 600);
         }

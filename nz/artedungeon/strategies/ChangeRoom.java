@@ -8,7 +8,7 @@ import nz.artedungeon.common.Strategy;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.doors.Door;
-import nz.artedungeon.dungeon.doors.NormalDoor;
+import nz.artedungeon.dungeon.doors.Normal;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
 
@@ -45,7 +45,7 @@ public class ChangeRoom extends Strategy
             Explore.setBossRoom(MyPlayer.currentRoom());
             parent.foundBoss = true;
             GameObject bossDoor = Objects.getNearest(GameConstants.BOSS_DOORS);
-            Door tempDoor = new NormalDoor(bossDoor, parent);
+            Door tempDoor = new Normal(bossDoor, parent);
             tempDoor.setConnector(MyPlayer.lastRoom());
             tempDoor.setOpen(true);
             Explore.getDoors().add(tempDoor);

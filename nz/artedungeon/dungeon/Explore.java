@@ -10,9 +10,9 @@ import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.RSBuddyCommon;
 import nz.artedungeon.dungeon.doors.Door;
-import nz.artedungeon.dungeon.doors.KeyDoor;
-import nz.artedungeon.dungeon.doors.NormalDoor;
-import nz.artedungeon.dungeon.doors.SkillDoor;
+import nz.artedungeon.dungeon.doors.Key;
+import nz.artedungeon.dungeon.doors.Normal;
+import nz.artedungeon.dungeon.doors.Skill;
 import nz.artedungeon.dungeon.rooms.BossRoom;
 import nz.artedungeon.dungeon.rooms.NormalRoom;
 import nz.artedungeon.dungeon.rooms.PuzzleRoom;
@@ -133,15 +133,15 @@ public class Explore extends RSBuddyCommon
                     if (!roomArea.contains(obj.getLocation()))
                         continue;
                     if (util.arrayContains(GameConstants.KEY_DOORS, objID)) {
-                        doors.add(new KeyDoor(obj, parent));
+                        doors.add(new Key(obj, parent));
                         break top;
                     }
                     else if (util.arrayContains(GameConstants.SKILL_DOORS, objID)) {
-                        doors.add(new SkillDoor(obj, parent));
+                        doors.add(new Skill(obj, parent));
                         break top;
                     }
                     else if (util.arrayContains(GameConstants.BASIC_DOORS, objID)) {
-                        doors.add(new NormalDoor(obj, parent));
+                        doors.add(new Normal(obj, parent));
                         break top;
                     }
                 }
