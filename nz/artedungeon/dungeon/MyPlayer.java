@@ -59,34 +59,6 @@ public class MyPlayer extends DungeonCommon
         MyPlayer.complexity = complexity;
     }
 
-    public static boolean prayDoors() {
-        return prayDoors;
-    }
-
-    public static void fPrayDoors() {
-        MyPlayer.prayDoors = prayDoors;
-    }
-
-    public static boolean buryBones() {
-        return buryBones;
-    }
-
-    public static void fBuryBones() {
-        buryBones = !buryBones;
-    }
-
-    public static boolean pickupLowLevelFood() {
-        return pickupLowLevelFood;
-    }
-
-    public static void setPickupLowLevelFood(boolean pickupLowLevelFood) {
-        MyPlayer.pickupLowLevelFood = pickupLowLevelFood;
-    }
-
-    public static void fLowLevelFood() {
-        pickupLowLevelFood = !pickupLowLevelFood;
-    }
-
     public static boolean teleBack() {
         return teleBack;
     }
@@ -111,30 +83,6 @@ public class MyPlayer extends DungeonCommon
         tokensGained += amount;
     }
 
-    public static boolean pureMode() {
-        return pureMode;
-    }
-
-    public static void fPureMode() {
-        pureMode = !pureMode;
-    }
-
-    public static boolean switchStyles() {
-        return switchStyles;
-    }
-
-    public static void fSwitchStyles() {
-        switchStyles = !switchStyles;
-    }
-
-    public static boolean usePrayers() {
-        return usePrayers;
-    }
-
-    public static void fUsePrayers() {
-        usePrayers = !usePrayers;
-    }
-
     private static Room currentRoom;
     private static Room lastRoom;
     private static Door lastDoorOpended;
@@ -142,12 +90,6 @@ public class MyPlayer extends DungeonCommon
     private static int complexity = 1;
     private static int tokensGained;
     private static boolean teleBack;
-    private static boolean prayDoors = true;
-    private static boolean pickupLowLevelFood;
-    private static boolean buryBones;
-    private static boolean pureMode;
-    private static boolean usePrayers;
-    private static boolean switchStyles = true;
     public static final int safeHP = 75;
 
     private static int timesDied = 0;

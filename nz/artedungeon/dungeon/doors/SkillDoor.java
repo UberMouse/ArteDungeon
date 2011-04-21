@@ -9,6 +9,7 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.util;
+import nz.uberutils.helpers.Options;
 import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyObjects;
 
@@ -35,7 +36,9 @@ public class SkillDoor extends Door implements MessageListener
 
     @Override
     public boolean canOpen() {
-        return !open && canOpen && !(util.arrayContains(GameConstants.DARK_SPIRIT, id) && !MyPlayer.prayDoors());
+        return !open &&
+               canOpen &&
+               !(util.arrayContains(GameConstants.DARK_SPIRIT, id) && !Options.getBoolean("prayDoors"));
     }
 
     @Override

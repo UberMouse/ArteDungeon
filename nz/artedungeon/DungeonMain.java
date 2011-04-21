@@ -33,7 +33,7 @@ import nz.artedungeon.strategies.*;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.RoomUpdater;
 import nz.artedungeon.utils.util;
-import nz.uberutils.arte.ArteNotifier;
+import nz.uberutils.helpers.Options;
 import nz.uberutils.helpers.Skill;
 import nz.uberutils.helpers.Utils;
 import nz.uberutils.paint.PaintController;
@@ -190,10 +190,17 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         getContainer().submit(new updateThread());
         getContainer().submit(new FailSafeThread());
         getContainer().submit(new RoomUpdater());
-        getContainer().submit(new ArteNotifier(81, true));
+        //getContainer().submit(new ArteNotifier(81, true));
         Mouse.setSpeed(1);
         startTime = System.currentTimeMillis();
         int offset = 0;
+        Options.addOption("prayDoors", Skills.getCurrentLevel(Skills.PRAYER) != 1);
+        Options.addOption("pickupLowLevelFood", Skills.getCurrentLevel(Skills.CONSTITUTION) <= 30);
+        Options.addOption("buryBones", false);
+        int defLevel = Skills.getCurrentLevel(Skills.DEFENSE);
+        Options.addOption("pureMode", (defLevel == 1 || defLevel == 20 || defLevel == 40));
+        Options.addOption("usePrayers", Skills.getCurrentLevel(Skills.PRAYER) >= 37);
+        Options.addOption("switchStyles", true);
         skillFrame.addComponent(new PClickableURL("http://www.uberdungeon.com", "Development blog", 10, 355));
         skillFrame.addComponent(new PClickableURL("https://arbidungeon.fogbugz.com/", "Report bugs", 10, 370));
         skillFrame.addComponent(new PClickableURL("http://www.uberdungeon.uservoice.com", "Feature request", 10, 385));
@@ -235,49 +242,42 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         optionFrame.addComponent(new PButton(15, 355, "Bury Bones: ", new String[]{"Yes", "No"})
         {
             public void onStart() {
-                startIndex = (MyPlayer.buryBones()) ? 0 : 1;
+                startIndex = (Options.getBoolean("buryBones")) ? 0 : 1;
             }
 
             @Override
             public void onPress() {
-                MyPlayer.fBuryBones();
+                Options.flip("buryBones");
             }
         });
         optionFrame.addComponent(new PButton(15, 370, "Pure Mode: ", new String[]{"Yes", "No"})
         {
             public void onStart() {
-                if (Skills.getCurrentLevel(Skills.DEFENSE) == 1) {
-                    MyPlayer.fPureMode();
-                }
-                else
-                    startIndex = 1;
+                startIndex = (Options.getBoolean("pureMode")) ? 0 : 1;
             }
 
             public void onPress() {
-                MyPlayer.fPureMode();
+                Options.getBoolean("pureMode");
             }
         });
         optionFrame.addComponent(new PButton(15, 385, "Switch Styles: ", new String[]{"Yes", "No"})
         {
             public void onStart() {
-                startIndex = (MyPlayer.switchStyles()) ? 0 : 1;
+                startIndex = (Options.getBoolean("switchStyles")) ? 0 : 1;
             }
 
             public void onPress() {
-                MyPlayer.fSwitchStyles();
+                Options.flip("switchStyles");
             }
         });
         optionFrame.addComponent(new PButton(15, 400, "Use Prayers: ", new String[]{"Yes", "No"})
         {
             public void onStart() {
-                if (Skills.getCurrentLevel(Skills.PRAYER) >= 37)
-                    MyPlayer.fUsePrayers();
-                else
-                    startIndex = 1;
+                startIndex = (Options.getBoolean("usePrayers")) ? 0 : 1;
             }
 
             public void onPress() {
-                MyPlayer.fUsePrayers();
+                Options.flip("usePrayers");
             }
         });
         URL backgroundUrl = null;
@@ -721,8 +721,6 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                 MyPlayer.setTimesDied(MyPlayer.timesDied() + 1);
                 MyPlayer.setTeleBack(true);
                 Dungeon.iTimesDied();
-                if (Explore.getBossRoom() != null)
-                    MyPlayer.fLowLevelFood();
             }
             if (txt.contains("Floor")) {
                 log(txt.split(">")[1].replaceAll("[a-zA-Z<>=]", ""));

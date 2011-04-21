@@ -69,10 +69,6 @@ public class DungeonStart extends Strategy
                     //Explore.setExit(true);
                 }
             }
-            if (Skills.getCurrentLevel(Skills.CONSTITUTION) < 30)
-                MyPlayer.setPickupLowLevelFood(true);
-            else
-                MyPlayer.setPickupLowLevelFood(false);
             MyPlayer.setCurrentRoom(Explore.newRoom());
             Explore.setStartRoom(MyPlayer.currentRoom());
             while (!Explore.getStartRoom().contains(MyPlayer.location())) {

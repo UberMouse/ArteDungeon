@@ -16,6 +16,7 @@ import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.util;
+import nz.uberutils.helpers.Options;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,10 +48,7 @@ public abstract class Room extends DungeonCommon
      * @param doors  the doors
      * @param parent instance of main script
      */
-    public Room(RSArea area,
-                LinkedList<Door> doors,
-                Type type,
-                DungeonMain parent) {
+    public Room(RSArea area, LinkedList<Door> doors, Type type, DungeonMain parent) {
         super(parent);
         this.area = area;
         this.doors = doors;
@@ -321,7 +319,8 @@ public abstract class Room extends DungeonCommon
                         }
                     }
                 }
-                if (MyPlayer.pickupLowLevelFood() && util.arrayContains(GameConstants.FOODS, t.getItem().getId()))
+                if (Options.getBoolean("pickupLowLevelFood") &&
+                    util.arrayContains(GameConstants.FOODS, t.getItem().getId()))
                     return true;
                 if (MyPlayer.getComplexity() > 4 &&
                     util.arrayContains(GameConstants.COMPLEXITY_LOOT, t.getItem().getId()))

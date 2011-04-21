@@ -8,8 +8,10 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.RSBuddyCommon;
 import nz.artedungeon.dungeon.EnemyDef;
 import nz.artedungeon.dungeon.Equipable;
-import nz.artedungeon.dungeon.MyPlayer;
+import nz.uberutils.helpers.Options;
+import nz.uberutils.helpers.Utils;
 import nz.uberutils.methods.MyEquipment;
+import nz.uberutils.methods.MyPrayer;
 
 import java.util.ArrayList;
 
@@ -70,6 +72,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Get attack styles of current weapon
+     *
      * @return String[] attack styles
      */
     public static String[] getAttackStyles() {
@@ -79,6 +82,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Get attack actions of current weapon (Stab, luncge, smash, block etc)
+     *
      * @return String[] attack actions
      */
     public static String[] getAttackActions() {
@@ -95,6 +99,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Check if have style
+     *
      * @param style String to check
      * @return true if have style
      */
@@ -104,6 +109,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Get current attack style
+     *
      * @return current attack style
      */
     public static String currentAttackStyle() {
@@ -112,6 +118,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Get current attack action
+     *
      * @return current attack action
      */
     public static String currentAttackAction() {
@@ -120,6 +127,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Set new attack style
+     *
      * @param style to be set
      */
     public static void setAttackStyle(String style) {
@@ -135,6 +143,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Get Widget index of attack style
+     *
      * @param style to get index of
      * @return int index of attack style
      */
@@ -148,6 +157,7 @@ public class MyCombat extends RSBuddyCommon
 
     /**
      * Get Widget index of attack action
+     *
      * @param action to get index of
      * @return int index of attack action
      */
@@ -160,42 +170,52 @@ public class MyCombat extends RSBuddyCommon
     }
 
     public static boolean isBestPrayerForEnemyOn(EnemyDef enemy) {
-        return Combat.isPrayerOn(styleToPrayer(enemy.recommendedPrayer()));
+        return styleToPrayer(enemy.recommendedPrayer()).isSelected();
     }
 
     public static void setBestPrayerForEnemy(EnemyDef enemy) {
-        Combat.setPrayer(styleToPrayer(enemy.recommendedPrayer()), true);
+        styleToPrayer(enemy.recommendedPrayer()).setActivated(true);
     }
 
-    public static boolean canUsePrayer(Combat.Prayer prayer) {
+    public static boolean canUsePrayer(MyPrayer.Prayer prayer) {
         return Skills.getCurrentLevel(Skills.PRAYER) >= prayer.getRequiredLevel();
     }
 
     /**
      * Turn on best prayer for enemy if canUsePrayer and not prayer is on
+     *
      * @param enemy enemy to check against
      */
     public static void doPrayerFor(EnemyDef enemy) {
-        if(!MyPlayer.usePrayers())
+        if (!Options.getBoolean("usePrayers"))
             return;
-        Combat.Prayer prayer = styleToPrayer(enemy.recommendedPrayer());
-        if (canUsePrayer(prayer) && !Combat.isPrayerOn(prayer))
-            Combat.setPrayer(prayer, true);
+        MyPrayer.Prayer prayer = styleToPrayer(enemy.recommendedPrayer());
+        if (canUsePrayer(prayer) && !prayer.isSelected()) {
+            prayer.setActivated(true);
+            Utils.sleep(Utils.random(300, 400));
+        }
     }
 
     /**
      * Converts attack style int too Prayer
-     * @param style
-     * @return
+     *
+     * @param style to convert to prayer
+     * @return Prayer for combat style
      */
-    public static Combat.Prayer styleToPrayer(int style) {
+    public static MyPrayer.Prayer styleToPrayer(int style) {
         switch (style) {
             case 0:
-                return Combat.Prayer.PROTECT_FROM_MELEE;
+                return (MyPrayer.isUsingRegularPrayers()) ?
+                       MyPrayer.Prayer.PROTECT_FROM_MELEE :
+                       MyPrayer.Prayer.DEFLECT_MELEE;
             case 1:
-                return Combat.Prayer.PROTECT_FROM_MISSILES;
+                return (MyPrayer.isUsingRegularPrayers()) ?
+                       MyPrayer.Prayer.PROTECT_FROM_MISSILES :
+                       MyPrayer.Prayer.DEFLECT_MISSILE;
             case 2:
-                return Combat.Prayer.PROTECT_FROM_MAGIC;
+                return (MyPrayer.isUsingRegularPrayers()) ?
+                       MyPrayer.Prayer.PROTECT_FROM_MAGIC :
+                       MyPrayer.Prayer.DEFLECT_MAGIC;
         }
         return null;
     }

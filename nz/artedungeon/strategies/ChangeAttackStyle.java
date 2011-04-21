@@ -6,6 +6,7 @@ import nz.artedungeon.common.Strategy;
 import nz.artedungeon.dungeon.EnemyDef;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.utils.MyCombat;
+import nz.uberutils.helpers.Options;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +28,7 @@ public class ChangeAttackStyle extends Strategy
 
     @Override
     public int execute() {
-        if ((MyCombat.getActionIndex("Block") - 11) == Combat.getFightMode() && MyPlayer.pureMode())
+        if ((MyCombat.getActionIndex("Block") - 11) == Combat.getFightMode() && Options.getBoolean("pureMode"))
             Combat.setFightMode(1);
         else {
             EnemyDef enemyDef = new EnemyDef(MyPlayer.interacting());
@@ -45,9 +46,9 @@ public class ChangeAttackStyle extends Strategy
 
     @Override
     public boolean isValid() {
-        if ((MyCombat.getActionIndex("Block") - 11) == Combat.getFightMode() && MyPlayer.pureMode())
+        if ((MyCombat.getActionIndex("Block") - 11) == Combat.getFightMode() && Options.getBoolean("pureMode"))
             return true;
-        if (!MyPlayer.isInteracting() || !MyPlayer.switchStyles())
+        if (!MyPlayer.isInteracting() || !Options.getBoolean("switchStyles"))
             return false;
         EnemyDef enemyDef = new EnemyDef(MyPlayer.interacting());
         for (String weakness : enemyDef.weaknesses()) {
