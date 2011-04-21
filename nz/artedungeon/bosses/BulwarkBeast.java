@@ -76,8 +76,7 @@ public class BulwarkBeast extends Plugin
             return State.EAT_FOOD;
         else if (!havePickAxe())
             return State.TAKE_AXE;
-        else if (MyEquipment.contains("pickaxe", true) &&
-                 destroyedArmour ||
+        else if (MyEquipment.contains("pickaxe", true) && destroyedArmour ||
                  !destroyedArmour && !MyEquipment.contains("pickaxe", true))
             return State.CHANGE_WEAPONS;
         else if (!destroyedArmour)
@@ -115,13 +114,13 @@ public class BulwarkBeast extends Plugin
     private void changeWeapons() {
         if (!destroyedArmour && !MyEquipment.contains("pickaxe", true)) {
             weapon = MyEquipment.getItem(MyEquipment.WEAPON).getName();
-            util.clickItem(MyInventory.getItem("pickaxe"));
+            MyInventory.getItem("pickaxe").interact("wield");
             Game.openTab(Game.TAB_EQUIPMENT);
             sleep(Random.nextInt(500, 600));
             Game.openTab(Game.TAB_INVENTORY);
         }
         else if (MyInventory.getItem(weapon) != null) {
-            util.clickItem(MyInventory.getItem(weapon));
+            MyInventory.getItem(weapon).interact("wield");
             Game.openTab(Game.TAB_EQUIPMENT);
             sleep(Random.nextInt(500, 600));
             Game.openTab(Game.TAB_INVENTORY);
@@ -161,9 +160,9 @@ public class BulwarkBeast extends Plugin
                 while (count == Inventory.getCount() && ++timeout <= 15)
                     sleep(100);
             }
-            else if(Calculations.distanceTo(rock) < 3) {
+            else if (Calculations.distanceTo(rock) < 3) {
                 Game.openTab(Game.TAB_EQUIPMENT);
-                sleep(Random.nextInt(400,500));
+                sleep(Random.nextInt(400, 500));
                 Game.openTab(Game.TAB_INVENTORY);
             }
         }
