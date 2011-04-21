@@ -39,6 +39,8 @@ public class Key extends Door
             open = false;
         if (open && connector > -1)
             return false;
+        else if(open && connector == -1)
+            open = false;
         if (!locked)
             return true;
         if (util.tileInRoom(location) && Objects.getTopAt(location, Objects.TYPE_INTERACTIVE) == null)

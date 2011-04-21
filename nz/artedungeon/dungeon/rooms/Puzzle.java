@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * Time: 3:39 PM
  * Package: nz.artedungeon.dungeon.rooms;
  */
-public class PuzzleRoom extends Room
+public class Puzzle extends Room
 {
     private boolean solved;
 
@@ -25,10 +25,7 @@ public class PuzzleRoom extends Room
      * @param doors  the doors
      * @param parent instance of main script
      */
-    public PuzzleRoom(RSArea area,
-                      LinkedList<Door> doors,
-                      GroundItem[] groundItems,
-                      DungeonMain parent) {
+    public Puzzle(RSArea area, LinkedList<Door> doors, GroundItem[] groundItems, DungeonMain parent) {
         super(area, doors, PUZZLE, parent);
     }
 

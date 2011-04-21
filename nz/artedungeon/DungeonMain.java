@@ -23,8 +23,8 @@ import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.dungeon.doors.Skill;
-import nz.artedungeon.dungeon.rooms.NormalRoom;
-import nz.artedungeon.dungeon.rooms.PuzzleRoom;
+import nz.artedungeon.dungeon.rooms.Normal;
+import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.FailSafeThread;
 import nz.artedungeon.misc.GameConstants;
@@ -102,7 +102,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     private String status = "";
     public int teleportFailSafe = 0;
     private Point m = new Point(0, 0);
-    private Room currentRoom = new NormalRoom(new RSArea(new Tile[]{}, this),
+    private Room currentRoom = new Normal(new RSArea(new Tile[]{}, this),
                                               new LinkedList<Door>(),
                                               new GroundItem[]{},
                                               this);
@@ -357,6 +357,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         bosses.add(new Sagittare());
         bosses.add(new Stomp());
         bosses.add(new Default());
+        puzzles.add(new Monolith());
         puzzles.add(new TenStatueWeapon());
         puzzles.add(new ColoredFerret());
         puzzles.add(new FishingFerret());
@@ -418,6 +419,18 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                     }
                 }
             }
+            //For testing puzzles
+            if (true) {
+                if (MyPlayer.currentRoom() != null) {
+                    for (Plugin puzzle : puzzles) {
+                        if (puzzle.isValid()) {
+                            puzzle.startupMessage();
+                            status = puzzle.getStatus();
+                            return puzzle.loop();
+                        }
+                    }
+                }
+            }
             if (MyPlayer.currentRoom() != null && MyPlayer.currentRoom().contains(MyPlayer.location())) {
                 if (MyPlayer.getComplexity() > 4 &&
                     Explore.inDungeon() &&
@@ -430,7 +443,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                         }
                     }
                     int index = Explore.getRooms().indexOf(MyPlayer.currentRoom());
-                    PuzzleRoom room = (PuzzleRoom) Explore.getRooms().get(index);
+                    Puzzle room = (Puzzle) Explore.getRooms().get(index);
                     room.setSolved(true);
                     Explore.getRooms().set(index, room);
                 }
@@ -549,7 +562,13 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             infoFrame.removeComponent(mainLayoutColTwo);
             miscFrame.removeComponent(miscLayout);
         }
-        nz.uberutils.helpers.Skill[] skillIndex = {dungSkill, attSkill, strSkill, defSkill, rangeSkill, magicSkill, conSkill};
+        nz.uberutils.helpers.Skill[] skillIndex = {dungSkill,
+                                                   attSkill,
+                                                   strSkill,
+                                                   defSkill,
+                                                   rangeSkill,
+                                                   magicSkill,
+                                                   conSkill};
         int y = 375;
         for (nz.uberutils.helpers.Skill skill : skillIndex) {
             if (skill.xpGained() > 0) {
@@ -787,11 +806,11 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     public void clearAll() {
         Explore.getRooms().clear();
         Explore.getDoors().clear();
-        MyPlayer.setLastRoom(new NormalRoom(new RSArea(new Tile[]{}, this),
+        MyPlayer.setLastRoom(new Normal(new RSArea(new Tile[]{}, this),
                                             new LinkedList<Door>(),
                                             new GroundItem[]{},
                                             this));
-        MyPlayer.setCurrentRoom(new NormalRoom(new RSArea(new Tile[]{}, this),
+        MyPlayer.setCurrentRoom(new Normal(new RSArea(new Tile[]{}, this),
                                                new LinkedList<Door>(),
                                                new GroundItem[]{},
                                                this));

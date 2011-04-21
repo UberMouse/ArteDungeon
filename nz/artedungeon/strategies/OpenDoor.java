@@ -18,7 +18,7 @@ public class OpenDoor extends Strategy
         Door toOpen = MyPlayer.currentRoom().getNearestDoor();
         if (toOpen == null)
             return random(400, 600);
-        Utils.debug(toOpen.getName());
+        debug(toOpen.getName());
         toOpen.open();
         return random(400, 600);
     }

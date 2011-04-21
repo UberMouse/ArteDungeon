@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * Time: 4:28 PM
  * Package: nz.artedungeon.dungeon.rooms;
  */
-public class BossRoom extends Room
+public class Normal extends Room
 {
     /**
      * Instantiates a new room.
@@ -23,10 +23,7 @@ public class BossRoom extends Room
      * @param doors  the doors
      * @param parent instance of main script
      */
-    public BossRoom(RSArea area,
-                    LinkedList<Door> doors,
-                    GroundItem[] groundItems,
-                    DungeonMain parent) {
-        super(area, doors, BOSS, parent);
+    public Normal(RSArea area, LinkedList<Door> doors, GroundItem[] groundItems, DungeonMain parent) {
+        super(area, doors, NORMAL, parent);
     }
 }

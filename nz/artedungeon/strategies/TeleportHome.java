@@ -17,7 +17,7 @@ public class TeleportHome extends Strategy
 
 
     public int execute() {
-        if (MyPlayer.get().isInCombat() && !MyPlayer.inCombat()) {
+        if (MyPlayer.inCombat()) {
             Npc enemy = MyPlayer.currentRoom().getNearestEnemy();
             MyMovement.turnTo(enemy);
             if (enemy != null)
@@ -52,7 +52,7 @@ public class TeleportHome extends Strategy
     }
 
     public String getStatus() {
-        return "Teleporting to home room";
+        return (MyPlayer.inCombat()) ? "Killing enemies" : "Teleporting to home room";
     }
 
     private Door getDoor() {

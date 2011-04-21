@@ -34,7 +34,7 @@ public class RSBuddyCommon
             int lineNumber = stacktrace.getLineNumber();
             parent.log("["
                        + stackTraceElements[3].getClassName()
-                       + "."
+                       + "#"
                        + stackTraceElements[3].getMethodName()
                        + ":"
                        + stackTraceElements[3].getLineNumber()

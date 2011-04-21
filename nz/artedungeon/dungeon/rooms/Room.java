@@ -32,7 +32,7 @@ public abstract class Room extends DungeonCommon
     protected Room parent;
     protected final Type type;
 
-    protected static enum Type
+    public static enum Type
     {
         NORMAL, BOSS, PUZZLE
     }
@@ -447,6 +447,15 @@ public abstract class Room extends DungeonCommon
         {
             public boolean accept(Npc Npc) {
                 return Npc != null && Npc.getId() == id && contains(Npc);
+            }
+        });
+    }
+
+    public Npc getNearestNpc() {
+        return Npcs.getNearest(new Filter<Npc>()
+        {
+            public boolean accept(Npc Npc) {
+                return Npc != null;
             }
         });
     }

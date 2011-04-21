@@ -404,11 +404,11 @@ public class Utils
             String methodName = stacktrace.getMethodName();
             int lineNumber = stacktrace.getLineNumber();
             log.info("[" +
-                     stackTraceElements[1].getClassName() +
-                     "." +
-                     stackTraceElements[1].getMethodName() +
+                     stackTraceElements[3].getClassName() +
+                     "#" +
+                     stackTraceElements[3].getMethodName() +
                      ":" +
-                     stackTraceElements[1].getLineNumber() +
+                     stackTraceElements[3].getLineNumber() +
                      "] -> [" +
                      className +
                      "." +

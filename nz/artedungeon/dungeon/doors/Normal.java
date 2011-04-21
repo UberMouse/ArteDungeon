@@ -7,7 +7,7 @@ import com.rsbuddy.script.wrappers.GameObject;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.dungeon.rooms.PuzzleRoom;
+import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.util;
@@ -38,8 +38,10 @@ public class Normal extends Door
     public boolean canOpen() {
         if (open && connector > -1)
             return false;
+        else if(open && connector == -1)
+            open = false;
         if (getParent().getType() == Room.PUZZLE) {
-            PuzzleRoom room = (PuzzleRoom) getParent();
+            Puzzle room = (Puzzle) getParent();
             return room.isSolved();
         }
         return !(getParent().getDoorAt(util.getNearestNonWallTile(location)) != null &&
@@ -50,7 +52,6 @@ public class Normal extends Door
     public void open() {
         if (!MyPlayer.currentRoom().contains(this))
             return;
-        debug(MyPlayer.currentRoom().contains(this));
         MyPlayer.setLastDoorOpended(this);
         MyMovement.turnTo(location);
         int timeout = 0;

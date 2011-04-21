@@ -5,8 +5,10 @@ import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.wrappers.GameObject;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.Strategy;
+import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
+import nz.uberutils.methods.MyInventory;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -48,7 +50,7 @@ public class GroupGateStone extends Strategy
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().contains(MyPlayer.location()) && MyPlayer.teleBack();
+        return Explore.getStartRoom().contains(MyPlayer.location()) && !MyInventory.contains("gatestone");
     }
 
     @Override

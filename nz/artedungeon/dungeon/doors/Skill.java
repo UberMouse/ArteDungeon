@@ -58,7 +58,7 @@ public class Skill extends Door implements MessageListener
             if (Objects.getTopAt(location, Objects.TYPE_INTERACTIVE) == null)
                 open = true;
         }
-        else if(object == null)
+        else if (object == null)
             open = true;
     }
 

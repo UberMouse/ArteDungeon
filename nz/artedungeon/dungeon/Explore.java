@@ -11,16 +11,16 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.RSBuddyCommon;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.dungeon.doors.Key;
-import nz.artedungeon.dungeon.doors.Normal;
 import nz.artedungeon.dungeon.doors.Skill;
-import nz.artedungeon.dungeon.rooms.BossRoom;
-import nz.artedungeon.dungeon.rooms.NormalRoom;
-import nz.artedungeon.dungeon.rooms.PuzzleRoom;
+import nz.artedungeon.dungeon.rooms.Boss;
+import nz.artedungeon.dungeon.rooms.Normal;
+import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.FloodFill;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.util;
+import nz.uberutils.helpers.Utils;
 
 import java.util.LinkedList;
 
@@ -99,18 +99,18 @@ public class Explore extends RSBuddyCommon
             }
         });
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
-            BossRoom room = new BossRoom(roomArea, newDoors(roomArea), groundItems, parent);
+            Boss room = new Boss(roomArea, newDoors(roomArea), groundItems, parent);
             rooms.add(room);
             return room;
         }
         for (Object object : parent.getPuzzles()) {
             if ((Boolean) util.callMethod(object, "isValid")) {
-                PuzzleRoom room = new PuzzleRoom(roomArea, newDoors(roomArea), groundItems, parent);
+                Puzzle room = new Puzzle(roomArea, newDoors(roomArea), groundItems, parent);
                 rooms.add(room);
                 return room;
             }
         }
-        NormalRoom room = new NormalRoom(roomArea, newDoors(roomArea), groundItems, parent);
+        Normal room = new Normal(roomArea, newDoors(roomArea), groundItems, parent);
         rooms.add(room);
         return room;
     }
@@ -141,7 +141,7 @@ public class Explore extends RSBuddyCommon
                         break top;
                     }
                     else if (util.arrayContains(GameConstants.BASIC_DOORS, objID)) {
-                        doors.add(new Normal(obj, parent));
+                        doors.add(new nz.artedungeon.dungeon.doors.Normal(obj, parent));
                         break top;
                     }
                 }
