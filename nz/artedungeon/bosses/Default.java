@@ -6,9 +6,11 @@ import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.Npc;
 import nz.artedungeon.common.Plugin;
+import nz.artedungeon.dungeon.EnemyDef;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.MyCombat;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -54,6 +56,7 @@ public class Default extends Plugin
                 return Explore.getBossRoom().contains(Npc);
             }
         });
+        MyCombat.doPrayerFor(new EnemyDef(boss));
         if (boss != null && !MyPlayer.isInteracting()) {
             MyMovement.turnTo(boss);
             boss.interact("Attack");

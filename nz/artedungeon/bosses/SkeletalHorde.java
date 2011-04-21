@@ -14,9 +14,11 @@ import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.ItemHandler;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.MyCombat;
 import nz.artedungeon.utils.util;
 import nz.uberutils.methods.MyCamera;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyPrayer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,8 +51,7 @@ public class SkeletalHorde extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc(".*skinweaver.*") != null &&
-               !talkedToSkinWeaver;
+        return MyPlayer.currentRoom().getNearestNpc(".*skinweaver.*") != null && !talkedToSkinWeaver;
     }
 
     @Override
@@ -73,6 +74,15 @@ public class SkeletalHorde extends Plugin
         if (MyPlayer.currentRoom().getNearestNpc(".*skinweaver.*") != null &&
             MyPlayer.currentRoom().getNearestNpc(".*skinweaver.*").getMessage() != null)
             blockTunnel = true;
+        if (MyCombat.canUsePrayer((MyPrayer.isUsingRegularPrayers()) ?
+                                  MyPrayer.Prayer.PROTECT_FROM_MISSILES :
+                                  MyPrayer.Prayer.DEFLECT_MISSILE)) {
+            MyPrayer.Prayer prayer = (MyPrayer.isUsingRegularPrayers()) ?
+                                     MyPrayer.Prayer.PROTECT_FROM_MISSILES :
+                                     MyPrayer.Prayer.DEFLECT_MISSILE;
+            if (!prayer.isSelected())
+                prayer.setActivated(true);
+        }
         switch (getState()) {
             case AUTO_RETAILIATE:
                 Combat.setAutoRetaliate(false);
