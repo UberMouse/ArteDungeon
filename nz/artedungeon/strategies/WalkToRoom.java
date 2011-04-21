@@ -35,11 +35,6 @@ public class WalkToRoom extends Strategy
                     end = room;
             }
         }
-        else {
-            for (Room room : Explore.getRooms())
-                if (!room.hasEnemies())
-                    end = room;
-        }
         Room[] path = bfs.findPath(MyPlayer.currentRoom(), end);
         bfs.walkPath(path);
         return random(400, 600);
@@ -64,9 +59,6 @@ public class WalkToRoom extends Strategy
             }
             return false;
         }
-        for (Room room : Explore.getRooms())
-            if (!room.hasEnemies())
-                end = room;
         return MyPlayer.currentRoom().getNearestDoor() == null && MyPlayer.currentRoom().getItem() == null && end != null;
     }
 
@@ -95,8 +87,6 @@ public class WalkToRoom extends Strategy
             else if (!MyPlayer.currentRoom().hasEnemies()) {
                 return "Pathfinding to room to pickup key";
             }
-            else
-                return "Pathfinding to room to avoid enemies";
         }
         return "Pathfinding to room";
     }
