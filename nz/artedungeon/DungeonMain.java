@@ -531,19 +531,21 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         PColumnLayout miscLayout = null;
         PColumnLayout debugLayout = null;
         try {
-            String[] columns = {"Room type:", "Has enemies:"};
-            Room cur = MyPlayer.currentRoom();
-            String[] data = {"" + cur.getType(), "" + cur.hasEnemies()};
-            if (cur.getType() == Room.Type.PUZZLE) {
-                try {
+            try {
+                String[] columns = {"Room type:", "Has enemies:"};
+                Room cur = MyPlayer.currentRoom();
+                String[] data = {"" + cur.getType(), "" + cur.hasEnemies()};
+                if (cur.getType() == Room.Type.PUZZLE) {
+
                     //                    columns = Arrays.copyOf(columns, columns.length + 1);
                     //                    data = Arrays.copyOf(data, data.length + 1);
                     //                    columns[columns.length] = "Is solved:";
                     //                    data[data.length] = "" + ((Puzzle) cur).isSolved();
-                } catch (Exception ignored) {
+
                 }
+                debugLayout = new PColumnLayout(15, 60, columns, data);
+            } catch (Exception ignored) {
             }
-            debugLayout = new PColumnLayout(15, 60, columns, data);
             mainLayout = new PColumnLayout(15,
                                            355,
                                            new String[]{"Status:",
@@ -596,14 +598,16 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         } catch (Exception ignored) {
         }
         if (miscLayout != null) {
-            PaintController.addComponent(debugLayout);
+            if (debugLayout != null)
+                PaintController.addComponent(debugLayout);
             infoFrame.addComponent(mainLayout);
             infoFrame.addComponent(mainLayoutColTwo);
             miscFrame.addComponent(miscLayout);
         }
         PaintController.onRepaint(render);
         if (miscLayout != null) {
-            PaintController.removeComponent(debugLayout);
+            if (debugLayout != null)
+                PaintController.removeComponent(debugLayout);
             infoFrame.removeComponent(mainLayout);
             infoFrame.removeComponent(mainLayoutColTwo);
             miscFrame.removeComponent(miscLayout);
@@ -761,7 +765,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             Dungeon.iTimesDied();
         }
         if (txt.contains("Floor")) {
-            Dungeon.setFloor(Integer.parseInt(txt.split(">")[1].replaceAll("[a-zA-Z<>=]", "")) + 1);
+            Dungeon.setFloor(Integer.parseInt(txt.split(">")[1].replaceAll("[a-zA-Z<>=]", "").trim()) + 1);
         }
         if (Explore.inDungeon()) {
             if (Explore.getBossRoom() != null) {

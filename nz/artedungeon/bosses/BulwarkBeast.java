@@ -142,6 +142,7 @@ public class BulwarkBeast extends Plugin
     private void killBoss() {
         if (MyPlayer.interacting() == null && !MyPlayer.inCombat()) {
             Enemy.setNPC(MyPlayer.currentRoom().getNearestNpc(".*wark beast.*"));
+            MyMovement.turnTo(Enemy.getNPC());
             Enemy.interact("attack");
         }
     }

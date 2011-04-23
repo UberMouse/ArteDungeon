@@ -94,6 +94,7 @@ public class Explore extends RSBuddyCommon
     public static Room newRoom() {
         FloodFill floodFill = new FloodFill(parent);
         RSArea roomArea = new RSArea(floodFill.fill(MyPlayer.location()), parent);
+        MyPlayer.setCurArea(roomArea);
         GroundItem[] groundItems = GroundItems.getLoaded(new Filter<GroundItem>()
         {
             public boolean accept(GroundItem groundItem) {

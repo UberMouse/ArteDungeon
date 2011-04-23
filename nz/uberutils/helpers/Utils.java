@@ -134,6 +134,20 @@ public class Utils
         return new Tile[]{north, east, south, west};
     }
 
+    public static Tile[] getDiagonalTiles(Tile tile) {
+        int x = tile.getX();
+        int y = tile.getY();
+        Tile northEast;
+        Tile southEast;
+        Tile southWest;
+        Tile northWest;
+        northEast = new Tile(x + 1, y + 1);
+        southEast = new Tile(x + 1, y - 1);
+        southWest = new Tile(x - 1, y - 1);
+        northWest = new Tile(x - 1, y + 1);
+        return new Tile[]{northEast, southEast, southWest, northWest};
+    }
+
     public static int[] getSurrouncingCollisionFlags(Tile tile) {
         return getSurroundingCollisionFlags(tile, false);
     }
@@ -546,5 +560,22 @@ public class Utils
         final int y = random(0, tiles.length - 1);
         final int x = random(0, tiles[y].length - 1);
         return tiles[x][y];
+    }
+
+    /**
+     * Waits for player to start and stop moving
+     *
+     * @param timeout to use for waiting for movement and then waiting to stop
+     */
+    public static void waitToStop(int timeout) {
+        waitUntilMoving(timeout);
+        waitUntilStopped(timeout);
+    }
+
+    /*
+     * Waits for player to start and stop moving
+    */
+    public static void waitToStop() {
+        waitToStop(7);
     }
 }

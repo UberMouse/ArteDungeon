@@ -431,7 +431,9 @@ public abstract class Room extends DungeonCommon
         return Objects.getNearest(new Filter<GameObject>()
         {
             public boolean accept(GameObject gameObject) {
-                return gameObject != null && nz.uberutils.helpers.Utils.arrayContains(ids, gameObject.getId()) && contains(gameObject);
+                return gameObject != null &&
+                       nz.uberutils.helpers.Utils.arrayContains(ids, gameObject.getId()) &&
+                       contains(gameObject);
             }
         });
     }
@@ -446,9 +448,10 @@ public abstract class Room extends DungeonCommon
         return Objects.getNearest(new Filter<GameObject>()
         {
             public boolean accept(GameObject gameObject) {
-                if(gameObject == null || gameObject.getDef() == null || gameObject.getDef().getName() == null)
+                if (gameObject == null || gameObject.getDef() == null || gameObject.getDef().getName() == null)
                     return false;
-                return nz.uberutils.helpers.Utils.arrayContains(names, gameObject.getDef().getName()) && contains(gameObject);
+                return nz.uberutils.helpers.Utils.arrayContains(names, gameObject.getDef().getName()) &&
+                       contains(gameObject);
             }
         });
     }
@@ -456,14 +459,24 @@ public abstract class Room extends DungeonCommon
     /**
      * Gets nearest Npc to Player in Room
      *
-     * @param id the ID of the Npc to search for
+     * @param ids the ID of the Npc to search for
      * @return Npc, if one is found, else null
      */
-    public Npc getNearestNpc(final int... id) {
+    public Npc getNearestNpc(final int... ids) {
         return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc Npc) {
-                return Npc != null && nz.uberutils.helpers.Utils.arrayContains(id, Npc.getId()) && contains(Npc);
+                return Npc != null && nz.uberutils.helpers.Utils.arrayContains(ids, Npc.getId()) && contains(Npc);
+            }
+        });
+    }
+
+    public GameObject[] getObjects(final int... ids) {
+        return Objects.getLoaded(new Filter<GameObject>()
+        {
+
+            public boolean accept(GameObject gameObject) {
+                return contains(gameObject) && Util.arrayContains(ids, gameObject.getId());
             }
         });
     }

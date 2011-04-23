@@ -10,6 +10,7 @@ import nz.artedungeon.common.DungeonCommon;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.RSArea;
 import nz.uberutils.methods.MyMovement;
 
 
@@ -83,6 +84,14 @@ public class MyPlayer extends DungeonCommon
         tokensGained += amount;
     }
 
+    public static RSArea curArea() {
+        return curArea;
+    }
+
+    public static void setCurArea(RSArea area) {
+        MyPlayer.curArea = area;
+    }
+
     private static Room currentRoom;
     private static Room lastRoom;
     private static Door lastDoorOpended;
@@ -91,6 +100,7 @@ public class MyPlayer extends DungeonCommon
     private static int tokensGained;
     private static boolean teleBack;
     public static final int safeHP = 75;
+    private static RSArea curArea;
 
     private static int timesDied = 0;
 

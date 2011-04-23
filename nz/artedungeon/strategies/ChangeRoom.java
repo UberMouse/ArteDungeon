@@ -26,6 +26,7 @@ public class ChangeRoom extends Strategy
             if (room.contains(MyPlayer.location())) {
                 MyPlayer.setLastRoom(MyPlayer.currentRoom());
                 MyPlayer.setCurrentRoom(room);
+                MyPlayer.setCurArea(MyPlayer.currentRoom().getArea());
                 if (!MyPlayer.lastDoorOpened().isOpen() &&
                     Calculations.distanceTo(MyPlayer.lastDoorOpened().getLocation()) < 5) {
                     MyPlayer.lastDoorOpened().setOpen(true);

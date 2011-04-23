@@ -167,6 +167,7 @@ public class DungeonStart extends Strategy
     public void reset() {
         setup = false;
         firstRun = true;
+        failSafe = 0;
     }
 
     public String getStatus() {

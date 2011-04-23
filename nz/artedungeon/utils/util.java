@@ -18,7 +18,7 @@ public class Util extends nz.uberutils.helpers.Utils
      * @return true if it is
      */
     public static boolean tileInRoom(Tile tile) {
-        return Calculations.distanceTo(tile) <= 12;
+        return MyPlayer.curArea().contains(tile);
     }
 
     /**

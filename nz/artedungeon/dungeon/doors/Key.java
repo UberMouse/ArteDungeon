@@ -39,16 +39,17 @@ public class Key extends Door
             open = false;
         if (open && connector > -1)
             return false;
-        else if(open && connector == -1)
+        else if (open && connector == -1)
             open = false;
+        else if (!open && connector > -1)
+            connector = -1;
         if (!locked)
             return true;
         if (Util.tileInRoom(location) && Objects.getTopAt(location, Objects.TYPE_INTERACTIVE) == null)
             locked = false;
         for (int i = 0; i < GameConstants.KEY_DOORS.length; i++) {
             for (int l = 0; l < GameConstants.KEY_DOORS[i].length; l++) {
-                if (id == GameConstants.KEY_DOORS[i][l]
-                    && Inventory.contains(GameConstants.KEYS[i][l]))
+                if (id == GameConstants.KEY_DOORS[i][l] && Inventory.contains(GameConstants.KEYS[i][l]))
                     return true;
             }
         }
@@ -56,7 +57,7 @@ public class Key extends Door
     }
 
     public void unlock() {
-        if(!MyPlayer.currentRoom().contains(this))
+        if (!MyPlayer.currentRoom().contains(this))
             return;
         MyPlayer.setLastDoorOpended(this);
         MyMovement.turnTo(location);
@@ -70,14 +71,14 @@ public class Key extends Door
                 sleep(100);
             if (Objects.getTopAt(location, Objects.TYPE_INTERACTIVE) == null) {
                 locked = false;
-                sleep(random(400,600));
+                sleep(random(400, 600));
             }
         }
     }
 
     @Override
     public void open() {
-        if(!MyPlayer.currentRoom().contains(this))
+        if (!MyPlayer.currentRoom().contains(this))
             return;
         if (locked && open)
             open = false;

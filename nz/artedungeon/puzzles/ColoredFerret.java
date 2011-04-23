@@ -295,7 +295,7 @@ public class ColoredFerret extends PuzzlePlugin
         //        }
         //        return Random.nextInt(400, 800);
         Tile safeTile = null;
-        while (Npcs.getNearest(COLORED_FERRETS) != null) {
+        while (Npcs.getNearest(COLORED_FERRETS) != null && !solved) {
             for (int I = 0; I < COLORED_FERRETS.length; I++) {
                 int failCount = 0;
                 Npc ferret = Npcs.getNearest(COLORED_FERRETS[I]);

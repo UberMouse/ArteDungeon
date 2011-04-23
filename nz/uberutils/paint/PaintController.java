@@ -100,6 +100,8 @@ public class PaintController
             Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
                 if (shouldDraw) {
                     if (comp.shouldPaint()) {
                         Font oldFont = g.getFont();
@@ -138,6 +140,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleKeys) {
                 if (comp.shouldHandleKeys())
                     comp.keyTyped(keyEvent);
@@ -158,6 +162,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleKeys) {
                 if (comp.shouldHandleKeys())
                     comp.keyPressed(keyEvent);
@@ -178,6 +184,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleKeys) {
                 if (comp.shouldHandleKeys())
                     comp.keyReleased(keyEvent);
@@ -198,6 +206,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mouseClicked(mouseEvent);
@@ -218,6 +228,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mousePressed(mouseEvent);
@@ -238,6 +250,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mouseReleased(mouseEvent);
@@ -258,6 +272,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mouseEntered(mouseEvent);
@@ -278,6 +294,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mouseExited(mouseEvent);
@@ -298,6 +316,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mouseDragged(mouseEvent);
@@ -318,6 +338,8 @@ public class PaintController
         Iterator<PComponent> it = components.iterator();
         while(it.hasNext()) {
             PComponent comp = it.next();
+            if(comp == null)
+                continue;
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
                     comp.mouseMoved(mouseEvent);
