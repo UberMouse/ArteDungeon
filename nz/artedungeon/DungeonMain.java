@@ -468,7 +468,9 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                     if (MyPlayer.currentRoom().hasEnemies()) {
                         MyPlayer.attack(MyPlayer.currentRoom().getNearestEnemy());
                     }
-                    return ((Puzzle) MyPlayer.currentRoom()).solve();
+                    Puzzle room = ((Puzzle) MyPlayer.currentRoom());
+                    status = room.status();
+                    return room.solve();
                 }
             }
             Camera.setPitch(true);

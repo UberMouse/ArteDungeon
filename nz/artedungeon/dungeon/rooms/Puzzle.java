@@ -42,4 +42,8 @@ public class Puzzle extends Room
     public int solve() {
         return puzzle.loop();
     }
+
+    public String status() {
+        return puzzle.getStatus();
+    }
 }
