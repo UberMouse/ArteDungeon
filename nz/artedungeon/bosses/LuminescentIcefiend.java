@@ -13,7 +13,7 @@ import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.EnemyDef;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.utils.MyCombat;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 
@@ -47,7 +47,7 @@ public class LuminescentIcefiend extends Plugin
             if (Walking.getEnergy() > 10)
                 Walking.setRun(true);
             //getNextCorner().clickOnMap();
-            util.clickRandomTileOnMap();
+            Util.clickRandomTileOnMap();
             sleep(Random.nextInt(50, 100));
         }
         else {

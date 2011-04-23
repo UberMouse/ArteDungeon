@@ -1,5 +1,6 @@
 package nz.artedungeon.strategies;
 
+import com.rsbuddy.script.methods.Calculations;
 import com.rsbuddy.script.methods.Mouse;
 import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.methods.Widgets;
@@ -17,6 +18,7 @@ import java.awt.*;
 
 public class EnterDungeon extends Strategy
 {
+
     public EnterDungeon(DungeonMain parent) {
         super(parent);
     }
@@ -25,7 +27,7 @@ public class EnterDungeon extends Strategy
         GameObject entrance = Objects.getNearest(GameConstants.ENTRANCE);
         MyMovement.turnTo(entrance);
         if (Widgets.getComponent(939, 83).isValid() &&
-            (Integer.parseInt(Widgets.getComponent(939, 83).getText()) > 29)) {
+            (Integer.parseInt(Widgets.getComponent(939, 83).getText()) > GameConstants.MAX_FLOOR)) {
             parent.prestige = true;
             return random(400, 600);
         }
@@ -38,7 +40,7 @@ public class EnterDungeon extends Strategy
         else if (Widgets.get(947).getComponent(608).isValid()) {
             int curProgess = Integer.parseInt(Widgets.getComponent(939, 83).getText());
             Component floor = Widgets.get(947).getComponent(608 + ((curProgess <
-                                                                    17) ? curProgess : 0));
+                                                                    GameConstants.MAX_FLOOR) ? curProgess : 0));
             if (curProgess < 17)
                 Dungeon.setFloor(curProgess);
             else

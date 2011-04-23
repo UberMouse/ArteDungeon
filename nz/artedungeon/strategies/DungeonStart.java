@@ -25,6 +25,7 @@ public class DungeonStart extends Strategy
     private boolean firstRun = true;
     private final int TOOLKIT_COMPONENT = 469;
     private final int TOOLKIT_ID = 19650;
+    private int failSafe = 0;
 
     public DungeonStart(DungeonMain parent) {
         super(parent);
@@ -59,16 +60,15 @@ public class DungeonStart extends Strategy
             if (exit != null) {
                 if (exit.getId() == 51156) {
                     Dungeon.setFloorType("Frozen");
-                    Dungeon.setDoorDifferential(145);
+                    Dungeon.setDoorIdOffset(145);
                 }
                 else if (exit.getId() == 50604) {
                     Dungeon.setFloorType("Abandoned");
-                    Dungeon.setDoorDifferential(209);
+                    Dungeon.setDoorIdOffset(209);
                 }
                 else if (exit.getId() == 51704) {
                     Dungeon.setFloorType("Furnished");
-                    Dungeon.setDoorDifferential(273);
-                    //Explore.setExit(true);
+                    Dungeon.setDoorIdOffset(273);
                 }
             }
             MyPlayer.setCurrentRoom(Explore.newRoom());
@@ -121,7 +121,6 @@ public class DungeonStart extends Strategy
                         Rectangle storeSubBounds = storeSubComp.getBoundingRect();
                         Mouse.move((int) storeSubBounds.getCenterX(), (int) storeSubBounds.getCenterY());
                         for (int i = 0; i < 7; i++) {
-                            Utils.debug("scrolling");
                             Mouse.scroll(false);
                         }
                         if (toolkit.interact("Buy"))
@@ -138,13 +137,21 @@ public class DungeonStart extends Strategy
                                 item.interact("Sell 50");
                             }
                         }
-                        if (Inventory.getCount(true, GameConstants.COINS) <= 1320) {
+                        if (Inventory.getCount(true, GameConstants.COINS) <= 1320 && failSafe <= 5) {
                             Widgets.getComponent(GameConstants.STORE_COMPONENT, 18).click();
+                            failSafe++;
+                        }
+                        else if (failSafe > 5) {
+                            Widgets.getComponent(GameConstants.STORE_COMPONENT, 18).click();
+                            Explore.setExit(true);
+                            DungeonMain.timesAborted++;
                         }
                     }
                 }
             }
             else {
+                if (Widgets.getComponent(GameConstants.STORE_COMPONENT, 0).isValid())
+                    Widgets.getComponent(GameConstants.STORE_COMPONENT, 18).click();
                 Item toolkit = Inventory.getItem(TOOLKIT_ID);
                 if (toolkit != null)
                     toolkit.interact("Open");

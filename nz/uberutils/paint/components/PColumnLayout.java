@@ -79,6 +79,8 @@ public class PColumnLayout extends PComponent
         String largestString = "";
         int offset = 0;
         for (String str : leftColumn) {
+            if(str == null)
+                continue;
             if (str.length() > largestString.length())
                 largestString = str;
             g.drawString(str, x, y + offset);

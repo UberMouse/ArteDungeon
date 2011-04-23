@@ -6,7 +6,9 @@ import com.rsbuddy.script.methods.Environment;
 import com.rsbuddy.script.task.LoopTask;
 import nz.uberutils.helpers.Utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,14 +39,27 @@ public class ImageThread extends LoopTask implements MessageListener
         this(name, true, true, true);
     }
 
+    public boolean onStart() {
+        try {
+            File f = new File(Environment.getStorageDirectory().getCanonicalPath() + "\\artebots\\");
+            if (!f.exists())
+                f.mkdirs();
+        } catch (IOException ignored) {
+
+        }
+        return true;
+    }
+
     @Override
     public int loop() {
         if (hourly && !firstRun) {
             saveImage(hour + "h");
+            Logger.getAnonymousLogger().info("Script has run for " + hour + "h's, saving screenshot");
             hour++;
         }
-        if (firstRun)
+        if (firstRun) {
             firstRun = false;
+        }
         return 3600000;
     }
 
@@ -55,8 +70,10 @@ public class ImageThread extends LoopTask implements MessageListener
     public void messageReceived(MessageEvent messageEvent) {
         if (levelup) {
             if (messageEvent.isAutomated()) {
-                if (messageEvent.getMessage().contains("You've just advanced"))
+                if (messageEvent.getMessage().contains("You've just advanced")) {
                     saveImage("levelup");
+                    Logger.getAnonymousLogger().info("You just leveled up! Saving screenshot");
+                }
             }
         }
     }
@@ -78,7 +95,9 @@ public class ImageThread extends LoopTask implements MessageListener
     }
 
     public void onFinish() {
-        if(onFinish)
+        if (onFinish) {
             saveImage("end");
+            Logger.getAnonymousLogger().info("Script stopping, saving screenshot");
+        }
     }
 }

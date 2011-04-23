@@ -6,9 +6,9 @@ import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.GameObject;
 import com.rsbuddy.script.wrappers.Tile;
-import nz.artedungeon.common.Plugin;
+import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyCamera;
 
 import java.awt.*;
@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 9:01 PM
  * Package: nz.artedungeon.puzzles;
  */
-public class FlipTiles extends Plugin
+public class FlipTiles extends PuzzlePlugin
 {
     static final int YELLOW = 49641, GREEN = 49638;
 
@@ -196,7 +196,7 @@ public class FlipTiles extends Plugin
         GameObject[] panels = Objects.getLoaded(new Filter<GameObject>()
         {
             public boolean accept(GameObject o) {
-                return util.tileInRoom(o.getLocation()) && (o.getId() == YELLOW || o.getId() == GREEN);
+                return Util.tileInRoom(o.getLocation()) && (o.getId() == YELLOW || o.getId() == GREEN);
             }
         });
         if (panels.length == 0) return null;

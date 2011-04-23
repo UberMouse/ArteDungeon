@@ -33,7 +33,7 @@ public class FloodFill extends RSBuddyCommon
     public Tile[] fill(Tile location) {
         Tile[] tiles = getRoomTiles(location);
         for (Tile tile : tiles) {
-            Tile[] checkTiles = util.getSurroundingTiles(tile, true);
+            Tile[] checkTiles = Util.getSurroundingTiles(tile, true);
             for (Tile checkTile : checkTiles) {
                 if (!this.tiles.contains(checkTile))
                     this.tiles.add(checkTile);
@@ -53,15 +53,15 @@ public class FloodFill extends RSBuddyCommon
      */
     private Tile[] getRoomTiles(Tile location) {
         z++;
-        if ((util.getCollisionFlagAtTile(location) & GameConstants.WALL) != 0) {
+        if ((Util.getCollisionFlagAtTile(location) & GameConstants.WALL) != 0) {
             Tile[] tempTiles = new Tile[tiles.size()];
             for (int i = 0; i < tiles.size(); i++) {
                 tempTiles[i] = tiles.get(i);
             }
             return tempTiles;
         }
-        Tile[] checkTiles = util.getSurroundingTiles(location, true);
-        int[] flagTiles = util.getSurroundingCollisionFlags(location, true);
+        Tile[] checkTiles = Util.getSurroundingTiles(location, true);
+        int[] flagTiles = Util.getSurroundingCollisionFlags(location, true);
         for (int i = 0; i < checkTiles.length; i++) {
             if ((flagTiles[i] & GameConstants.WALL) == 0 && z <= 1100) {
                 if (!tiles.contains(checkTiles[i])) {
@@ -95,10 +95,10 @@ public class FloodFill extends RSBuddyCommon
             fill(location);
         ArrayList<Tile> edgeTiles = new ArrayList<Tile>();
         for (Tile tile : tiles) {
-            if ((util.getCollisionFlagAtTile(location) & GameConstants.WALL) != 0)
+            if ((Util.getCollisionFlagAtTile(location) & GameConstants.WALL) != 0)
                 continue;
-            Tile[] checkTiles = util.getSurroundingTiles(location, true);
-            int[] flagTiles = util.getSurroundingCollisionFlags(location, true);
+            Tile[] checkTiles = Util.getSurroundingTiles(location, true);
+            int[] flagTiles = Util.getSurroundingCollisionFlags(location, true);
             for (int i = 0; i < checkTiles.length; i++) {
                 if ((flagTiles[i] & GameConstants.WALL) == 0)
                     continue;

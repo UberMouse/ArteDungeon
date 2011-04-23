@@ -2,6 +2,7 @@ package nz.artedungeon.dungeon.rooms;
 
 import com.rsbuddy.script.wrappers.GroundItem;
 import nz.artedungeon.DungeonMain;
+import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.utils.RSArea;
 
@@ -16,24 +17,29 @@ import java.util.LinkedList;
  */
 public class Puzzle extends Room
 {
-    private boolean solved;
+    private PuzzlePlugin puzzle;
 
     /**
      * Instantiates a new room.
      *
      * @param area   the area
      * @param doors  the doors
+     * @param puzzle the puzzle instance to inject
      * @param parent instance of main script
      */
-    public Puzzle(RSArea area, LinkedList<Door> doors, GroundItem[] groundItems, DungeonMain parent) {
+    public Puzzle(RSArea area,
+                  LinkedList<Door> doors,
+                  PuzzlePlugin puzzle,
+                  DungeonMain parent) {
         super(area, doors, PUZZLE, parent);
+        this.puzzle = puzzle;
     }
 
     public boolean isSolved() {
-        return solved;
+        return puzzle.isSolved();
     }
 
-    public void setSolved(boolean solved) {
-        this.solved = solved;
+    public int solve() {
+        return puzzle.loop();
     }
 }

@@ -3,8 +3,10 @@ package nz.artedungeon.puzzles;
 import com.rsbuddy.script.methods.Npcs;
 import com.rsbuddy.script.methods.Players;
 import com.rsbuddy.script.wrappers.Npc;
-import nz.artedungeon.common.Plugin;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.common.PuzzlePlugin;
+import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.Util;
+import nz.uberutils.helpers.Utils;
 import nz.uberutils.methods.MyCamera;
 
 /**
@@ -14,12 +16,12 @@ import nz.uberutils.methods.MyCamera;
  * Time: 8:41 PM
  * Package: nz.artedungeon.puzzles;
  */
-public class Ghosts extends Plugin
+public class Ghosts extends PuzzlePlugin
 {
-    final static int GHOST = 10985;
 
     public boolean isValid() {
-        return Npcs.getNearest(GHOST) != null && util.tileInRoom(Npcs.getNearest(GHOST).getLocation());
+        return Npcs.getNearest(GameConstants.GHOSTS) != null &&
+               Util.tileInRoom(Npcs.getNearest(GameConstants.GHOSTS).getLocation());
     }
 
     public String getStatus() {
@@ -36,13 +38,13 @@ public class Ghosts extends Plugin
 
     public int loop() {
         try {
-            if (Players.getLocal().getInteracting() == null
-                || ((Npc) Players.getLocal().getInteracting()).getId() != GHOST) {
-                Npc n = Npcs.getNearest(GHOST);
+            if (Players.getLocal().getInteracting() == null ||
+                !Utils.arrayContains(GameConstants.GHOSTS, ((Npc) Players.getLocal().getInteracting()).getId())) {
+                Npc n = Npcs.getNearest(GameConstants.GHOSTS);
                 MyCamera.turnTo(n);
                 n.interact("Attack");
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return 300;
     }

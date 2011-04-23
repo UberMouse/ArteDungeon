@@ -8,7 +8,7 @@ import com.rsbuddy.script.wrappers.GameObject;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Options;
 import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyObjects;
@@ -38,12 +38,12 @@ public class Skill extends Door implements MessageListener
     public boolean canOpen() {
         return !open &&
                canOpen &&
-               !(util.arrayContains(GameConstants.DARK_SPIRIT, id) && !Options.getBoolean("prayDoors"));
+               !(Util.arrayContains(GameConstants.DARK_SPIRIT, id) && !Options.getBoolean("prayDoors"));
     }
 
     @Override
     public void open() {
-        if (!util.tileInRoom(util.getNearestNonWallTile(location)))
+        if (!Util.tileInRoom(Util.getNearestNonWallTile(location)))
             return;
         MyPlayer.setLastDoorOpended(this);
         MyMovement.turnTo(location);
@@ -51,6 +51,8 @@ public class Skill extends Door implements MessageListener
         while (Calculations.distanceTo(location) > 4 && MyPlayer.currentRoom().getItem() == null && ++timeout <= 15)
             sleep(100);
         GameObject object = MyObjects.getTopAt(location, id);
+        if (object == null)
+            object = MyObjects.getTopAt(location, GameConstants.BASIC_DOORS);
         if (object != null && object.interact(getAction(object))) {
             timeout = 0;
             while (Objects.getNearest(id) != null && ++timeout <= 15)

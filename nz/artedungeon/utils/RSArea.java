@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 // TODO: Auto-generated Javadoc
-public class RSArea extends RSBuddyCommon
+public class RSArea extends Area
 {
     private final Tile[] tiles;
 
@@ -22,7 +22,7 @@ public class RSArea extends RSBuddyCommon
      * @param parent instance of main script
      */
     public RSArea(Tile[] tiles, DungeonMain parent) {
-        super(parent);
+        super(tiles);
         this.tiles = tiles;
     }
 

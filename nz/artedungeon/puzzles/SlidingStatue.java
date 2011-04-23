@@ -8,10 +8,10 @@ import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.Npc;
 import com.rsbuddy.script.wrappers.Tile;
-import nz.artedungeon.common.Plugin;
+import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.AStar;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
+import nz.uberutils.helpers.AStar;
 
 import java.awt.*;
 
@@ -22,7 +22,7 @@ import java.awt.*;
  * Time: 7:24 AM
  * Package: nz.artedungeon.puzzles;
  */
-public class SlidingStatue extends Plugin implements PaintListener
+public class SlidingStatue extends PuzzlePlugin implements PaintListener
 {
     private static final int[] SLIDING_STATUE = {10954, 10955, 10956, 10957},
             STATIC_STATUE = {10942, 10943, 10944, 10945},
@@ -132,13 +132,13 @@ public class SlidingStatue extends Plugin implements PaintListener
     }
 
     public Npc getNextStatue() {
-        if (!isSolved(Npcs.getNearest(SLIDING_1)) && util.tileInRoom(Npcs.getNearest(SLIDING_1).getLocation()))
+        if (!isSolved(Npcs.getNearest(SLIDING_1)) && Util.tileInRoom(Npcs.getNearest(SLIDING_1).getLocation()))
             return Npcs.getNearest(SLIDING_1);
-        else if (!isSolved(Npcs.getNearest(SLIDING_2)) && util.tileInRoom(Npcs.getNearest(SLIDING_2).getLocation()))
+        else if (!isSolved(Npcs.getNearest(SLIDING_2)) && Util.tileInRoom(Npcs.getNearest(SLIDING_2).getLocation()))
             return Npcs.getNearest(SLIDING_2);
-        else if (!isSolved(Npcs.getNearest(SLIDING_3)) && util.tileInRoom(Npcs.getNearest(SLIDING_3).getLocation()))
+        else if (!isSolved(Npcs.getNearest(SLIDING_3)) && Util.tileInRoom(Npcs.getNearest(SLIDING_3).getLocation()))
             return Npcs.getNearest(SLIDING_3);
-        else if (!isSolved(Npcs.getNearest(SLIDING_4)) && util.tileInRoom(Npcs.getNearest(SLIDING_4).getLocation()))
+        else if (!isSolved(Npcs.getNearest(SLIDING_4)) && Util.tileInRoom(Npcs.getNearest(SLIDING_4).getLocation()))
             return Npcs.getNearest(SLIDING_4);
         return null;
     }

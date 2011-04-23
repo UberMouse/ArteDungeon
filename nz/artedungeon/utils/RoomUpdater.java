@@ -31,7 +31,7 @@ public class RoomUpdater extends LoopTask
             {
 
                 public boolean accept(GroundItem groundItem) {
-                    return util.tileInRoom(groundItem.getLocation());
+                    return Util.tileInRoom(groundItem.getLocation());
                 }
             });
             ArrayList<ItemDef> itemDefs = new ArrayList<ItemDef>();
@@ -42,7 +42,11 @@ public class RoomUpdater extends LoopTask
             {
 
                 public boolean accept(Npc npc) {
-                    return util.tileInRoom(npc.getLocation());
+                    return Util.tileInRoom(npc.getLocation()) &&
+                           npc.getActions() != null &&
+                           npc.getActions().length > 0 &&
+                           npc.getActions()[0] != null &&
+                           npc.getActions()[0].contains("Attack");
                 }
             });
             ArrayList<EnemyDef> enemyDefs = new ArrayList<EnemyDef>();

@@ -14,7 +14,7 @@ import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -49,8 +49,7 @@ public class Stomp extends Plugin
 
     private State getState() {
         if (Objects.getTopAt(MyPlayer.location()) != null &&
-            util.arrayContains(GameConstants.STOMP_DEBRIS_SHADOWS, Objects.getTopAt(MyPlayer.location())
-                                                                          .getId()))
+            Util.arrayContains(GameConstants.STOMP_DEBRIS_SHADOWS, Objects.getTopAt(MyPlayer.location()).getId()))
             return State.DODGE_ROCKS;
         if (MyPlayer.needToEat() && MyPlayer.hasFood())
             return State.EAT;
@@ -60,7 +59,7 @@ public class Stomp extends Plugin
                 int count = Objects.getLoaded(new Filter<GameObject>()
                 {
                     public boolean accept(GameObject gameObject) {
-                        return util.arrayContains(GameConstants.STOMP_LODESTONES[x], gameObject.getId());
+                        return Util.arrayContains(GameConstants.STOMP_LODESTONES[x], gameObject.getId());
                     }
                 }).length;
                 switch (i) {
@@ -131,12 +130,11 @@ public class Stomp extends Plugin
                 }
                 break;
             case DODGE_ROCKS:
-                Tile[] surrounding = util.getSurroundingTiles(MyPlayer.location(), true);
+                Tile[] surrounding = Util.getSurroundingTiles(MyPlayer.location(), true);
                 for (Tile tile : surrounding)
                     if (Objects.getTopAt(tile) == null ||
-                        !util.arrayContains(
-                                GameConstants.STOMP_DEBRIS_SHADOWS,
-                                Objects.getTopAt(MyPlayer.location()).getId())) {
+                        !Util.arrayContains(GameConstants.STOMP_DEBRIS_SHADOWS,
+                                            Objects.getTopAt(MyPlayer.location()).getId())) {
                         tile.interact("walk");
                         break;
                     }

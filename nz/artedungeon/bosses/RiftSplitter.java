@@ -9,7 +9,7 @@ import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class RiftSplitter extends Plugin
         switch (getState()) {
             case DODGE_PORTALS:
                 if (Walking.getDestination() != null && inPortal(Walking.getDestination()) || !MyPlayer.isMoving())
-                    util.clickRandomTileOnMap();
+                    Util.clickRandomTileOnMap();
                 break;
             case EAT:
                 MyPlayer.eat();

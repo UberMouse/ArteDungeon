@@ -6,8 +6,10 @@ import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.GameObject;
-import nz.artedungeon.common.Plugin;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.common.PuzzlePlugin;
+import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.Util;
+import nz.uberutils.helpers.Utils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,12 +18,12 @@ import nz.artedungeon.utils.util;
  * Time: 8:43 PM
  * Package: nz.artedungeon.puzzles;
  */
-public class Levers extends Plugin
+public class Levers extends PuzzlePlugin
 {
-    static final int LEVER = 49381;
 
     public boolean isValid() {
-        return Objects.getNearest(LEVER) != null && util.tileInRoom(Objects.getNearest(LEVER).getLocation());
+        return Objects.getNearest(GameConstants.LEVERS) != null &&
+               Util.tileInRoom(Objects.getNearest(GameConstants.LEVERS).getLocation());
     }
 
     public String getStatus() {
@@ -42,7 +44,7 @@ public class Levers extends Plugin
         if (getLevers().length == 5)
             lever = getFarthestLever();
         else
-            lever = Objects.getNearest(LEVER);
+            lever = Objects.getNearest(GameConstants.LEVERS);
         if (lever != null) {
             if (lever.isOnScreen())
                 lever.interact("Pull");
@@ -56,7 +58,7 @@ public class Levers extends Plugin
         return Objects.getLoaded(new Filter<GameObject>()
         {
             public boolean accept(GameObject o) {
-                return o.getId() == LEVER;
+                return Utils.arrayContains(GameConstants.LEVERS, o.getId());
             }
         });
     }

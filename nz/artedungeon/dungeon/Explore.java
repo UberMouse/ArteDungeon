@@ -8,6 +8,7 @@ import com.rsbuddy.script.wrappers.GameObject;
 import com.rsbuddy.script.wrappers.GroundItem;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
+import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.common.RSBuddyCommon;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.dungeon.doors.Key;
@@ -19,9 +20,10 @@ import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.FloodFill;
 import nz.artedungeon.utils.RSArea;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Utils;
 
+import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 
 
@@ -95,7 +97,7 @@ public class Explore extends RSBuddyCommon
         GroundItem[] groundItems = GroundItems.getLoaded(new Filter<GroundItem>()
         {
             public boolean accept(GroundItem groundItem) {
-                return util.tileInRoom(groundItem.getLocation());
+                return Util.tileInRoom(groundItem.getLocation());
             }
         });
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
@@ -103,9 +105,17 @@ public class Explore extends RSBuddyCommon
             rooms.add(room);
             return room;
         }
-        for (Object object : parent.getPuzzles()) {
-            if ((Boolean) util.callMethod(object, "isValid")) {
-                Puzzle room = new Puzzle(roomArea, newDoors(roomArea), groundItems, parent);
+        for (PuzzlePlugin p : parent.getPuzzles()) {
+            if (p.isValid()) {
+                PuzzlePlugin puzzle = null;
+                try {
+                    Constructor ctor = p.getClass().getDeclaredConstructor();
+                    ctor.setAccessible(true);
+                    puzzle = (PuzzlePlugin) ctor.newInstance();
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
+                Puzzle room = new Puzzle(roomArea, newDoors(roomArea), puzzle, parent);
                 rooms.add(room);
                 return room;
             }
@@ -127,24 +137,16 @@ public class Explore extends RSBuddyCommon
         for (GameObject obj : allObject) {
             int objID = obj.getId();
             Tile objTile = obj.getLocation();
-            top:
-            for (int[] doorArray : GameConstants.DOORS) {
-                for (int door : doorArray) {
-                    if (!roomArea.contains(obj.getLocation()))
-                        continue;
-                    if (util.arrayContains(GameConstants.KEY_DOORS, objID)) {
-                        doors.add(new Key(obj, parent));
-                        break top;
-                    }
-                    else if (util.arrayContains(GameConstants.SKILL_DOORS, objID)) {
-                        doors.add(new Skill(obj, parent));
-                        break top;
-                    }
-                    else if (util.arrayContains(GameConstants.BASIC_DOORS, objID)) {
-                        doors.add(new nz.artedungeon.dungeon.doors.Normal(obj, parent));
-                        break top;
-                    }
-                }
+            if (!roomArea.contains(obj.getLocation()))
+                continue;
+            if (Util.arrayContains(GameConstants.KEY_DOORS, objID)) {
+                doors.add(new Key(obj, parent));
+            }
+            else if (Util.arrayContains(GameConstants.SKILL_DOORS, objID)) {
+                doors.add(new Skill(obj, parent));
+            }
+            else if (Util.arrayContains(GameConstants.BASIC_DOORS, objID)) {
+                doors.add(new nz.artedungeon.dungeon.doors.Normal(obj, parent));
             }
         }
         Explore.doors.addAll(doors);

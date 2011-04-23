@@ -10,7 +10,7 @@ import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyObjects;
 
@@ -44,8 +44,8 @@ public class Normal extends Door
             Puzzle room = (Puzzle) getParent();
             return room.isSolved();
         }
-        return !(getParent().getDoorAt(util.getNearestNonWallTile(location)) != null &&
-                 !getParent().getDoorAt(util.getNearestNonWallTile(location)).isOpen());
+        return !(getParent().getDoorAt(Util.getNearestNonWallTile(location)) != null &&
+                 !getParent().getDoorAt(Util.getNearestNonWallTile(location)).isOpen());
     }
 
     @Override
@@ -62,11 +62,11 @@ public class Normal extends Door
             int index = Explore.getDoors().indexOf(this);
             for (GameObject doorObject : Objects.getAllAt(location)) {
                 int doorId = doorObject.getId();
-                if (util.arrayContains(GameConstants.KEY_DOORS, doorId))
+                if (Util.arrayContains(GameConstants.KEY_DOORS, doorId))
                     Explore.getDoors().set(index, new Key(doorObject, parent));
-                if (util.arrayContains(GameConstants.STANDARD_DOORS, doorId))
+                if (Util.arrayContains(GameConstants.STANDARD_DOORS, doorId))
                     Explore.getDoors().set(index, new Normal(doorObject, parent));
-                if (util.arrayContains(GameConstants.SKILL_DOORS, doorId))
+                if (Util.arrayContains(GameConstants.SKILL_DOORS, doorId))
                     Explore.getDoors().set(index, new Skill(doorObject, parent));
             }
             return;

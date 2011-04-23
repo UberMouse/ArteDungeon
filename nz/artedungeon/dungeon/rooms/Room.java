@@ -15,7 +15,7 @@ import nz.artedungeon.dungeon.*;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.RSArea;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Options;
 
 import java.util.ArrayList;
@@ -245,7 +245,7 @@ public abstract class Room extends DungeonCommon
         return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc t) {
-                return !util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, t.getId()) &&
+                return !Util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, t.getId()) &&
                        contains(t) &&
                        t.getHpPercent() > 0;
             }
@@ -262,7 +262,7 @@ public abstract class Room extends DungeonCommon
         Npc[] allNpcsInRoom = Npcs.getLoaded(new Filter<Npc>()
         {
             public boolean accept(Npc npc) {
-                return !util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, npc.getId()) &&
+                return !Util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, npc.getId()) &&
                        contains(npc) &&
                        npc.getHpPercent() > 0;
             }
@@ -320,10 +320,10 @@ public abstract class Room extends DungeonCommon
                     }
                 }
                 if (Options.getBoolean("pickupLowLevelFood") &&
-                    util.arrayContains(GameConstants.FOODS, t.getItem().getId()))
+                    Util.arrayContains(GameConstants.FOODS, t.getItem().getId()))
                     return true;
                 if (MyPlayer.getComplexity() > 4 &&
-                    util.arrayContains(GameConstants.COMPLEXITY_LOOT, t.getItem().getId()))
+                    Util.arrayContains(GameConstants.COMPLEXITY_LOOT, t.getItem().getId()))
                     return true;
                 if (t.getItem() != null &&
                     t.getItem().getName() != null &&
@@ -424,14 +424,31 @@ public abstract class Room extends DungeonCommon
     /**
      * Gets nearest GameObject to Player in Room
      *
-     * @param id the ID of the GameObject to search for
+     * @param ids the IDs of the GameObjects to search for
      * @return GameObject, if one is found, else null
      */
-    public GameObject getNearestObject(final int id) {
+    public GameObject getNearestObject(final int... ids) {
         return Objects.getNearest(new Filter<GameObject>()
         {
             public boolean accept(GameObject gameObject) {
-                return gameObject != null && gameObject.getId() == id && contains(gameObject);
+                return gameObject != null && nz.uberutils.helpers.Utils.arrayContains(ids, gameObject.getId()) && contains(gameObject);
+            }
+        });
+    }
+
+    /**
+     * Gets nearest GameObject to Player in Room
+     *
+     * @param names the names of the GameObjects to search for
+     * @return GameObject, if one is found, else null
+     */
+    public GameObject getNearestObject(final String... names) {
+        return Objects.getNearest(new Filter<GameObject>()
+        {
+            public boolean accept(GameObject gameObject) {
+                if(gameObject == null || gameObject.getDef() == null || gameObject.getDef().getName() == null)
+                    return false;
+                return nz.uberutils.helpers.Utils.arrayContains(names, gameObject.getDef().getName()) && contains(gameObject);
             }
         });
     }
@@ -442,11 +459,11 @@ public abstract class Room extends DungeonCommon
      * @param id the ID of the Npc to search for
      * @return Npc, if one is found, else null
      */
-    public Npc getNearestNpc(final int id) {
+    public Npc getNearestNpc(final int... id) {
         return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc Npc) {
-                return Npc != null && Npc.getId() == id && contains(Npc);
+                return Npc != null && nz.uberutils.helpers.Utils.arrayContains(id, Npc.getId()) && contains(Npc);
             }
         });
     }

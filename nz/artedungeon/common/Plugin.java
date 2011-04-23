@@ -7,26 +7,31 @@ public abstract class Plugin extends ActiveScript
 {
     private boolean startup = false;
 
+
     /**
      * Get status of plugin
+     *
      * @return String status
      */
     public abstract String getStatus();
 
     /**
      * Is plugin valid to be run
+     *
      * @return boolean true if it should be
      */
     public abstract boolean isValid();
 
     /**
      * Get author of plugin
+     *
      * @return String author name
      */
     public abstract String getAuthor();
 
     /**
      * Get name of plugin
+     *
      * @return String plugin name
      */
     public abstract String getName();
@@ -40,14 +45,6 @@ public abstract class Plugin extends ActiveScript
         }
     }
 
-    /**
-     * Is plugin possible to be completed
-     * @return boolean true if possible
-     */
-    public boolean isPossible() {
-        return true;
-    }
-
     /*
       * (non-Javadoc)
       *
@@ -55,16 +52,11 @@ public abstract class Plugin extends ActiveScript
       */
     @Override
     public boolean equals(Object o) {
-        if (o == null)
-            return false;
-        return o instanceof Plugin && o.getClass().getName().equals(getClass().getName());
+        return o != null && o instanceof Plugin && o.getClass().getName().equals(getClass().getName());
 
     }
 
     public void reset() {
 
-    }
-
-    public void messageReceived(MessageEvent messageEvent) {
     }
 }

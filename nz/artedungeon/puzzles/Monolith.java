@@ -6,6 +6,7 @@ import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.wrappers.Npc;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.common.Plugin;
+import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
@@ -19,7 +20,7 @@ import nz.uberutils.methods.MyMovement;
  * Time: 6:49 PM
  * Package: nz.artedungeon.puzzles;
  */
-public class Monolith extends Plugin
+public class Monolith extends PuzzlePlugin
 {
     @Override
     public String getStatus() {
@@ -30,11 +31,11 @@ public class Monolith extends Plugin
     public boolean isValid() {
         if (MyPlayer.currentRoom() != null && MyPlayer.currentRoom().contains(MyPlayer.location())) {
             if (MyPlayer.currentRoom().getType() == Room.Type.PUZZLE)
-                return ((Puzzle) MyPlayer.currentRoom()).isSolved();
+                return !((Puzzle) MyPlayer.currentRoom()).isSolved() &&
+                       Npcs.getNearest("Monolith") != null &&
+                       Calculations.distanceTo(Npcs.getNearest("Monolith")) < 8;
         }
-        if (Npcs.getNearest("Monolith") != null)
-            return Utils.canReach(Npcs.getNearest("Monolith").getLocation());
-        return false;
+        return Npcs.getNearest("Monolith") != null && Calculations.distanceTo(Npcs.getNearest("Monolith")) < 8;
     }
 
     @Override
@@ -73,9 +74,11 @@ public class Monolith extends Plugin
                     safeTile = monolith.getLocation();
                     if (!MyPlayer.isMoving() && Calculations.distanceTo(safeTile) > 3)
                         MyMovement.turnTo(safeTile);
-                    if (monolith.interact("Activate")) {
-                        Utils.waitUntilMoving(5);
-                        Utils.waitUntilStopped(5);
+                    if (monolith.getActions()[0].contains("tivate")) {
+                        if (monolith.interact("Activate")) {
+                            Utils.waitUntilMoving(5);
+                            Utils.waitUntilStopped(5);
+                        }
                     }
                 }
                 else {
@@ -86,7 +89,8 @@ public class Monolith extends Plugin
                         MyMovement.turnTo(shade);
                         if (shade.interact("Attack")) {
                             safeTile = null;
-                            sleep(500, 800);
+                            for (int i = 0; i < 15 && !MyPlayer.inCombat(); i++)
+                                Utils.sleep(100);
                         }
                     }
                     else if (shade == null) {
@@ -99,7 +103,7 @@ public class Monolith extends Plugin
             sleep(100, 200);
         }
         sleep(100, 200);
-        ((Puzzle) MyPlayer.currentRoom()).setSolved(true);
+        solved = true;
         return 1;
     }
 }

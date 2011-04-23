@@ -9,9 +9,9 @@ import com.rsbuddy.script.wrappers.Component;
 import com.rsbuddy.script.wrappers.GameObject;
 import com.rsbuddy.script.wrappers.Npc;
 import com.rsbuddy.script.wrappers.Widget;
-import nz.artedungeon.common.Plugin;
+import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -21,7 +21,7 @@ import nz.uberutils.methods.MyMovement;
  * Time: 9:48 PM
  * Package: nz.artedungeon.puzzles;
  */
-public class FollowTheLeader extends Plugin
+public class FollowTheLeader extends PuzzlePlugin
 {
     final int WAVE = 863, NOD = 855, SHAKE = 856, LAUGH = 861, CRY = 860;
     final int STATUE = 10966, PAD = 52206;
@@ -29,7 +29,7 @@ public class FollowTheLeader extends Plugin
     int lastEmote = -1;
 
     public boolean isValid() {
-        return Npcs.getNearest(STATUE) != null && util.tileInRoom(Npcs.getNearest(STATUE).getLocation());
+        return Npcs.getNearest(STATUE) != null && Util.tileInRoom(Npcs.getNearest(STATUE).getLocation());
     }
 
     public String getStatus() {

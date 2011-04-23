@@ -6,7 +6,7 @@ import com.rsbuddy.script.wrappers.Npc;
 import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -94,7 +94,7 @@ public class LexicusRunewright extends Plugin
                 }
                 break;
             case DODGE_BOOKS:
-                util.clickRandomTileOnMap();
+                Util.clickRandomTileOnMap();
                 break;
         }
         return Random.nextInt(400, 500);

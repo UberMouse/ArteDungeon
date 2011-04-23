@@ -1,6 +1,11 @@
 package nz.artedungeon.puzzles;
 
-import nz.artedungeon.common.Plugin;
+import com.rsbuddy.script.methods.Objects;
+import nz.artedungeon.common.PuzzlePlugin;
+import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.Util;
+
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,11 +14,12 @@ import nz.artedungeon.common.Plugin;
  * Time: 2:58 PM
  * Package: nz.artedungeon.puzzles;
  */
-public class SuspiciousGrooves extends Plugin
+public class SuspiciousGrooves extends PuzzlePlugin
 {
     @Override
     public boolean isValid() {
-        return false;
+        return Objects.getNearest(GameConstants.SUSPICOUS_GROOVES_ROW_1) != null &&
+               Util.tileInRoom(Objects.getNearest(GameConstants.SUSPICOUS_GROOVES_ROW_1).getLocation());
     }
 
     @Override
@@ -33,6 +39,7 @@ public class SuspiciousGrooves extends Plugin
 
     @Override
     public int loop() {
-        return 0;
+        Toolkit.getDefaultToolkit().beep();
+        return 1000;
     }
 }

@@ -28,13 +28,13 @@ public class bosses extends Strategy
     @Override
     public int execute() {
 //        for (Object boss : DungeonMain.bosses) {
-//            if ((Boolean) util.callMethod(boss, "isValid")) {
-//                util.callMethod(boss, "startupMessage");
+//            if ((Boolean) Util.callMethod(boss, "isValid")) {
+//                Util.callMethod(boss, "startupMessage");
 //                if(MyPlayer.inCombat()) {
 //
 //                }
-//                status = (String) util.callMethod(boss, "getStatus");
-//                return (Integer) util.callMethod(boss, "loop");
+//                status = (String) Util.callMethod(boss, "getStatus");
+//                return (Integer) Util.callMethod(boss, "loop");
 //            }
 //        }
         return random(400, 600);

@@ -15,7 +15,7 @@ import nz.artedungeon.dungeon.ItemHandler;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.MyCombat;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyCamera;
 import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyPrayer;
@@ -132,7 +132,7 @@ public class SkeletalHorde extends Plugin
         Npc skinweaver = MyPlayer.currentRoom().getNearestNpc(".*skinweaver.*");
         if (MyPlayer.isMoving() && Calculations.distanceTo(skinweaver) > 3)
             return;
-        Tile healTile = util.getSurroundingTiles(skinweaver.getLocation())[3];
+        Tile healTile = Util.getSurroundingTiles(skinweaver.getLocation())[3];
         if (!MyPlayer.location().equals(healTile)) {
             if (!Calculations.isTileOnScreen(healTile))
                 healTile.clickOnMap();

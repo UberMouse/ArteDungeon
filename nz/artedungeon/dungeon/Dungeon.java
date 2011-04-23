@@ -1,6 +1,6 @@
 package nz.artedungeon.dungeon;
 
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,8 +16,8 @@ public class Dungeon
     private static long fastestTime = 999999999;
     private static long longestTime = 0;
     private static String floorType;
-    private static int doorDifferential;
-    private static int curFloor;
+    private static int doorIdOffset;
+    private static int curFloor = -1;
 
     public static void start() {
         long timeTaken = System.currentTimeMillis() - startTime;
@@ -31,18 +31,18 @@ public class Dungeon
 
     public static String curTime() {
         if (Explore.inDungeon())
-            return util.parseTime(System.currentTimeMillis() - startTime);
+            return Util.parseTime(System.currentTimeMillis() - startTime);
         return "Not in Dungeon";
     }
 
     public static String fastestTime() {
         if (fastestTime != 999999999)
-            return util.parseTime(fastestTime);
+            return Util.parseTime(fastestTime);
         else return "00:00:00";
     }
 
     public static String slowestTime() {
-        return util.parseTime(longestTime);
+        return Util.parseTime(longestTime);
     }
 
     public static String floorType() {
@@ -62,11 +62,11 @@ public class Dungeon
     }
 
     public static int doorDifferential() {
-        return doorDifferential;
+        return doorIdOffset;
     }
 
-    public static void setDoorDifferential(int differential) {
-        Dungeon.doorDifferential = differential;
+    public static void setDoorIdOffset(int offset) {
+        Dungeon.doorIdOffset = offset;
     }
 
     public static int curFloor() {

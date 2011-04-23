@@ -11,7 +11,7 @@ import nz.artedungeon.dungeon.Dungeon;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 
@@ -26,7 +26,7 @@ public class EndDungeon extends Strategy
     public int execute() {
         GameObject finishedLadder = Objects.getNearest(GameConstants.FINISHEDLADDERS);
         if (finishedLadder != null) {
-            Tile finishTile = util.getNearestNonWallTile(finishedLadder.getLocation());
+            Tile finishTile = Util.getNearestNonWallTile(finishedLadder.getLocation());
             MyMovement.turnTo(finishTile);
             if (!MyPlayer.location().equals(finishTile)) {
                 if (!Calculations.isTileOnScreen(finishTile))

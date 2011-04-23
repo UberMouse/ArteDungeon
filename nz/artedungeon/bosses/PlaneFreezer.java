@@ -12,7 +12,7 @@ import nz.artedungeon.dungeon.ItemHandler;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.MyCombat;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -28,7 +28,7 @@ public class PlaneFreezer extends Plugin
         try {
             return Enemy.pickEnemy("lakhr") != null ||
                    (Objects.getNearest(GameConstants.LAKHRANZ_PILLERS) != null &&
-                    Calculations.distanceTo(util.getNearestNonWallTile(Objects.getNearest(GameConstants.FINISHEDLADDERS)
+                    Calculations.distanceTo(Util.getNearestNonWallTile(Objects.getNearest(GameConstants.FINISHEDLADDERS)
                                                                               .getLocation())) > 5);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,8 +71,7 @@ public class PlaneFreezer extends Plugin
                 if (MyPlayer.isMoving())
                     return Random.nextInt(500, 600);
                 GameObject walkSnow = Objects.getNearest(GameConstants.SNOW);
-                Tile laderLoc = util.getNearestNonWallTile(Objects.getNearest(
-                        GameConstants.FINISHEDLADDERS)
+                Tile laderLoc = Util.getNearestNonWallTile(Objects.getNearest(GameConstants.FINISHEDLADDERS)
                                                                   .getLocation());
                 if (Calculations.distanceTo(laderLoc) > 4 &&
                     walkSnow != null &&

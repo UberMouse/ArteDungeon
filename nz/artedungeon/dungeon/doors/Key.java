@@ -9,7 +9,7 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.Dungeon;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyObjects;
 
@@ -43,7 +43,7 @@ public class Key extends Door
             open = false;
         if (!locked)
             return true;
-        if (util.tileInRoom(location) && Objects.getTopAt(location, Objects.TYPE_INTERACTIVE) == null)
+        if (Util.tileInRoom(location) && Objects.getTopAt(location, Objects.TYPE_INTERACTIVE) == null)
             locked = false;
         for (int i = 0; i < GameConstants.KEY_DOORS.length; i++) {
             for (int l = 0; l < GameConstants.KEY_DOORS[i].length; l++) {

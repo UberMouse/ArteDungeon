@@ -8,7 +8,7 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.DungeonCommon;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.rooms.Room;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 
 
 // TODO: Auto-generated Javadoc
@@ -216,15 +216,15 @@ public abstract class Door extends DungeonCommon
         if (object == null || object.getDef() == null)
             return null;
         String[] actions = object.getDef().getActions();
-        if (util.arrayContains(actions, true, "unlock"))
+        if (Util.arrayContains(actions, true, "unlock"))
             return "unlock";
-        if (util.arrayContains(actions, true, "burn"))
+        if (Util.arrayContains(actions, true, "burn"))
             return "burn";
-        if (util.arrayContains(actions, true, "mine"))
+        if (Util.arrayContains(actions, true, "mine"))
             return "mine";
-        if (util.arrayContains(actions, true, "open"))
+        if (Util.arrayContains(actions, true, "open"))
             return "open";
-        if (util.arrayContains(actions, true, "enter"))
+        if (Util.arrayContains(actions, true, "enter"))
             return "enter";
         return actions[0];
     }

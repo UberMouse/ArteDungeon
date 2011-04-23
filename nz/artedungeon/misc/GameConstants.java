@@ -41,7 +41,48 @@ public interface GameConstants
     int[][] KEYS = {ORANGE_KEYS, SILVER_KEYS, YELLOW_KEYS, GREEN_KEYS, BLUE_KEYS, PURPLE_KEYS, CRIMSON_KEYS, GOLD_KEYS};
     // Doors
     int[] GUARDIAN_DOORS = {50346, 50347, 50348};
-    int[] STANDARD_DOORS = {49306, 49335, 49336, 49337, 49338, 49375, 49625, 50342, 50343, 50344, 50311, 50275, 49462,50323, 50324, 50325, 50326, 50327, 50328, 53968, 53969, 50278, 50279, 50280, 50305, 50306, 50307, 50314, 50315, 50316, 50329, 50330, 50331, 53953, 53962, 53965, 53970};
+    int[] STANDARD_DOORS = {49306,
+                            49335,
+                            49336,
+                            49337,
+                            49338,
+                            49375,
+                            49625,
+                            50342,
+                            50343,
+                            50344,
+                            50311,
+                            50275,
+                            49462,
+                            50323,
+                            50324,
+                            50325,
+                            50326,
+                            50327,
+                            50328,
+                            53968,
+                            53969,
+                            50278,
+                            50279,
+                            50280,
+                            50305,
+                            50306,
+                            50307,
+                            50314,
+                            50315,
+                            50316,
+                            50329,
+                            50330,
+                            50331,
+                            53953,
+                            53962,
+                            53965,
+                            53970,
+                            50320,
+                            50302,
+                            49388,
+                            50297,
+                            50321};
     int[][] BASIC_DOORS = {GUARDIAN_DOORS, STANDARD_DOORS};
     int[] ORANGE_DOORS = {50208, 50209, 50210, 50211, 50212, 50213, 50214, 50215};
     int[] SILVER_DOORS = {50216, 50217, 50218, 50219, 50220, 50221, 50222, 50223};
@@ -114,11 +155,17 @@ public interface GameConstants
                          GOLD_DOORS};
 
     //Items
-    int HEIM_CRAB = 18159, RED_EYE = 18161, DUSK_EEL = 18163, FLAT_FISH = 18165,
-            SHORT_FIN = 18167, WEB_SNIPPER = 18169, BOULDA_BASS = 18171,
-            SALVE_EEL = 18173, BLUE_CRAB = 18175, CAVE_MORAY = 18177;
-    int[] FOODS = {HEIM_CRAB, RED_EYE,
-                   DUSK_EEL, FLAT_FISH, SHORT_FIN, WEB_SNIPPER, BOULDA_BASS, SALVE_EEL, BLUE_CRAB, CAVE_MORAY};
+    int HEIM_CRAB = 18159, RED_EYE = 18161, DUSK_EEL = 18163, FLAT_FISH = 18165, SHORT_FIN = 18167, WEB_SNIPPER = 18169, BOULDA_BASS = 18171, SALVE_EEL = 18173, BLUE_CRAB = 18175, CAVE_MORAY = 18177;
+    int[] FOODS = {HEIM_CRAB,
+                   RED_EYE,
+                   DUSK_EEL,
+                   FLAT_FISH,
+                   SHORT_FIN,
+                   WEB_SNIPPER,
+                   BOULDA_BASS,
+                   SALVE_EEL,
+                   BLUE_CRAB,
+                   CAVE_MORAY};
     int[] NOOB_FOODS = {HEIM_CRAB, RED_EYE};
     int[] GOOD_FOODS = {DUSK_EEL, FLAT_FISH, SHORT_FIN, WEB_SNIPPER, BOULDA_BASS, SALVE_EEL, BLUE_CRAB, CAVE_MORAY,};
     int KINSHIP_RING = 15707;
@@ -169,4 +216,151 @@ public interface GameConstants
     //PaintComponent IDs
     int STORE_COMPONENT = 956;
     int STORE_SUB_COMPONENT = 24;
+
+    int MAX_FLOOR = 29;
+
+    //PUZZLE SHIT
+    final int POLTERGEIST = 11245, UNHAPPY_GHOST = 11246, CARVE_BLOCK = 17415, FISHING_FERRET = 11007, HUNTER_FERRET = 11010, POND_SKATER = 12089, MAZE_BARRIER = 49341;
+    final int[] SUSPICOUS_GROOVES_ROW_1 = {49390,
+                                           49392,
+                                           49394,
+                                           49396,
+                                           49414,
+                                           49416,
+                                           49418,
+                                           49420,
+                                           49438,
+                                           49440,
+                                           49442,
+                                           49444,
+                                           54336,
+                                           54338,
+                                           54340,
+                                           54342};
+    final int[] SUSPICOUS_GROOVES_ROW_2 = {49398,
+                                           49400,
+                                           49402,
+                                           49404,
+                                           49422,
+                                           49424,
+                                           49426,
+                                           49428,
+                                           49446,
+                                           49448,
+                                           49450,
+                                           49452,
+                                           54344,
+                                           54346,
+                                           54348,
+                                           54350};
+    final int[] SUSPICOUS_GROOVES_ROW_3 = {49406,
+                                           49408,
+                                           49410,
+                                           49412,
+                                           49430,
+                                           49432,
+                                           49434,
+                                           49436,
+                                           49454,
+                                           49456,
+                                           49458,
+                                           49460,
+                                           54352,
+                                           54354,
+                                           54356,
+                                           54358};
+    final int[] GHOSTS = {10981, 10983, 10985, 10987, 10989, 10991, 10993, 10995, 10997, 10999};
+    final int[] FTL_STATUES = {10966, 10967, 10968, 12114};
+    final int[] LEVERS = {49381, 49382, 49383, 54333};
+    final int[] SLIDERS = {12125,
+                           12126,
+                           12127,
+                           12128,
+                           12129,
+                           12130,
+                           12131,
+                           12132,
+                           12133,
+                           12134,
+                           12135,
+                           12136,
+                           12137,
+                           12138,
+                           12139,
+                           12140,
+                           12141,
+                           12142,
+                           12143,
+                           12144,
+                           12145,
+                           12146,
+                           12147,
+                           12148,
+                           12149,
+                           12150,
+                           12151,
+                           12152,
+                           12153,
+                           12154,
+                           12155,
+                           12156};
+    final int[] COLORED_FERRETS = {12167, 12165, 12171, 12169, 12173};
+    final int[] ALL_UNWINCHED_BRIDGES = {39912, 39913, 39920, 39921, 39929, 39930, 39931};
+    final int[] WINCHED_BRIDGES = {39915, 39924, 39935, 54643};
+    final int[] REPAIRED_BRIDGES = {54190, 54191, 54192, 54193};
+    final int[] FINISHED_STATUE_BRIDGES = {40010, 40011, 54614};
+    final int[] FINISHED_BRIDGES = {54013, 54014, 54015, 54016};
+    final int[] UNGRAPPLED_CHASMS = {54237, 54238, 54239, 54240};
+    final int[] GRAPPLED_CHASMS = {54241, 54242, 54243, 54244, 54245, 54246, 54247, 54248};
+    final int[] ICY_PRESSURE_PADS = {49320, 49321, 49322, 49323};
+    final int[] SMALL_DEBRIS = {49615, 49616, 49617, 49618};
+    final int[] HEADING_STATUES = {10942,
+                                   10943,
+                                   10944,
+                                   10945,
+                                   10946,
+                                   10947,
+                                   10948,
+                                   10949,
+                                   10950,
+                                   10951,
+                                   10952,
+                                   10953,
+                                   12117,
+                                   12118,
+                                   12119,
+                                   12120};
+    final int[] SLIDING_STATUES = {10954,
+                                   10955,
+                                   10956,
+                                   10957,
+                                   10958,
+                                   10959,
+                                   10960,
+                                   10961,
+                                   10962,
+                                   10963,
+                                   10964,
+                                   10965,
+                                   12121,
+                                   12122,
+                                   12123,
+                                   12124};
+    final int[] THREE_STATUES = {11036, 11037, 11038, 11039, 11040, 11041, 11042, 11043, 11044, 12094, 12095, 12096};
+    final int[] TEN_STATUES = {11027, 11028, 11029, 11030, 11031, 11032, 11033, 11034, 11035};
+    final int[] LARGE_CRYSTALS = {49507, 49508, 49509, 49510, 49511, 49512, 54261};
+    final int[] TRASH = {49315, 49316, 49317, 49318};
+    final int[] POWER_LODESTONES = {49570, 49571, 49572, 54235};
+    final int[] RECESS_FOUNTAINS = {54502, 54544, 54621};
+    final int[] CLOSED_SARCOPHAGUS = {54078, 54079, 54080, 54081};
+    final int[] UNREPAIRED_STATUE_BRIDGE = {39991, 40002, 40003};
+    final int[] BARREL_PIPES = {49688, 49690, 54287};
+    final int[] AGILITY_DOORS = {49693};
+    final int[] DRY_BLOOD_FOUNTAIN = {54110, 54111, 54112, 54113};
+    final int[] FREMMY_CRATES = {49522, 49523, 49524, 49528, 49529, 49530, 49534, 49535, 49536};
+    final int[] CENTER_FLOWERS = {35507, 35520, 35523, 35525, 35562, 35568, 35569, 35576};
+    final int[] BOOKCASES = {54419, 54420, 54421, 54422};
+    final int[] ACTIVE_PADS = {52206, 52207, 54282};
+    final int[] AGILITY_GROOVES = {49665, 49666, 49667, 54311};
+    final int[] WALL_TRAPS = {49656, 49657, 49658, 54308};
 }

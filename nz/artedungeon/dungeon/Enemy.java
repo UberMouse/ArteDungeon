@@ -7,7 +7,7 @@ import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.DungeonCommon;
 import nz.artedungeon.misc.GameConstants;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 
 
 // TODO: Auto-generated Javadoc
@@ -93,7 +93,7 @@ public class Enemy extends DungeonCommon
                     return false;
 
                 return !(npc.getInteracting() != null && !npc.getInteracting().equals(MyPlayer.get())) &&
-                       util.arrayContains(ids, npc.getId());
+                       Util.arrayContains(ids, npc.getId());
 
             }
         });
@@ -112,7 +112,7 @@ public class Enemy extends DungeonCommon
                     return false;
 
                 return !(npc.getInteracting() != null && !npc.getInteracting().equals(MyPlayer.get())) &&
-                       util.arrayContains(names, true, npc.getName());
+                       Util.arrayContains(names, true, npc.getName());
 
             }
         });
@@ -129,7 +129,7 @@ public class Enemy extends DungeonCommon
                     return false;
 
                 return !(npc.getInteracting() != null && !npc.getInteracting().equals(MyPlayer.get())) &&
-                       !util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, npc.getId());
+                       !Util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, npc.getId());
 
             }
         });

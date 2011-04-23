@@ -6,7 +6,7 @@ import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -85,10 +85,10 @@ public class Rammernaut extends Plugin
                 sleep(550);
                 break;
             case DODGING:
-                Tile doorTile = util.getNearestNonWallTile(MyPlayer.currentRoom().getDoors().get(0).getLocation());
+                Tile doorTile = Util.getNearestNonWallTile(MyPlayer.currentRoom().getDoors().get(0).getLocation());
                 doorTile.clickOnMap();
                 if (Calculations.distanceTo(rammernaut) < 5) {
-                    util.clickRandomTileOnMap();
+                    Util.clickRandomTileOnMap();
                 }
                 break;
         }

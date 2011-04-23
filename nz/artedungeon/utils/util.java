@@ -1,5 +1,6 @@
 package nz.artedungeon.utils;
 
+import com.rsbuddy.script.methods.Calculations;
 import com.rsbuddy.script.methods.Game;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.Tile;
@@ -8,7 +9,7 @@ import nz.artedungeon.misc.GameConstants;
 import nz.uberutils.helpers.Utils;
 
 // TODO: Auto-generated Javadoc
-public class util extends Utils
+public class Util extends nz.uberutils.helpers.Utils
 {
     /**
      * Check if tile is in current room
@@ -17,22 +18,7 @@ public class util extends Utils
      * @return true if it is
      */
     public static boolean tileInRoom(Tile tile) {
-        AStar pf = new AStar()
-        {
-            @Override
-            public java.util.List<AStar.Node> customSuccessors(Node t) {
-                java.util.LinkedList<Node> path = new java.util.LinkedList<Node>();
-                for (Tile tile : getSurroundingTiles(t.toTile(Game.getMapBase().getX(), Game.getMapBase().getY()),
-                                                     true)) {
-                    if ((getCollisionFlagAtTile(tile) & GameConstants.WALL) == 0) {
-                        path.add(new Node(tile.getX() - Game.getMapBase().getX(),
-                                          tile.getY() - Game.getMapBase().getY()));
-                    }
-                }
-                return path;
-            }
-        };
-        return pf.findPath(MyPlayer.location(), tile) != null;
+        return Calculations.distanceTo(tile) <= 12;
     }
 
     /**

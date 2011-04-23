@@ -13,7 +13,7 @@ import nz.artedungeon.dungeon.EnemyDef;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.MyCombat;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyInventory;
 import nz.uberutils.methods.MyMovement;
@@ -147,7 +147,7 @@ public class BulwarkBeast extends Plugin
     }
 
     private boolean havePickAxe() {
-        return util.playerHas("pickaxe", true);
+        return Util.playerHas("pickaxe", true);
     }
 
     private void takeAxe() {

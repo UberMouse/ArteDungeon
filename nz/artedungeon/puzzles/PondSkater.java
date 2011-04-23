@@ -2,8 +2,8 @@ package nz.artedungeon.puzzles;
 
 import com.rsbuddy.script.methods.Camera;
 import com.rsbuddy.script.methods.Npcs;
-import nz.artedungeon.common.Plugin;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.common.PuzzlePlugin;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyCamera;
 
 /**
@@ -13,12 +13,12 @@ import nz.uberutils.methods.MyCamera;
  * Time: 7:11 AM
  * Package: nz.artedungeon.puzzles;
  */
-public class PondSkater extends Plugin
+public class PondSkater extends PuzzlePlugin
 {
     static final int SKATER = 12089;
 
     public boolean isValid() {
-        return Npcs.getNearest(SKATER) != null && util.tileInRoom(Npcs.getNearest(SKATER).getLocation());
+        return Npcs.getNearest(SKATER) != null && Util.tileInRoom(Npcs.getNearest(SKATER).getLocation());
     }
 
     public String getStatus() {

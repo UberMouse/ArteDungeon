@@ -9,7 +9,7 @@ import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.ItemHandler;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.utils.util;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
 
 /**
@@ -88,7 +88,7 @@ public class Sagittare extends Plugin
                 break;
             case DODGE_ARROWS:
                 if (!MyPlayer.isMoving())
-                    util.clickRandomTileOnMap();
+                    Util.clickRandomTileOnMap();
                 break;
             case EAT:
                 while (MyPlayer.hp() < 60 && MyPlayer.hasFood())

@@ -17,7 +17,7 @@ public class TeleportHome extends Strategy
 
 
     public int execute() {
-        if (MyPlayer.inCombat()) {
+        if (MyPlayer.get().isInCombat() && !MyPlayer.inCombat()) {
             Npc enemy = MyPlayer.currentRoom().getNearestEnemy();
             MyMovement.turnTo(enemy);
             if (enemy != null)
@@ -41,9 +41,7 @@ public class TeleportHome extends Strategy
 
 
     public boolean isValid() {        //TODO change so it only waits for combat if enemies in room
-        return MyPlayer.currentRoom().getNearestDoor() == null &&
-               MyPlayer.currentRoom().getNearestEnemy() == null &&
-               getDoor() == null;
+        return MyPlayer.currentRoom().getNearestDoor() == null && getDoor() == null;
     }
 
 

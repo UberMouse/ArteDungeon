@@ -8,6 +8,7 @@ import com.rsbuddy.script.wrappers.Component;
 import com.rsbuddy.script.wrappers.Item;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.Strategy;
+import nz.artedungeon.dungeon.Dungeon;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.misc.GameConstants;
 
@@ -52,7 +53,10 @@ public class LeaveDungeon extends Strategy
 
 
     public boolean isValid() {
-        return (Explore.exit() || parent.teleportFailSafe >= 3 || parent.prestige);
+        return (Explore.exit() ||
+                parent.teleportFailSafe >= 3 ||
+                parent.prestige ||
+                Dungeon.curFloor() > GameConstants.MAX_FLOOR);
     }
 
 
