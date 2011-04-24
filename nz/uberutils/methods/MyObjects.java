@@ -53,4 +53,26 @@ public class MyObjects
         }
         return bestObject;
     }
+
+    public static GameObject getReachableObject(final int... ids) {
+        return Objects.getNearest(new Filter<GameObject>()
+        {
+            public boolean accept(GameObject gameObject) {
+                return Utils.arrayContains(ids, gameObject.getId()) &&
+                       Calculations.isReachable(gameObject.getLocation(), true);
+            }
+        });
+    }
+
+    public static GameObject getReachableObject(final String... names) {
+        return Objects.getNearest(new Filter<GameObject>()
+        {
+            public boolean accept(GameObject gameObject) {
+                if (gameObject.getDef() == null || gameObject.getDef().getName() == null)
+                    return false;
+                return Utils.arrayContains(names, gameObject.getDef().getName()) &&
+                       Calculations.isReachable(gameObject.getLocation(), true);
+            }
+        });
+    }
 }
