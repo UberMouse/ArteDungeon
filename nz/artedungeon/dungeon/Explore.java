@@ -1,13 +1,11 @@
 package nz.artedungeon.dungeon;
 
-import com.rsbuddy.script.methods.GroundItems;
 import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.methods.Widgets;
-import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.wrappers.GameObject;
-import com.rsbuddy.script.wrappers.GroundItem;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
+import nz.artedungeon.common.Plugin;
 import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.common.RSBuddyCommon;
 import nz.artedungeon.dungeon.doors.Door;
@@ -21,7 +19,6 @@ import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.FloodFill;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.Util;
-import nz.uberutils.helpers.Utils;
 
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
@@ -95,16 +92,22 @@ public class Explore extends RSBuddyCommon
         FloodFill floodFill = new FloodFill(parent);
         RSArea roomArea = new RSArea(floodFill.fill(MyPlayer.location()), parent);
         MyPlayer.setCurArea(roomArea);
-        GroundItem[] groundItems = GroundItems.getLoaded(new Filter<GroundItem>()
-        {
-            public boolean accept(GroundItem groundItem) {
-                return Util.tileInRoom(groundItem.getLocation());
-            }
-        });
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
-            Boss room = new Boss(roomArea, newDoors(roomArea), groundItems, parent);
-            rooms.add(room);
-            return room;
+            for (Plugin p : parent.getBosses()) {
+                if (p.isValid()) {
+                    Plugin boss = null;
+                    try {
+                        Constructor ctor = p.getClass().getDeclaredConstructor();
+                        ctor.setAccessible(true);
+                        boss = (Plugin) ctor.newInstance();
+                    } catch (Exception ignored) {
+                        ignored.printStackTrace();
+                    }
+                    Boss room = new Boss(roomArea, newDoors(roomArea), boss, parent);
+                    rooms.add(room);
+                    return room;
+                }
+            }
         }
         for (PuzzlePlugin p : parent.getPuzzles()) {
             if (p.isValid()) {
@@ -121,7 +124,7 @@ public class Explore extends RSBuddyCommon
                 return room;
             }
         }
-        Normal room = new Normal(roomArea, newDoors(roomArea), groundItems, parent);
+        Normal room = new Normal(roomArea, newDoors(roomArea), parent);
         rooms.add(room);
         return room;
     }

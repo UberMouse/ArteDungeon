@@ -1,9 +1,10 @@
 package nz.artedungeon.common;
 
 import com.rsbuddy.event.events.MessageEvent;
+import com.rsbuddy.event.listeners.MessageListener;
 import com.rsbuddy.script.ActiveScript;
 
-public abstract class Plugin extends ActiveScript
+public abstract class Plugin extends ActiveScript implements MessageListener
 {
     private boolean startup = false;
 
@@ -57,6 +58,10 @@ public abstract class Plugin extends ActiveScript
     }
 
     public void reset() {
+
+    }
+
+    public void messageReceived(MessageEvent messageEvent) {
 
     }
 }

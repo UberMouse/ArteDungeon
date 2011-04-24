@@ -14,15 +14,6 @@ public abstract class PuzzlePlugin extends Plugin
     protected boolean canSolve = true;
     protected boolean solved;
 
-    public abstract String getStatus();
-
-    public abstract boolean isValid();
-
-    public abstract String getAuthor();
-
-    public abstract String getName();
-
-    public abstract int loop();
 
     /**
      * Is puzzle possible to be completed

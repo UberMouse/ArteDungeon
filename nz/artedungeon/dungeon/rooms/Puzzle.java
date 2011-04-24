@@ -17,7 +17,7 @@ import java.util.LinkedList;
  */
 public class Puzzle extends Room
 {
-    private PuzzlePlugin puzzle;
+    private final PuzzlePlugin puzzle;
 
     /**
      * Instantiates a new room.
@@ -45,5 +45,9 @@ public class Puzzle extends Room
 
     public String status() {
         return puzzle.getStatus();
+    }
+
+    public PuzzlePlugin getPuzzle() {
+        return puzzle;
     }
 }

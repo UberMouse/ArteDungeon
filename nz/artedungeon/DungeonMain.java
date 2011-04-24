@@ -7,11 +7,9 @@ import com.rsbuddy.script.ActiveScript;
 import com.rsbuddy.script.Manifest;
 import com.rsbuddy.script.methods.*;
 import com.rsbuddy.script.task.LoopTask;
-import com.rsbuddy.script.task.Task;
 import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.util.Timer;
-import com.rsbuddy.script.wrappers.GroundItem;
 import com.rsbuddy.script.wrappers.Npc;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.bosses.*;
@@ -24,6 +22,7 @@ import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.doors.Door;
 import nz.artedungeon.dungeon.doors.Skill;
+import nz.artedungeon.dungeon.rooms.Boss;
 import nz.artedungeon.dungeon.rooms.Normal;
 import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
@@ -53,6 +52,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -80,8 +80,6 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     public boolean foundBoss;
     public boolean prestige;
     public boolean inDungeon;
-    private final boolean saveState = false;
-    public boolean loadState = false;
 
     // Stats
     private nz.uberutils.helpers.Skill attSkill;
@@ -103,10 +101,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     private String status = "";
     public int teleportFailSafe = 0;
     private Point m = new Point(0, 0);
-    private Room currentRoom = new Normal(new RSArea(new Tile[]{}, this),
-                                          new LinkedList<Door>(),
-                                          new GroundItem[]{},
-                                          this);
+    private Room currentRoom = new Normal(new RSArea(new Tile[]{}, this), new LinkedList<Door>(), this);
 
     //Paint images/vars
     private Image pBackground = null;
@@ -427,13 +422,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             if (Explore.getBossRoom() != null) {
                 if (Explore.getBossRoom().contains(MyPlayer.location()) &&
                     MyPlayer.currentRoom().equals(Explore.getBossRoom())) {
-                    for (Plugin boss : bosses) {
-                        if (boss.isValid()) {
-                            boss.startupMessage();
-                            status = boss.getStatus();
-                            return boss.loop();
-                        }
-                    }
+                    return ((Boss) Explore.getBossRoom()).kill();
                 }
             }
             //For testing bosses
@@ -448,18 +437,6 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                     }
                 }
             }
-            //For testing puzzles
-            //            if (true) {
-            //                if (MyPlayer.currentRoom() != null) {
-            //                    for (Plugin puzzle : puzzles) {
-            //                        if (puzzle.isValid()) {
-            //                            puzzle.startupMessage();
-            //                            status = puzzle.getStatus();
-            //                            return puzzle.loop();
-            //                        }
-            //                    }
-            //                }
-            //            }
             if (MyPlayer.currentRoom() != null && MyPlayer.currentRoom().contains(MyPlayer.location())) {
                 if (MyPlayer.getComplexity() > 4 &&
                     Explore.inDungeon() &&
@@ -496,27 +473,14 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         return random(400, 600);
     }
 
-    private GeneralPath pathFrom(int[] xs, int[] ys) {
-        GeneralPath gp = new GeneralPath();
-        gp.moveTo(xs[0], ys[0]);
-        for (int i = 1; i < xs.length; i++)
-            gp.lineTo(xs[i], ys[i]);
-        gp.closePath();
-        return gp;
-    }
-
     private final RenderingHints antialiasing = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                                                                    RenderingHints.VALUE_ANTIALIAS_ON);
 
-    private final Color color1 = new Color(45, 45, 45);
-    private final Color color2 = new Color(0, 0, 0);
-    private final Color color3 = new Color(100, 100, 100);
-    private final Color color4 = new Color(255, 255, 255);
+    private final Color white = new Color(255, 255, 255);
 
     private final BasicStroke stroke1 = new BasicStroke(1);
 
-    private final Font font1 = new Font("Arial", 0, 10);
-    private final Font font2 = new Font("Arial", 0, 12);
+    private final Font arial = new Font("Arial", 0, 12);
 
 
     public void onRepaint(Graphics render) {
@@ -536,12 +500,10 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                 Room cur = MyPlayer.currentRoom();
                 String[] data = {"" + cur.getType(), "" + cur.hasEnemies()};
                 if (cur.getType() == Room.Type.PUZZLE) {
-
-                    //                    columns = Arrays.copyOf(columns, columns.length + 1);
-                    //                    data = Arrays.copyOf(data, data.length + 1);
-                    //                    columns[columns.length] = "Is solved:";
-                    //                    data[data.length] = "" + ((Puzzle) cur).isSolved();
-
+                    columns = Arrays.copyOf(columns, columns.length + 1);
+                    data = Arrays.copyOf(data, data.length + 1);
+                    columns[columns.length] = "Is solved:";
+                    data[data.length] = "" + ((Puzzle) cur).isSolved();
                 }
                 debugLayout = new PColumnLayout(15, 60, columns, data);
             } catch (Exception ignored) {
@@ -661,12 +623,12 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                                          "Connector: " + Explore.getRooms().indexOf(door.getConnector()),
                                          "Can Open: " + door.canOpen(),
                                          "Door type: " + door.getType()};
-                        drawDoor(g, door, text, color4);
+                        drawDoor(g, door, text, white);
                     }
                 }
                 for (Iterator<Room> it = Explore.getRooms().iterator(); it.hasNext();) {
                     Room room = it.next();
-                    drawRoom(g, room, color4);
+                    drawRoom(g, room, white);
                 }
                 Npc[] allNpcsInRoom = Npcs.getLoaded(new Filter<Npc>()
                 {
@@ -701,7 +663,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         int x = point.x;
         int y = point.y;
         for (String s : text) {
-            final FontMetrics fm = g.getFontMetrics(font2);
+            final FontMetrics fm = g.getFontMetrics(arial);
             final LineMetrics lm = fm.getLineMetrics(s, g);
             g.drawString(s, x, y += lm.getHeight());
         }
@@ -770,22 +732,12 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         if (Explore.inDungeon()) {
             if (Explore.getBossRoom() != null) {
                 if (Explore.getBossRoom().contains(MyPlayer.location())) {
-                    for (Object boss : bosses) {
-                        if ((Boolean) Util.callMethod(boss, "isValid")) {
-                            Util.callMethod(boss, "messageReceived", e);
-                        }
-                    }
+                    ((Boss) Explore.getBossRoom()).getBoss().messageReceived(e);
                 }
             }
             if (MyPlayer.currentRoom() != null && MyPlayer.currentRoom().contains(MyPlayer.location())) {
-                if (MyPlayer.getComplexity() > 4 &&
-                    Explore.inDungeon() &&
-                    MyPlayer.currentRoom().getType() == Room.PUZZLE) {
-                    for (Object puzzle : puzzles) {
-                        if ((Boolean) Util.callMethod(puzzle, "isValid")) {
-                            Util.callMethod(puzzle, "messageReceived", e);
-                        }
-                    }
+                if (Explore.inDungeon() && MyPlayer.currentRoom().getType() == Room.PUZZLE) {
+                    ((Puzzle) MyPlayer.currentRoom()).getPuzzle().messageReceived(e);
                 }
             }
             if (MyPlayer.lastDoorOpened() != null &&
@@ -856,14 +808,8 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     public void clearAll() {
         Explore.getRooms().clear();
         Explore.getDoors().clear();
-        MyPlayer.setLastRoom(new Normal(new RSArea(new Tile[]{}, this),
-                                        new LinkedList<Door>(),
-                                        new GroundItem[]{},
-                                        this));
-        MyPlayer.setCurrentRoom(new Normal(new RSArea(new Tile[]{}, this),
-                                           new LinkedList<Door>(),
-                                           new GroundItem[]{},
-                                           this));
+        MyPlayer.setLastRoom(new Normal(new RSArea(new Tile[]{}, this), new LinkedList<Door>(), this));
+        MyPlayer.setCurrentRoom(new Normal(new RSArea(new Tile[]{}, this), new LinkedList<Door>(), this));
         Explore.setBossRoom(null);
         Explore.setStartRoom(null);
         for (Strategy strategy : strategies)
@@ -936,27 +882,11 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         return plugins;
     }
 
-    boolean linkedListContainsClass(LinkedList<Object> list, Object klass) {
-        for (Object object : list) {
-            if (object.getClass().getSimpleName().equals(klass.getClass().getSimpleName()))
-                return true;
-        }
-        return false;
-    }
-
     public LinkedList<PuzzlePlugin> getPuzzles() {
         return puzzles;
     }
 
-    public void submit(LoopTask task) {
-        getContainer().submit(task);
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public static void sleep() {
-        Task.sleep(500);
+    public LinkedList<Plugin> getBosses() {
+        return bosses;
     }
 }

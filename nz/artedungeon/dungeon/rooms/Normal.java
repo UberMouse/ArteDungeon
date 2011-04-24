@@ -23,7 +23,7 @@ public class Normal extends Room
      * @param doors  the doors
      * @param parent instance of main script
      */
-    public Normal(RSArea area, LinkedList<Door> doors, GroundItem[] groundItems, DungeonMain parent) {
+    public Normal(RSArea area, LinkedList<Door> doors, DungeonMain parent) {
         super(area, doors, NORMAL, parent);
     }
 }
