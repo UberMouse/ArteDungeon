@@ -1,6 +1,5 @@
 package nz.artedungeon.strategies;
 
-import com.rsbuddy.script.methods.Calculations;
 import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.wrappers.GameObject;
 import nz.artedungeon.DungeonMain;
@@ -27,15 +26,16 @@ public class ChangeRoom extends Strategy
                 MyPlayer.setLastRoom(MyPlayer.currentRoom());
                 MyPlayer.setCurrentRoom(room);
                 MyPlayer.setCurArea(MyPlayer.currentRoom().getArea());
-                if (!MyPlayer.lastDoorOpened().isOpen() &&
-                    Calculations.distanceTo(MyPlayer.lastDoorOpened().getLocation()) < 5) {
-                    MyPlayer.lastDoorOpened().setOpen(true);
-                    MyPlayer.lastRoom()
-                            .updateDoor(MyPlayer.lastDoorOpened());
-                    MyPlayer.lastDoorOpened().setConnector(MyPlayer.currentRoom());
-                    Explore.getDoors().remove(MyPlayer.lastDoorOpened());
-                    Explore.getDoors().add(MyPlayer.lastDoorOpened());
-                }
+                //TODO Might need this
+                //                if (!MyPlayer.lastDoorOpened().isOpen() &&
+                //                    Calculations.distanceTo(MyPlayer.lastDoorOpened().getLocation()) < 5) {
+                //                    MyPlayer.lastDoorOpened().setOpen(true);
+                //                    MyPlayer.lastRoom()
+                //                            .updateDoor(MyPlayer.lastDoorOpened());
+                //                    MyPlayer.lastDoorOpened().setConnector(MyPlayer.currentRoom());
+                //                    Explore.getDoors().remove(MyPlayer.lastDoorOpened());
+                //                    Explore.getDoors().add(MyPlayer.lastDoorOpened());
+                //                }
                 return random(400, 600);
             }
         }
@@ -55,14 +55,14 @@ public class ChangeRoom extends Strategy
     }
 
     public void updateDoors() {
+        MyPlayer.setLastDoorOpended(MyPlayer.lastRoom().getClosestDoorAll());
         Door closestDoor = MyPlayer.currentRoom().getClosestDoorTo(MyPlayer.lastDoorOpened());
         if (closestDoor != null) {
             closestDoor.setOpen(true);
             closestDoor.setConnector(MyPlayer.lastRoom());
         }
         MyPlayer.lastDoorOpened().setOpen(true);
-        MyPlayer.lastRoom()
-                .updateDoor(MyPlayer.lastDoorOpened());
+        MyPlayer.lastRoom().updateDoor(MyPlayer.lastDoorOpened());
         MyPlayer.currentRoom().updateDoor(closestDoor);
         MyPlayer.lastDoorOpened().setConnector(MyPlayer.currentRoom());
         Explore.getDoors().remove(MyPlayer.lastDoorOpened());
