@@ -2,14 +2,13 @@ package nz.artedungeon.strategies;
 
 import com.rsbuddy.script.methods.*;
 import com.rsbuddy.script.util.Filter;
-import com.rsbuddy.script.wrappers.GameObject;
-import com.rsbuddy.script.wrappers.GroundItem;
-import com.rsbuddy.script.wrappers.Item;
-import com.rsbuddy.script.wrappers.Npc;
+import com.rsbuddy.script.wrappers.Component;
+import com.rsbuddy.script.wrappers.*;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.Strategy;
 import nz.artedungeon.dungeon.*;
 import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Utils;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyGroundItems;
@@ -24,6 +23,7 @@ public class DungeonStart extends Strategy
     private boolean setup;
     private boolean firstRun = true;
     private final int TOOLKIT_COMPONENT = 469;
+    private final int TOOLKIT_COMPONENT_FREE = 254;
     private final int TOOLKIT_ID = 19650;
     private int failSafe = 0;
 
@@ -112,11 +112,13 @@ public class DungeonStart extends Strategy
                     }
                 }
                 else {
-                    com.rsbuddy.script.wrappers.Component toolkit = Widgets.getComponent(GameConstants.STORE_COMPONENT,
-                                                                                         GameConstants.STORE_SUB_COMPONENT)
-                                                                           .getComponent(TOOLKIT_COMPONENT);
-                    com.rsbuddy.script.wrappers.Component storeSubComp = Widgets.getComponent(GameConstants.STORE_COMPONENT,
-                                                                                              GameConstants.STORE_SUB_COMPONENT);
+                    Component toolkit = Widgets.getComponent(GameConstants.STORE_COMPONENT,
+                                                             GameConstants.STORE_SUB_COMPONENT)
+                                               .getComponent(Util.isMembers() ?
+                                                             TOOLKIT_COMPONENT :
+                                                             TOOLKIT_COMPONENT_FREE);
+                    Component storeSubComp = Widgets.getComponent(GameConstants.STORE_COMPONENT,
+                                                                  GameConstants.STORE_SUB_COMPONENT);
                     if (toolkit != null && toolkit.isValid() && Inventory.getCount(true, GameConstants.COINS) >= 1320) {
                         Rectangle storeSubBounds = storeSubComp.getBoundingRect();
                         Mouse.move((int) storeSubBounds.getCenterX(), (int) storeSubBounds.getCenterY());

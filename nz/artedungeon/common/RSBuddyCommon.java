@@ -2,6 +2,7 @@ package nz.artedungeon.common;
 
 import com.rsbuddy.script.util.Random;
 import nz.artedungeon.DungeonMain;
+import nz.uberutils.helpers.Utils;
 
 
 // TODO: Auto-generated Javadoc
@@ -25,49 +26,7 @@ public class RSBuddyCommon
      */
     public static void debug(Object text) {
         if (DungeonMain.debug) {
-            String className = getCurClassName();
-            if (className.contains("$"))
-                className = className.split("\\$")[1];
-            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-            StackTraceElement stacktrace = stackTraceElements[2];
-            String methodName = stacktrace.getMethodName();
-            int lineNumber = stacktrace.getLineNumber();
-            parent.log("["
-                       + stackTraceElements[3].getClassName()
-                       + "#"
-                       + stackTraceElements[3].getMethodName()
-                       + ":"
-                       + stackTraceElements[3].getLineNumber()
-                       + "] -> [" + className + "." + methodName + ":"
-                       + lineNumber + "] -> " + text);
-        }
-    }
-
-    public static String getLastMethod() {
-        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        StackTraceElement stacktrace = stackTraceElements[3];
-        return stacktrace.getMethodName();
-    }
-
-    /**
-     * Gets the current class name.
-     *
-     * @return the currrent class name
-     */
-    private static String getCurClassName() {
-        return (new CurClassNameGetter()).getClassName();
-    }
-
-    public static class CurClassNameGetter extends SecurityManager
-    {
-
-        /**
-         * Gets the class name.
-         *
-         * @return the class name
-         */
-        public String getClassName() {
-            return getClassContext()[3].getName();
+            Utils.debug(text);
         }
     }
 

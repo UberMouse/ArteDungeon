@@ -7,7 +7,10 @@ import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.Util;
+import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyObjects;
+
+import java.awt.*;
 
 
 /**
@@ -46,7 +49,6 @@ public class StrangeFlowers extends PuzzlePlugin
         final String[] F_COLORS = {"blue", "purple", "red", "yellow"};
 
         GameObject centerFlower = MyPlayer.currentRoom().getNearestObject(GameConstants.CENTER_FLOWERS);
-        Util.debug(Calculations.isReachable(centerFlower.getLocation(), true));
         if (centerFlower != null) {
             //            if (flowerCut) {
             //                waitToAnimate();
@@ -57,6 +59,7 @@ public class StrangeFlowers extends PuzzlePlugin
             //            }
             //            else
             if (Calculations.isReachable(centerFlower.getLocation(), true)) {
+                MyMovement.turnTo(centerFlower);
                 if (centerFlower.interact("Uproot"))
                     Util.waitToStop();
             }

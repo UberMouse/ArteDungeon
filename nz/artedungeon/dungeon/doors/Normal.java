@@ -38,14 +38,8 @@ public class Normal extends Door
     public boolean canOpen() {
         if (open && connector > -1)
             return false;
-        else if (open && connector == -1)
-            open = false;
-        else if (!open && connector > -1)
-            connector = -1;
-        if (getParent().getType() == Room.PUZZLE) {
-            Puzzle room = (Puzzle) getParent();
-            return room.isSolved();
-        }
+        if (getParent().getType() == Room.PUZZLE)
+            return ((Puzzle) getParent()).isSolved();
         return !(getParent().getDoorAt(Util.getNearestNonWallTile(location)) != null &&
                  !getParent().getDoorAt(Util.getNearestNonWallTile(location)).isOpen());
     }

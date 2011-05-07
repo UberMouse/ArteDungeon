@@ -37,6 +37,12 @@ public class Loot
 
     public static void takeLoot(Filter<GroundItem> filter) {
         GroundItem loot = GroundItems.getNearest(filter);
+        boolean stackable = false;
+        for (GroundItem g : GroundItems.getLoaded(filter))
+            if (g.getItem().getDefinition().getStackType() == 1)
+                stackable = true;
+        if (Inventory.isFull() && !stackable)
+            return;
         String name = loot.getItem().getName();
         int id = loot.getItem().getId();
         MyMovement.turnTo(loot.getLocation());
@@ -118,8 +124,9 @@ public class Loot
         String lootString = loot.getItem().getName() + " (" + loot.getItem().getStackSize() + " * ";
         lootString += (PriceThread.priceForId(loot.getItem().getId()) == -1) ?
                       "Calculating.." :
-                      (PriceThread.priceForId(loot.getItem().getId()) == -2) ? "Unknown" : PriceThread.priceForId(
-                              loot.getItem().getId());
+                      (PriceThread.priceForId(loot.getItem().getId()) == -2) ?
+                      "Unknown" :
+                      PriceThread.priceForId(loot.getItem().getId());
         lootString += ")";
         final Color color1 = new Color(0, 51, 204, 50);
         final Color color2 = new Color(0, 0, 0);

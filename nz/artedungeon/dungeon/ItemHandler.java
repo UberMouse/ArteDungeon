@@ -4,9 +4,11 @@ import com.rsbuddy.script.methods.*;
 import com.rsbuddy.script.wrappers.Item;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.common.RSBuddyCommon;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyInventory;
 
+import javax.rmi.CORBA.UtilDelegate;
 import java.util.Arrays;
 
 
@@ -252,6 +254,7 @@ public class ItemHandler extends RSBuddyCommon
      * @return tier parsed
      */
     public static int getTier(String name) {
+        name = name.replace(" (b)", "");
         String[] split = Arrays.copyOfRange(name.split(" "),
                                             0,
                                             (name.toLowerCase().matches(".*(shortbow|longbow).*") &&

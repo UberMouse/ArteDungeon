@@ -40,7 +40,8 @@ public abstract class PuzzlePlugin extends Plugin
         else if (txt.contains("hear a click") ||
                  txt.contains("now unlocked") ||
                  txt.contains("act of simply") ||
-                 txt.contains("challenge room has already"))
+                 txt.contains("challenge room has already") ||
+                 txt.contains("is now passable"))
             solved = true;
 
     }

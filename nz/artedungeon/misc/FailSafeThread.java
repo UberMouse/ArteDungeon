@@ -12,6 +12,8 @@ import nz.artedungeon.dungeon.Dungeon;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 
+import java.awt.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Taylor
@@ -40,7 +42,8 @@ public class FailSafeThread extends LoopTask
     public int loop() {
         try {
             if (leaving && !MyPlayer.get().isInCombat()) {
-                leaveDungeon();
+                Toolkit.getDefaultToolkit().beep();
+                //leaveDungeon();
                 return 500;
             }
             if (!posTimer.isRunning()) {

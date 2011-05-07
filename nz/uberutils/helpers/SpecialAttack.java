@@ -4,6 +4,7 @@ import com.rsbuddy.script.methods.Combat;
 import com.rsbuddy.script.methods.Game;
 import com.rsbuddy.script.methods.Settings;
 import com.rsbuddy.script.methods.Widgets;
+import com.rsbuddy.script.util.Timer;
 import nz.uberutils.methods.MyInventory;
 
 /**
@@ -21,6 +22,44 @@ public class SpecialAttack
     private static int specAt = 101;
     private static boolean useSecondaryWeapon;
     private static final int SETTING_SPECIAL_ENERGY = 300;
+
+    private static final int[] amountUsage = {10, 25, 33, 35, 45, 50, 55, 60, 80, 85, 100};
+    private static final String[][] weapons = {{"Rune thrownaxe", "Rod of ivandis"},
+                                               {"Dragon Dagger",
+                                                "Dragon dagger (p)",
+                                                "Dragon dagger (p+)",
+                                                "Dragon dagger (p++)",
+                                                "Dragon Mace",
+                                                "Dragon Spear",
+                                                "Dragon longsword",
+                                                "Rune claws"},
+                                               {"Dragon Halberd"},
+                                               {"Magic Longbow"},
+                                               {"Magic Composite Bow"},
+                                               {"Dragon Claws",
+                                                "Abyssal Whip",
+                                                "Granite Maul",
+                                                "Darklight",
+                                                "Barrelchest Anchor",
+                                                "Armadyl Godsword"},
+                                               {"Magic Shortbow"},
+                                               {"Dragon Scimitar",
+                                                "Dragon 2H Sword",
+                                                "Zamorak Godsword",
+                                                "Korasi's sword"},
+                                               {"Dorgeshuun Crossbow",
+                                                "Bone Dagger",
+                                                "Bone Dagger (p+)",
+                                                "Bone Dagger (p++)"},
+                                               {"Brine Sabre"},
+                                               {"Bandos Godsword",
+                                                "Dragon Battleaxe",
+                                                "Dragon Hatchet",
+                                                "Seercull Bow",
+                                                "Excalibur",
+                                                "Enhanced excalibur",
+                                                "Ancient Mace",
+                                                "Saradomin sword"}};
 
 
     /**
@@ -77,8 +116,19 @@ public class SpecialAttack
         return getSpecialEnergy() >= specAt || (useSecondaryWeapon && MyInventory.contains(primaryWeapon));
     }
 
-    public static boolean canSpec() {
+    private static boolean canSpec() {
         return getSpecialEnergy() >= specEnergy;
+    }
+
+    public static void setSpecValues(String weapon) {
+        for(int i = 0;i < weapons.length;i++) {
+            for(int j = 0;j < weapons[i].length;j++) {
+                if(weapons[i][j].equalsIgnoreCase(weapon)) {
+                    specAt = amountUsage[i];
+                    specEnergy = amountUsage[i];
+                }
+            }
+        }
     }
 
     public static void doSpecial() {
@@ -87,7 +137,8 @@ public class SpecialAttack
             MyInventory.getItem(specialWeapon).interact("wield");
         }
         else if (getSpecialEnergy() >= specEnergy && !Combat.isSpecialEnabled()) {
-            while (getSpecialEnergy() >= specEnergy && MyPlayer.inCombat()) {
+            Timer fail = new Timer(4000);
+            while (getSpecialEnergy() >= specEnergy && MyPlayer.inCombat() && fail.isRunning()) {
                 Game.openTab(Game.TAB_ATTACK);
                 if (!Combat.isSpecialEnabled()) {
                     Widgets.getComponent(884, 4).click();

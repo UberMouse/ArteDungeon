@@ -1,9 +1,13 @@
 package nz.artedungeon.puzzles;
 
+import com.rsbuddy.script.methods.Npcs;
 import com.rsbuddy.script.methods.Objects;
+import com.rsbuddy.script.wrappers.Npc;
 import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.Util;
+import nz.uberutils.helpers.MyPlayer;
+import nz.uberutils.methods.MyMovement;
 
 import java.awt.*;
 
@@ -39,7 +43,16 @@ public class SleepingGuards extends PuzzlePlugin
 
     @Override
     public int loop() {
+        Npc guard = Npcs.getNearest("Brute");
+        if (guard != null) {
+            if (!MyPlayer.isInteracting()) {
+                MyMovement.turnTo(guard);
+                guard.interact("Attack");
+            }
+        }
+        else
+            Util.clickRandomTileOnMap();
         Toolkit.getDefaultToolkit().beep();
-        return 1000;
+        return 500;
     }
 }

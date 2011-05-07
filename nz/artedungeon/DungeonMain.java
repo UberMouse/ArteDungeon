@@ -30,10 +30,13 @@ import nz.artedungeon.misc.FailSafeThread;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.puzzles.*;
 import nz.artedungeon.strategies.*;
+import nz.artedungeon.utils.FloodFill;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.RoomUpdater;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Options;
+import nz.uberutils.helpers.PaintUtils;
+import nz.uberutils.helpers.Utils;
 import nz.uberutils.helpers.tasks.ImageThread;
 import nz.uberutils.paint.PaintController;
 import nz.uberutils.paint.components.*;
@@ -45,7 +48,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.font.LineMetrics;
-import java.awt.geom.GeneralPath;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -80,6 +82,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     public boolean foundBoss;
     public boolean prestige;
     public boolean inDungeon;
+    public static boolean showPaint = true;
 
     // Stats
     private nz.uberutils.helpers.Skill attSkill;
@@ -101,7 +104,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     private String status = "";
     public int teleportFailSafe = 0;
     private Point m = new Point(0, 0);
-    private Room currentRoom = new Normal(new RSArea(new Tile[]{}, this), new LinkedList<Door>(), this);
+    private Room currentRoom = new Normal(new RSArea(new Tile[]{}), new LinkedList<Door>(), this);
 
     //Paint images/vars
     private Image pBackground = null;
@@ -164,6 +167,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             return shouldPaint();
         }
     };
+    public static boolean members;
 
     int random(int min, int max) {
         return Random.nextInt(min, max);
@@ -174,6 +178,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             log("Start script logged in");
             return false;
         }
+        members = Utils.isWorldMembers();
         attSkill = new nz.uberutils.helpers.Skill(Skills.ATTACK);
         strSkill = new nz.uberutils.helpers.Skill(Skills.STRENGTH);
         defSkill = new nz.uberutils.helpers.Skill(Skills.DEFENSE);
@@ -298,6 +303,18 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         mainFrame.addComponent(miscFrame);
         PaintController.addComponent(mainFrame);
         PaintController.addComponent(optionFrame);
+        PaintController.addComponent(new PFancyButton(461, 481, 52, 24, "Hide", PFancyButton.ColorScheme.GRAPHITE)
+        {
+            public void onStart() {
+                forceMouse = true;
+                forcePaint = true;
+            }
+
+            public void onPress() {
+                text = (text.equals("Hide")) ? "Show" : "Hide";
+                DungeonMain.showPaint = !showPaint;
+            }
+        });
         try {
             SwingUtilities.invokeAndWait(new Runnable()
             {
@@ -355,6 +372,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         bosses.add(new RiftSplitter());
         bosses.add(new Sagittare());
         bosses.add(new Stomp());
+        bosses.add(new nz.artedungeon.bosses.NightGazerKhighorahk());
         bosses.add(new Default());
         puzzles.add(new Maze());
         puzzles.add(new Monolith());
@@ -392,6 +410,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         puzzles.add(new StrangeFlowers());
         puzzles.add(new UnfinishedBridge());
         puzzles.add(new WinchBridge());
+        puzzles.add(new SlidingTiles());
     }
 
     public void onFinish() {
@@ -437,6 +456,9 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                     }
                 }
             }
+            Camera.setPitch(true);
+            if (MyPlayer.hp() < 50)
+                MyPlayer.eat();
             if (MyPlayer.currentRoom() != null && MyPlayer.currentRoom().contains(MyPlayer.location())) {
                 if (MyPlayer.getComplexity() > 4 &&
                     Explore.inDungeon() &&
@@ -450,9 +472,6 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                     return room.solve();
                 }
             }
-            Camera.setPitch(true);
-            if (MyPlayer.hp() < 50)
-                MyPlayer.eat();
             Npc smuggler = Npcs.getNearest(GameConstants.SMUGGLER);
             if (smuggler != null)
                 if (Explore.getRooms().indexOf(MyPlayer.currentRoom()) == 1 &&
@@ -485,169 +504,171 @@ public class DungeonMain extends ActiveScript implements PaintListener,
 
     public void onRepaint(Graphics render) {
         Graphics2D g = (Graphics2D) render;
-        g.setRenderingHints(antialiasing);
-        g.drawImage(pBackground, 0, 338, null);
-        g.drawString("Version: " + String.valueOf(getClass().getAnnotation(Manifest.class).version()), 119, 464);
-        g.setStroke(stroke1);
-        String timeRan = Util.parseTime(System.currentTimeMillis() - startTime);
-        PColumnLayout mainLayout = null;
-        PColumnLayout mainLayoutColTwo = null;
-        PColumnLayout miscLayout = null;
-        PColumnLayout debugLayout = null;
-        try {
+        if (showPaint) {
+            g.setRenderingHints(antialiasing);
+            g.drawImage(pBackground, 0, 338, null);
+            g.drawString("Version: " + String.valueOf(getClass().getAnnotation(Manifest.class).version()), 119, 464);
+            g.setStroke(stroke1);
+            String timeRan = Util.parseTime(System.currentTimeMillis() - startTime);
+            PColumnLayout mainLayout = null;
+            PColumnLayout mainLayoutColTwo = null;
+            PColumnLayout miscLayout = null;
+            PColumnLayout debugLayout = null;
             try {
-                String[] columns = {"Room type:", "Has enemies:"};
-                Room cur = MyPlayer.currentRoom();
-                String[] data = {"" + cur.getType(), "" + cur.hasEnemies()};
-                if (cur.getType() == Room.Type.PUZZLE) {
-                    columns = Arrays.copyOf(columns, columns.length + 1);
-                    data = Arrays.copyOf(data, data.length + 1);
-                    columns[columns.length] = "Is solved:";
-                    data[data.length] = "" + ((Puzzle) cur).isSolved();
+                try {
+                    String[] columns = {"Room type:", "Has enemies:"};
+                    Room cur = MyPlayer.currentRoom();
+                    String[] data = {"" + cur.getType(), "" + cur.hasEnemies()};
+                    if (cur.getType() == Room.Type.PUZZLE) {
+                        columns = Arrays.copyOf(columns, columns.length + 1);
+                        data = Arrays.copyOf(data, data.length + 1);
+                        columns[columns.length] = "Is solved:";
+                        data[data.length] = "" + ((Puzzle) cur).isSolved();
+                    }
+                    debugLayout = new PColumnLayout(15, 60, columns, data);
+                } catch (Exception ignored) {
                 }
-                debugLayout = new PColumnLayout(15, 60, columns, data);
+                mainLayout = new PColumnLayout(15,
+                                               355,
+                                               new String[]{"Status:",
+                                                            "Time running:",
+                                                            "Dungeons completed:",
+                                                            "Dungeons aborted:",
+                                                            "Dungeons p/h:",
+                                                            "Times died:",
+                                                            "Prestiege count: "},
+                                               new String[]{status,
+                                                            timeRan,
+                                                            String.valueOf(dungeonsDone),
+                                                            String.valueOf(timesAborted),
+                                                            String.valueOf(nz.uberutils
+                                                                                   .helpers
+                                                                                   .Utils
+                                                                                   .calcPH(dungeonsDone, startTime)),
+                                                            String.valueOf(MyPlayer.timesDied()),
+                                                            String.valueOf(prestiegeCount)});
+                mainLayoutColTwo = new PColumnLayout(230,
+                                                     385,
+                                                     13,
+                                                     new String[]{"Current Level:",
+                                                                  "XP Gained:",
+                                                                  "XP P/H:",
+                                                                  "Time To Level:",
+                                                                  "Tokens Gained:"},
+                                                     new String[]{dungSkill.curLevel() +
+                                                                  " (+" +
+                                                                  dungSkill.levelsGained() +
+                                                                  ")",
+                                                                  String.valueOf(dungSkill.xpGained()),
+                                                                  String.valueOf(dungSkill.xpPH()),
+                                                                  dungSkill.timeToLevel(),
+                                                                  String.valueOf(MyPlayer.tokensGained())});
+                miscLayout = new PColumnLayout(15,
+                                               355,
+                                               new String[]{"Current Dungeon Time:",
+                                                            "Current Deaths:",
+                                                            "Fastest Dungeon:",
+                                                            "Slowest Dungeon:",
+                                                            "Current Floor:"},
+                                               new String[]{Dungeon.curTime(),
+                                                            String.valueOf(Dungeon.timesDied()),
+                                                            Dungeon.fastestTime(),
+                                                            Dungeon.slowestTime(),
+                                                            (Dungeon.curFloor() > 0) ?
+                                                            String.valueOf(Dungeon.curFloor()) :
+                                                            "Unknown"});
             } catch (Exception ignored) {
             }
-            mainLayout = new PColumnLayout(15,
-                                           355,
-                                           new String[]{"Status:",
-                                                        "Time running:",
-                                                        "Dungeons completed:",
-                                                        "Dungeons aborted:",
-                                                        "Dungeons p/h:",
-                                                        "Times died:",
-                                                        "Prestiege count: "},
-                                           new String[]{status,
-                                                        timeRan,
-                                                        String.valueOf(dungeonsDone),
-                                                        String.valueOf(timesAborted),
-                                                        String.valueOf(nz.uberutils
-                                                                               .helpers
-                                                                               .Utils
-                                                                               .calcPH(dungeonsDone, startTime)),
-                                                        String.valueOf(MyPlayer.timesDied()),
-                                                        String.valueOf(prestiegeCount)});
-            mainLayoutColTwo = new PColumnLayout(230,
-                                                 385,
-                                                 13,
-                                                 new String[]{"Current Level:",
-                                                              "XP Gained:",
-                                                              "XP P/H:",
-                                                              "Time To Level:",
-                                                              "Tokens Gained:"},
-                                                 new String[]{dungSkill.curLevel() +
-                                                              " (+" +
-                                                              dungSkill.levelsGained() +
-                                                              ")",
-                                                              String.valueOf(dungSkill.xpGained()),
-                                                              String.valueOf(dungSkill.xpPH()),
-                                                              dungSkill.timeToLevel(),
-                                                              String.valueOf(MyPlayer.tokensGained())});
-            miscLayout = new PColumnLayout(15,
-                                           355,
-                                           new String[]{"Current Dungeon Time:",
-                                                        "Current Deaths:",
-                                                        "Fastest Dungeon:",
-                                                        "Slowest Dungeon:",
-                                                        "Current Floor:"},
-                                           new String[]{Dungeon.curTime(),
-                                                        String.valueOf(Dungeon.timesDied()),
-                                                        Dungeon.fastestTime(),
-                                                        Dungeon.slowestTime(),
-                                                        (Dungeon.curFloor() > 0) ?
-                                                        String.valueOf(Dungeon.curFloor()) :
-                                                        "Unknown"});
-        } catch (Exception ignored) {
-        }
-        if (miscLayout != null) {
-            if (debugLayout != null)
-                PaintController.addComponent(debugLayout);
-            infoFrame.addComponent(mainLayout);
-            infoFrame.addComponent(mainLayoutColTwo);
-            miscFrame.addComponent(miscLayout);
-        }
-        PaintController.onRepaint(render);
-        if (miscLayout != null) {
-            if (debugLayout != null)
-                PaintController.removeComponent(debugLayout);
-            infoFrame.removeComponent(mainLayout);
-            infoFrame.removeComponent(mainLayoutColTwo);
-            miscFrame.removeComponent(miscLayout);
-        }
-        nz.uberutils.helpers.Skill[] skillIndex = {dungSkill,
-                                                   attSkill,
-                                                   strSkill,
-                                                   defSkill,
-                                                   rangeSkill,
-                                                   magicSkill,
-                                                   conSkill};
-        int y = 375;
-        for (nz.uberutils.helpers.Skill skill : skillIndex) {
-            if (skill.xpGained() > 0) {
-                PSkill skillComp = new PSkill(135, y, skill.getSkill(), PSkill.ColorScheme.GRAPHITE);
-                if (!skillFrame.containsComponent(skillComp)) {
-                    skillFrame.addComponent(skillComp);
-                }
-                y += 15;
+            if (miscLayout != null) {
+                if (debugLayout != null)
+                    PaintController.addComponent(debugLayout);
+                infoFrame.addComponent(mainLayout);
+                infoFrame.addComponent(mainLayoutColTwo);
+                miscFrame.addComponent(miscLayout);
             }
-        }
-        final Point loc = Mouse.getLocation();
-        if (Mouse.isPressed()) {
-            g.setColor(new Color(255, 252, 0, 150));
-            g.fillOval(loc.x - 5, loc.y - 5, 10, 10);
-            g.setColor(new Color(0, 0, 0, 225));
-            g.drawOval(loc.x - 5, loc.y - 5, 10, 10);
-            g.setColor(new Color(255, 252, 0, 100));
-        }
-        else {
-            g.setColor(new Color(255, 252, 0, 50));
-        }
-
-        g.drawLine(0, loc.y, 766, loc.y);
-        g.drawLine(loc.x, 0, loc.x, 505);
-
-        g.setColor(new Color(0, 0, 0, 50));
-        g.drawLine(0, loc.y + 1, 766, loc.y + 1);
-        g.drawLine(0, loc.y - 1, 766, loc.y - 1);
-        g.drawLine(loc.x + 1, 0, loc.x + 1, 505);
-        g.drawLine(loc.x - 1, 0, loc.x - 1, 505);
-        if (debug) {
-            try {
-                if (Game.getCurrentTab() == Game.TAB_INVENTORY) {
-                    for (Iterator<Door> it = Explore.getDoors().iterator(); it.hasNext();) {
-                        Door door = it.next();
-                        if (door == null)
-                            continue;
-                        String[] text = {"Open: " + door.isOpen(),
-                                         "Locked: " + door.isLocked(),
-                                         "Connector: " + Explore.getRooms().indexOf(door.getConnector()),
-                                         "Can Open: " + door.canOpen(),
-                                         "Door type: " + door.getType()};
-                        drawDoor(g, door, text, white);
+            PaintController.onRepaint(render);
+            if (miscLayout != null) {
+                if (debugLayout != null)
+                    PaintController.removeComponent(debugLayout);
+                infoFrame.removeComponent(mainLayout);
+                infoFrame.removeComponent(mainLayoutColTwo);
+                miscFrame.removeComponent(miscLayout);
+            }
+            nz.uberutils.helpers.Skill[] skillIndex = {dungSkill,
+                                                       attSkill,
+                                                       strSkill,
+                                                       defSkill,
+                                                       rangeSkill,
+                                                       magicSkill,
+                                                       conSkill};
+            int y = 375;
+            for (nz.uberutils.helpers.Skill skill : skillIndex) {
+                if (skill.xpGained() > 0) {
+                    PSkill skillComp = new PSkill(135, y, skill.getSkill(), PSkill.ColorScheme.GRAPHITE);
+                    if (!skillFrame.containsComponent(skillComp)) {
+                        skillFrame.addComponent(skillComp);
                     }
+                    y += 15;
                 }
-                for (Iterator<Room> it = Explore.getRooms().iterator(); it.hasNext();) {
-                    Room room = it.next();
-                    drawRoom(g, room, white);
-                }
-                Npc[] allNpcsInRoom = Npcs.getLoaded(new Filter<Npc>()
-                {
-                    public boolean accept(Npc npc) {
-                        if (MyPlayer.currentRoom() == null)
-                            return false;
-                        return !Util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, npc.getId()) &&
-                               MyPlayer.currentRoom().contains(npc) &&
-                               npc.getHpPercent() > 0;
-                    }
-                });
-                for (Npc npc : allNpcsInRoom)
-                    paintEnemy(g, npc, Color.WHITE);
+            }
+            final Point loc = Mouse.getLocation();
+            if (Mouse.isPressed()) {
+                g.setColor(new Color(255, 252, 0, 150));
+                g.fillOval(loc.x - 5, loc.y - 5, 10, 10);
+                g.setColor(new Color(0, 0, 0, 225));
+                g.drawOval(loc.x - 5, loc.y - 5, 10, 10);
+                g.setColor(new Color(255, 252, 0, 100));
+            }
+            else {
+                g.setColor(new Color(255, 252, 0, 50));
+            }
 
-            } catch (ArrayIndexOutOfBoundsException aioob) {
-                aioob.printStackTrace();
-                StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-                log(elements[0]);
-            } catch (Exception ignored) {
+            g.drawLine(0, loc.y, 766, loc.y);
+            g.drawLine(loc.x, 0, loc.x, 505);
+
+            g.setColor(new Color(0, 0, 0, 50));
+            g.drawLine(0, loc.y + 1, 766, loc.y + 1);
+            g.drawLine(0, loc.y - 1, 766, loc.y - 1);
+            g.drawLine(loc.x + 1, 0, loc.x + 1, 505);
+            g.drawLine(loc.x - 1, 0, loc.x - 1, 505);
+            if (debug) {
+                try {
+                    if (Game.getCurrentTab() == Game.TAB_INVENTORY) {
+                        for (Iterator<Door> it = Explore.getDoors().iterator(); it.hasNext();) {
+                            Door door = it.next();
+                            if (door == null)
+                                continue;
+                            String[] text = {"Open: " + door.isOpen(),
+                                             "Locked: " + door.isLocked(),
+                                             "Connector: " + Explore.getRooms().indexOf(door.getConnector()),
+                                             "Can Open: " + door.canOpen(),
+                                             "Door type: " + door.getType()};
+                            drawDoor(g, door, text, white);
+                        }
+                    }
+                    for (Iterator<Room> it = Explore.getRooms().iterator(); it.hasNext();) {
+                        Room room = it.next();
+                        drawRoom(g, room, white);
+                    }
+                    Npc[] allNpcsInRoom = Npcs.getLoaded(new Filter<Npc>()
+                    {
+                        public boolean accept(Npc npc) {
+                            if (MyPlayer.currentRoom() == null)
+                                return false;
+                            return !Util.arrayContains(GameConstants.NONARGRESSIVE_NPCS, npc.getId()) &&
+                                   MyPlayer.currentRoom().contains(npc) &&
+                                   npc.getHpPercent() > 0;
+                        }
+                    });
+                    for (Npc npc : allNpcsInRoom)
+                        paintEnemy(g, npc, Color.WHITE);
+
+                } catch (ArrayIndexOutOfBoundsException aioob) {
+                    aioob.printStackTrace();
+                    StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+                    log(elements[0]);
+                } catch (Exception ignored) {
+                }
             }
         }
     }
@@ -808,8 +829,8 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     public void clearAll() {
         Explore.getRooms().clear();
         Explore.getDoors().clear();
-        MyPlayer.setLastRoom(new Normal(new RSArea(new Tile[]{}, this), new LinkedList<Door>(), this));
-        MyPlayer.setCurrentRoom(new Normal(new RSArea(new Tile[]{}, this), new LinkedList<Door>(), this));
+        MyPlayer.setLastRoom(new Normal(new RSArea(new Tile[]{}), new LinkedList<Door>(), this));
+        MyPlayer.setCurrentRoom(new Normal(new RSArea(new Tile[]{}), new LinkedList<Door>(), this));
         Explore.setBossRoom(null);
         Explore.setStartRoom(null);
         for (Strategy strategy : strategies)

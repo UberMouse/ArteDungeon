@@ -47,7 +47,7 @@ public class PickupItems extends Strategy
     public boolean isValid() {
         return MyPlayer.currentRoom() != null &&
                MyPlayer.currentRoom().getItem() != null &&
-               !MyPlayer.inCombat();
+               !MyPlayer.isInteracting();
     }
 
 

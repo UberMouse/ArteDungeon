@@ -12,6 +12,8 @@ import nz.artedungeon.dungeon.Dungeon;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.misc.GameConstants;
 
+import java.awt.*;
+
 
 public class LeaveDungeon extends Strategy
 {
@@ -20,34 +22,37 @@ public class LeaveDungeon extends Strategy
         super(parent);
     }
 
-    //TODO fix issue with it not clicking leave party - I think I did it?
     public int execute() {
-        Component yes = Widgets.getComponent(236, 1);
-        Component leave = Widgets.getComponent(939, 36);
-        if (yes.isValid())
-            yes.click();
-        else if (Widgets.canContinue())
-            Widgets.clickContinue();
-        else if (leave.isValid() &&
-                 (Game.getCurrentTab() != Game.TAB_EQUIPMENT &&
-                  Game.getCurrentTab() != Game.TAB_INVENTORY &&
-                  Game.getCurrentTab() != Game.TAB_MAGIC))
-            leave.click();
-        else if (Game.getCurrentTab() == Game.TAB_EQUIPMENT ||
-                 Game.getCurrentTab() == Game.TAB_INVENTORY ||
-                 Game.getCurrentTab() == Game.TAB_MAGIC) {
-            Item rok;
-            if (Inventory.getItem(GameConstants.KINSHIP_RING) == null) {
-                Game.openTab(Game.TAB_EQUIPMENT);
-                rok = Equipment.getItem(Equipment.RING);
-            }
-            else
-                rok = Inventory.getItem(GameConstants.KINSHIP_RING);
-            if (rok.interact("Open Party")) {
-                for (int i = 0; Game.getCurrentTab() != Game.TAB_QUESTS && i < 15; i++)
-                    sleep(100);
+        if (parent.teleportFailSafe < 3) {
+            Component yes = Widgets.getComponent(236, 1);
+            Component leave = Widgets.getComponent(939, 36);
+            if (yes.isValid())
+                yes.click();
+            else if (Widgets.canContinue())
+                Widgets.clickContinue();
+            else if (leave.isValid() &&
+                     (Game.getCurrentTab() != Game.TAB_EQUIPMENT &&
+                      Game.getCurrentTab() != Game.TAB_INVENTORY &&
+                      Game.getCurrentTab() != Game.TAB_MAGIC))
+                leave.click();
+            else if (Game.getCurrentTab() == Game.TAB_EQUIPMENT ||
+                     Game.getCurrentTab() == Game.TAB_INVENTORY ||
+                     Game.getCurrentTab() == Game.TAB_MAGIC) {
+                Item rok;
+                if (Inventory.getItem(GameConstants.KINSHIP_RING) == null) {
+                    Game.openTab(Game.TAB_EQUIPMENT);
+                    rok = Equipment.getItem(Equipment.RING);
+                }
+                else
+                    rok = Inventory.getItem(GameConstants.KINSHIP_RING);
+                if (rok.interact("Open Party")) {
+                    for (int i = 0; Game.getCurrentTab() != Game.TAB_QUESTS && i < 15; i++)
+                        sleep(100);
+                }
             }
         }
+        else
+            Toolkit.getDefaultToolkit().beep();
         return random(400, 600);
     }
 

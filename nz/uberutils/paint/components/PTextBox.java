@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 public class PTextBox extends PComponent
 {
     private ColorScheme colorScheme;
-    private String currentText = "*";
+    public String currentText = "*";
     private Font font = null;
     private boolean focused = false;
     private FontMetrics metrics;
@@ -93,10 +93,12 @@ public class PTextBox extends PComponent
     }
 
     public void addChar(char ch, int index) {
+        onChange();
         currentText = (index != -1) ? new StringBuffer(currentText).insert(index, ch).toString() : currentText + ch;
     }
 
     public void removeChar(int index) {
+        onChange();
         currentText = new StringBuffer(currentText).replace(index, index + 1, "").toString();
     }
 
@@ -216,5 +218,13 @@ public class PTextBox extends PComponent
 
     public void mouseClicked(MouseEvent mouseEvent) {
         setFocused(pointInTextBox(mouseEvent.getPoint()));
+    }
+
+    public void onChange() {
+
+    }
+
+    public boolean shouldHandleKeys() {
+        return focused;
     }
 }

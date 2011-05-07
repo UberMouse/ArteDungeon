@@ -90,7 +90,7 @@ public class Explore extends RSBuddyCommon
      */
     public static Room newRoom() {
         FloodFill floodFill = new FloodFill(parent);
-        RSArea roomArea = new RSArea(floodFill.fill(MyPlayer.location()), parent);
+        RSArea roomArea = new RSArea(floodFill.fill(MyPlayer.location()));
         MyPlayer.setCurArea(roomArea);
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
             for (Plugin p : parent.getBosses()) {

@@ -1,11 +1,14 @@
 package nz.artedungeon.puzzles;
 
 import com.rsbuddy.script.methods.Objects;
+import com.rsbuddy.script.task.Task;
+import com.rsbuddy.script.wrappers.GameObject;
 import nz.artedungeon.common.PuzzlePlugin;
+import nz.artedungeon.dungeon.MyPlayer;
+import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.Util;
-
-import java.awt.*;
+import nz.uberutils.methods.MyMovement;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,7 +42,24 @@ public class FremennikCamp extends PuzzlePlugin
 
     @Override
     public int loop() {
-        Toolkit.getDefaultToolkit().beep();
+        if (!Util.isMembers())
+            canSolve = false;
+        Room cur = MyPlayer.currentRoom();
+        GameObject bars = cur.getNearestObject(GameConstants.BARCRATE_CAMP);
+        GameObject logs = cur.getNearestObject(GameConstants.LOGCRATE_CAMP);
+        GameObject fish = cur.getNearestObject(GameConstants.FISHCRATE_CAMP);
+        GameObject toDo = (bars != null) ? bars : (logs != null) ? logs : (fish != null) ? fish : null;
+        if (toDo != null) {
+            MyMovement.turnTo(toDo);
+            if (toDo.click())
+                for (int i = 0; i <= 15 && Objects.getNearest(toDo.getId()) != null; i++) {
+                    if(MyPlayer.isMoving())
+                        i = 0;
+                    Task.sleep(100);
+                }
+        }
+        else
+            solved = true;
         return 1000;
     }
 }

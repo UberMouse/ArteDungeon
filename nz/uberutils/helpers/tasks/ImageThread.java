@@ -33,6 +33,7 @@ public class ImageThread extends LoopTask implements MessageListener
         ImageThread.levelup = levelup;
         ImageThread.name = name;
         ImageThread.onFinish = onFinish;
+        firstRun = true;
     }
 
     public ImageThread(String name) {

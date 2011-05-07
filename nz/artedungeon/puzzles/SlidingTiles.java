@@ -3,12 +3,10 @@ package nz.artedungeon.puzzles;
 import com.rsbuddy.script.methods.Npcs;
 import com.rsbuddy.script.wrappers.Npc;
 import com.rsbuddy.script.wrappers.Tile;
-import nz.artedungeon.common.Plugin;
 import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.dungeon.MyPlayer;
-import nz.artedungeon.dungeon.rooms.Puzzle;
-import nz.artedungeon.dungeon.rooms.Room;
-import nz.uberutils.helpers.Utils;
+import nz.artedungeon.misc.GameConstants;
+import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyNpcs;
 import nz.uberutils.methods.MyObjects;
 
@@ -43,12 +41,8 @@ public class SlidingTiles extends PuzzlePlugin
 
     @Override
     public boolean isValid() {
-        if (MyPlayer.currentRoom() != null && MyPlayer.currentRoom().contains(MyPlayer.location())) {
-            if (MyPlayer.currentRoom().getType() == Room.Type.PUZZLE)
-                return ((Puzzle) MyPlayer.currentRoom()).isSolved();
-        }
-        if (Npcs.getNearest(TILE_1) != null)
-            return Utils.canReach(Npcs.getNearest(TILE_1).getLocation());
+        if (Npcs.getNearest(GameConstants.SLIDERS) != null)
+            return Util.tileInRoom(Npcs.getNearest(GameConstants.SLIDERS).getLocation());
         return false;
     }
 

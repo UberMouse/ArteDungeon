@@ -6,6 +6,8 @@ import nz.artedungeon.common.Strategy;
 import nz.artedungeon.dungeon.Explore;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.doors.Door;
+import nz.artedungeon.dungeon.rooms.Room;
+import nz.artedungeon.utils.Pathfinding;
 import nz.uberutils.methods.MyMovement;
 
 public class TeleportHome extends Strategy
@@ -41,7 +43,21 @@ public class TeleportHome extends Strategy
 
 
     public boolean isValid() {        //TODO change so it only waits for combat if enemies in room
-        return MyPlayer.currentRoom().getNearestDoor() == null && getDoor() == null;
+        Pathfinding pf = new Pathfinding(parent);
+        Room[] pathToHome = pf.findPath(MyPlayer.currentRoom(), Explore.getStartRoom());
+        Room[] pathFromHome = null;
+        Room[] pathFromCur = null;
+        if (getDoor() != null) {
+            pathFromHome = pf.findPath(Explore.getStartRoom(), getDoor().getParent());
+            pathFromCur = pf.findPath(MyPlayer.currentRoom(), getDoor().getParent());
+        }
+        if (MyPlayer.currentRoom().getNearestDoor() != null)
+            return false;
+        if (pathToHome != null && pathToHome.length <= 3)
+            return false;
+        if (pathFromCur != null && pathFromHome != null && pathFromCur.length <= (pathFromHome.length + 1))
+            return true;
+        return false;
     }
 
 

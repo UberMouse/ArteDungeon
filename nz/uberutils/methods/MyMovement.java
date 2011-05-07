@@ -6,6 +6,8 @@ import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.GameObject;
 import com.rsbuddy.script.wrappers.Npc;
 import com.rsbuddy.script.wrappers.Tile;
+import nz.uberutils.helpers.MyPlayer;
+import nz.uberutils.helpers.Utils;
 
 
 // TODO: Auto-generated Javadoc
@@ -62,6 +64,21 @@ public class MyMovement
             t[i] = other[other.length - i - 1];
         }
         return t;
+    }
+
+    public static void walkTo(Tile tile) {
+        MyMovement.turnTo(tile);
+        if (!MyPlayer.isMoving() && Calculations.isTileOnScreen(tile))
+            if(tile.interact("Walk"))
+                Utils.waitToStop();
+    }
+
+    public static void walkTo(GameObject object) {
+        walkTo(object.getLocation());
+    }
+
+    public static void walkTo(Npc n) {
+        walkTo(n.getLocation());
     }
 
 }

@@ -50,7 +50,7 @@ public class Equipable
         PLATELEGS(Location.LEGS, ItemHandler.Style.MELEE, new int[]{Skills.DEFENSE}, false, Type.ARMOUR),
         PLATESKIRT(Location.LEGS, ItemHandler.Style.MELEE, new int[]{Skills.DEFENSE}, false, Type.ARMOUR),
         CHAPS(Location.LEGS, ItemHandler.Style.RANGED, new int[]{Skills.DEFENSE, Skills.RANGE}, false, Type.ARMOUR),
-        BOTTOM(Location.LEGS,
+        ROBE_BOTTOM(Location.LEGS,
                     ItemHandler.Style.MAGIC,
                     new int[]{Skills.DEFENSE, Skills.MAGIC},
                     false,
@@ -66,7 +66,7 @@ public class Equipable
         PLATEBODY(Location.CHEST, ItemHandler.Style.MELEE, new int[]{Skills.DEFENSE}, false, Type.ARMOUR),
         CHAINBODY(Location.CHEST, ItemHandler.Style.MELEE, new int[]{Skills.DEFENSE}, false, Type.ARMOUR),
         BODY(Location.CHEST, ItemHandler.Style.RANGED, new int[]{Skills.DEFENSE, Skills.RANGE}, false, Type.ARMOUR),
-        TOP(Location.CHEST, ItemHandler.Style.MAGIC, new int[]{Skills.DEFENSE, Skills.MAGIC}, false, Type.ARMOUR),
+        ROBE_TOP(Location.CHEST, ItemHandler.Style.MAGIC, new int[]{Skills.DEFENSE, Skills.MAGIC}, false, Type.ARMOUR),
         FULL_HELM(Location.HELM, ItemHandler.Style.MELEE, new int[]{Skills.DEFENSE}, false, Type.ARMOUR),
         COIF(Location.HELM, ItemHandler.Style.RANGED, new int[]{Skills.DEFENSE, Skills.RANGE}, false, Type.ARMOUR),
         HOOD(Location.HELM, ItemHandler.Style.MAGIC, new int[]{Skills.DEFENSE, Skills.MAGIC}, false, Type.ARMOUR),
@@ -222,7 +222,6 @@ public class Equipable
     }
 
     public boolean isBound() {
-
         return name.contains("(b)");
     }
 }

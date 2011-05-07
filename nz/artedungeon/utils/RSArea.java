@@ -4,8 +4,6 @@ import com.rsbuddy.script.methods.Game;
 import com.rsbuddy.script.methods.Walking;
 import com.rsbuddy.script.wrappers.Area;
 import com.rsbuddy.script.wrappers.Tile;
-import nz.artedungeon.DungeonMain;
-import nz.artedungeon.common.RSBuddyCommon;
 
 import java.util.ArrayList;
 
@@ -18,10 +16,9 @@ public class RSArea extends Area
     /**
      * Instantiates a new nz.artedungeon.utils.RSArea
      *
-     * @param tiles  the tiles that form the area
-     * @param parent instance of main script
+     * @param tiles the tiles that form the area
      */
-    public RSArea(Tile[] tiles, DungeonMain parent) {
+    public RSArea(Tile[] tiles) {
         super(tiles);
         this.tiles = tiles;
     }
@@ -34,7 +31,7 @@ public class RSArea extends Area
      * @return true, if successful
      */
     public boolean contains(int x, int y) {
-        return this.contains(new Tile(x, y));
+        return contains(new Tile(x, y));
     }
 
     /**
@@ -44,7 +41,7 @@ public class RSArea extends Area
      * @return true, if successful
      */
     public boolean contains(Tile... tiles) {
-        Tile[] areaTiles = this.getTileArray();
+        Tile[] areaTiles = getRect().getTileArray();
         for (Tile check : tiles) {
             for (Tile space : areaTiles) {
                 if (check.equals(space)) {
@@ -61,7 +58,7 @@ public class RSArea extends Area
      * @return the tile array
      */
     public Tile[] getTileArray() {
-        return tiles;
+        return getRect().getTileArray();
     }
 
     /**
@@ -73,12 +70,11 @@ public class RSArea extends Area
         if (tiles.length < 1)
             return null;
         int totalX = 0, totalY = 0;
-        for (Tile tile : tiles) {
+        for (Tile tile : getRect().getTileArray()) {
             totalX += tile.getX();
             totalY += tile.getY();
         }
-        return new Tile(Math.round(totalX / tiles.length),
-                        Math.round(totalY / tiles.length));
+        return new Tile(Math.round(totalX / tiles.length), Math.round(totalY / tiles.length));
     }
 
     private static final int WALL = 0x200000;

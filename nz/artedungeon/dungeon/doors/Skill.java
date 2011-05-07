@@ -38,10 +38,6 @@ public class Skill extends Door implements MessageListener
     public boolean canOpen() {
         if (open && connector > -1)
             return false;
-        else if (open && connector == -1)
-            open = false;
-        else if (!open && connector > -1)
-            connector = -1;
         return !open &&
                canOpen &&
                !(Util.arrayContains(GameConstants.DARK_SPIRIT, id) && !Options.getBoolean("prayDoors"));
@@ -57,8 +53,10 @@ public class Skill extends Door implements MessageListener
         while (Calculations.distanceTo(location) > 4 && MyPlayer.currentRoom().getItem() == null && ++timeout <= 15)
             sleep(100);
         GameObject object = MyObjects.getTopAt(location, id);
-        if (object == null)
-            object = MyObjects.getTopAt(location, id + 3);
+        if (object == null) {
+            Util.debug(id + 3);
+            object = Objects.getNearest(id + 3);
+        }
         if (object != null && object.interact(getAction(object))) {
             timeout = 0;
             while (Objects.getNearest(id) != null && ++timeout <= 15)

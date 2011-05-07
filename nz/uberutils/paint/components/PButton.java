@@ -24,6 +24,11 @@ public class PButton extends PComponent
     protected String curText;
     protected int startIndex;
 
+    protected PButton() {
+        super();
+        flipText = null;
+    }
+
     public PButton(int x, int y, String text, String[] flipText) {
         super();
         this.x = x;
@@ -58,9 +63,9 @@ public class PButton extends PComponent
         if (hoverArea == null) {
             Rectangle2D bounds = g.getFontMetrics().getStringBounds(text, g);
             hoverArea = new Rectangle(x,
-                                        y - (int) bounds.getHeight(),
-                                        (int) bounds.getWidth(),
-                                        (int) bounds.getHeight());
+                                      y - (int) bounds.getHeight(),
+                                      (int) bounds.getWidth(),
+                                      (int) bounds.getHeight());
         }
         g.drawString(text, x, y);
     }

@@ -11,8 +11,10 @@ import nz.uberutils.methods.MyInventory;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -23,6 +25,18 @@ public class Utils
 {
     private static final int WALL = 0x200000;
     private static final Logger log = Logger.getAnonymousLogger();
+
+    /**
+     * Finds if the current world is a members world or not.
+     *
+     * @return <tt>true</tt> if the current world is a members world.
+     * @author UberMouse
+     */
+    public static boolean isWorldMembers() {
+        int world = Integer.valueOf(Widgets.get(550).getComponent(20).getText().replaceAll("[^0-9]", ""));
+        Worlds.World w = Worlds.lookup(world);
+        return w.isMember();
+    }
 
     /**
      * Check if array contains String(s) check.
@@ -409,51 +423,29 @@ public class Utils
      * @param text the text
      */
     public static void debug(Object text) {
-        if (true) {
-            String className = getCurClassName().getName();
-            if (className.contains("$"))
-                className = className.split("\\$")[1];
-            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-            StackTraceElement stacktrace = stackTraceElements[2];
-            String methodName = stacktrace.getMethodName();
-            int lineNumber = stacktrace.getLineNumber();
-            log.info("[" +
-                     stackTraceElements[3].getClassName() +
-                     "#" +
-                     stackTraceElements[3].getMethodName() +
-                     ":" +
-                     stackTraceElements[3].getLineNumber() +
-                     "] -> [" +
-                     className +
-                     "." +
-                     methodName +
-                     ":" +
-                     lineNumber +
-                     "] -> " +
-                     text);
-        }
-    }
-
-    /**
-     * Gets the current class name.
-     *
-     * @return the currrent class name
-     */
-    public static Class getCurClassName() {
-        return (new CurClassNameGetter()).getClass();
-    }
-
-    private static class CurClassNameGetter extends SecurityManager
-    {
-
-        /**
-         * Gets the class name.
-         *
-         * @return the class name
-         */
-        public String getClassName() {
-            return getClassContext()[3].getName();
-        }
+            if (true) {
+                String className = Thread.currentThread().getStackTrace()[2].getClassName();
+                if (className.contains("$"))
+                    className = className.split("\\$")[1];
+                StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+                StackTraceElement stacktrace = stackTraceElements[2];
+                String methodName = stacktrace.getMethodName();
+                int lineNumber = stacktrace.getLineNumber();
+                log.info("[" +
+                         stackTraceElements[3].getClassName() +
+                         "#" +
+                         stackTraceElements[3].getMethodName() +
+                         ":" +
+                         stackTraceElements[3].getLineNumber() +
+                         "] -> [" +
+                         className +
+                         "#" +
+                         methodName +
+                         ":" +
+                         lineNumber +
+                         "] -> " +
+                         text);
+            }
     }
 
     public static int random(int min, int max) {
