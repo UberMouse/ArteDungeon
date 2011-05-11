@@ -5,8 +5,10 @@ import com.rsbuddy.script.methods.GroundItems;
 import com.rsbuddy.script.methods.Inventory;
 import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.wrappers.GroundItem;
+import com.rsbuddy.script.wrappers.Item;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.uberutils.helpers.tasks.PriceThread;
+import nz.uberutils.methods.MyInventory;
 import nz.uberutils.methods.MyMovement;
 
 import java.awt.*;
@@ -41,8 +43,18 @@ public class Loot
         for (GroundItem g : GroundItems.getLoaded(filter))
             if (g.getItem().getDefinition().getStackType() == 1)
                 stackable = true;
-        if (Inventory.isFull() && !stackable)
+        int count = 0;
+        try {
+            for (Item i : MyInventory.getItems())
+                if (MyPlayer.isEdible(i))
+                    count++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (Inventory.isFull() && !stackable && count <= 5)
             return;
+        if (count > 5)
+            MyPlayer.eat();
         String name = loot.getItem().getName();
         int id = loot.getItem().getId();
         MyMovement.turnTo(loot.getLocation());
@@ -58,8 +70,8 @@ public class Loot
             if (PriceThread.priceForId(id) > 0)
                 add = PriceThread.priceForId(id) * loot.getItem().getStackSize();
             totalPrice += add;
-            int count = Inventory.getCount();
-            for (int i = 0; i < 15 && count == Inventory.getCount(); i++)
+            int iCount = Inventory.getCount();
+            for (int i = 0; i < 15 && iCount == Inventory.getCount(); i++)
                 Utils.sleep(100);
         }
     }
@@ -165,5 +177,21 @@ public class Loot
 
     public static void setFilter(Filter<GroundItem> filter) {
         Loot.filter = filter;
+    }
+
+    public static boolean shouldLoot() {
+        boolean stackable = false;
+        for (GroundItem g : GroundItems.getLoaded(filter))
+            if (g.getItem().getDefinition().getStackType() == 1 && MyInventory.contains(g.getItem().getName()))
+                stackable = true;
+        int count = 0;
+        try {
+            for (Item i : MyInventory.getItems())
+                if (MyPlayer.isEdible(i))
+                    count++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return GroundItems.getNearest(filter) != null && (!Inventory.isFull() || stackable || count > 5);
     }
 }

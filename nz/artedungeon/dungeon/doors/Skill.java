@@ -5,11 +5,13 @@ import com.rsbuddy.event.listeners.MessageListener;
 import com.rsbuddy.script.methods.Calculations;
 import com.rsbuddy.script.methods.Objects;
 import com.rsbuddy.script.wrappers.GameObject;
+import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Options;
+import nz.uberutils.helpers.Utils;
 import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyObjects;
 
@@ -23,6 +25,7 @@ import nz.uberutils.methods.MyObjects;
 public class Skill extends Door implements MessageListener
 {
     private boolean canOpen = true;
+    private Tile backingDoor;
 
     /**
      * Instantiates a new door.
@@ -32,6 +35,10 @@ public class Skill extends Door implements MessageListener
      */
     public Skill(GameObject door, DungeonMain parent) {
         super(door, SKILL, parent);
+        for (Tile t : Utils.getSurroundingTiles(door.getLocation())) {
+            if (Objects.getTopAt(t, Objects.TYPE_INTERACTIVE) != null)
+                backingDoor = t;
+        }
     }
 
     @Override
@@ -54,8 +61,7 @@ public class Skill extends Door implements MessageListener
             sleep(100);
         GameObject object = MyObjects.getTopAt(location, id);
         if (object == null) {
-            Util.debug(id + 3);
-            object = Objects.getNearest(id + 3);
+            object = Objects.getTopAt(backingDoor, Objects.TYPE_INTERACTIVE);
         }
         if (object != null && object.interact(getAction(object))) {
             timeout = 0;

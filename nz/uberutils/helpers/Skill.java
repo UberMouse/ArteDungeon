@@ -1,6 +1,7 @@
 package nz.uberutils.helpers;
 
 import com.rsbuddy.script.methods.Skills;
+import nz.uberutils.methods.MySkills;
 
 import java.awt.*;
 
@@ -11,8 +12,7 @@ import java.awt.*;
  * Time: 2:19 PM
  * Package: nz.artedungeon.utils;
  */
-public class Skill
-{
+public class Skill {
     private final long startime;
     private final int startxp;
     private final int startLevel;
@@ -57,7 +57,7 @@ public class Skill
     public Skill(int skillInt) {
         startime = System.currentTimeMillis();
         startxp = Skills.getCurrentExp(skillInt);
-        startLevel = Skills.getRealLevel(skillInt);
+        startLevel = MySkills.getRealLevel(skillInt);
         skillint = skillInt;
         lastxp = startxp;
         lastLevel = startLevel;
@@ -69,15 +69,15 @@ public class Skill
     }
 
     public int levelsGained() {
-        return Skills.getRealLevel(skillint) - startLevel;
+        return curLevel() - startLevel;
     }
 
     public int xpTL() {
-        return Skills.getExpToNextLevel(skillint);
+        return MySkills.getExpToNextLevel(skillint);
     }
 
     public int percentTL() {
-        return Skills.getPercentToNextLevel(skillint);
+        return MySkills.getPercentToNextLevel(skillint);
     }
 
     public int xpPH() {
@@ -85,7 +85,7 @@ public class Skill
     }
 
     public int curLevel() {
-        return Skills.getRealLevel(skillint);
+        return MySkills.getRealLevel(skillint);
     }
 
     public int curXP() {
@@ -108,15 +108,15 @@ public class Skill
 
     public void drawSkill(Graphics2D g, int x, int y) {
         g.drawString(name +
-                     ": Gained " +
-                     xpGained() +
-                     " P/H " +
-                     xpPH() +
-                     " | TTL: " + timeToLevel() + " | Level " +
-                     curLevel() +
-                     " (" +
-                     levelsGained() +
-                     ")", x, y);
+                ": Gained " +
+                xpGained() +
+                " P/H " +
+                xpPH() +
+                " | TTL: " + timeToLevel() + " | Level " +
+                curLevel() +
+                " (" +
+                levelsGained() +
+                ")", x, y);
     }
 
     private String getTime(long millis) {
@@ -135,8 +135,7 @@ public class Skill
                 hours = "0" + hours;
             }
         }
-        String returnThis = hours + ":" + minutes + ":" + seconds;
-        return returnThis;
+        return hours + ":" + minutes + ":" + seconds;
     }
 
     public int getXpMinusLast() {

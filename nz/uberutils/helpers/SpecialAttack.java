@@ -5,6 +5,8 @@ import com.rsbuddy.script.methods.Game;
 import com.rsbuddy.script.methods.Settings;
 import com.rsbuddy.script.methods.Widgets;
 import com.rsbuddy.script.util.Timer;
+import com.rsbuddy.script.wrappers.Item;
+import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyInventory;
 
 /**
@@ -121,9 +123,9 @@ public class SpecialAttack
     }
 
     public static void setSpecValues(String weapon) {
-        for(int i = 0;i < weapons.length;i++) {
-            for(int j = 0;j < weapons[i].length;j++) {
-                if(weapons[i][j].equalsIgnoreCase(weapon)) {
+        for (int i = 0; i < weapons.length; i++) {
+            for (int j = 0; j < weapons[i].length; j++) {
+                if (weapons[i][j].equalsIgnoreCase(weapon)) {
                     specAt = amountUsage[i];
                     specEnergy = amountUsage[i];
                 }
@@ -132,13 +134,15 @@ public class SpecialAttack
     }
 
     public static void doSpecial() {
+        Utils.debug(primaryWeapon);
+        Utils.debug(specAt);
         if (useSecondaryWeapon && MyInventory.contains(specialWeapon)) {
             Game.openTab(Game.TAB_INVENTORY);
             MyInventory.getItem(specialWeapon).interact("wield");
         }
         else if (getSpecialEnergy() >= specEnergy && !Combat.isSpecialEnabled()) {
             Timer fail = new Timer(4000);
-            while (getSpecialEnergy() >= specEnergy && MyPlayer.inCombat() && fail.isRunning()) {
+            while (getSpecialEnergy() >= specEnergy && fail.isRunning()) {
                 Game.openTab(Game.TAB_ATTACK);
                 if (!Combat.isSpecialEnabled()) {
                     Widgets.getComponent(884, 4).click();
@@ -146,6 +150,8 @@ public class SpecialAttack
                         Utils.sleep(100);
                 }
                 Utils.sleep(100);
+                if (!MyPlayer.inCombat())
+                    break;
             }
         }
         else if (useSecondaryWeapon && MyInventory.contains(primaryWeapon)) {
@@ -161,5 +167,46 @@ public class SpecialAttack
      */
     public static int getSpecialEnergy() {
         return Settings.get(SETTING_SPECIAL_ENERGY) / 10;
+    }
+
+    /**
+     * Call to have the SpecialAttack class automatically setup up the special attack values and weapons
+     */
+    public static void setUpWeapons() {
+        String prim;
+        SpecialAttack.setSpecAt(101);
+        SpecialAttack.setSpecEnergy(100);
+        Game.openTab(Game.TAB_EQUIPMENT);
+        if (MyEquipment.getItem(MyEquipment.WEAPON).getId() > -1) {
+            prim = MyEquipment.getItem(MyEquipment.WEAPON).getName();
+            primaryWeapon = prim;
+            String name = prim;
+            if (name.contains(">"))
+                name = name.split(">")[1];
+            for (int i = 0; i < weapons.length; i++) {
+                for (int j = 0; j < weapons[i].length; j++) {
+                    if (weapons[i][j].equalsIgnoreCase(name)) {
+                        specAt = amountUsage[i];
+                        specEnergy = amountUsage[i];
+                    }
+                }
+            }
+        }
+        Game.openTab(Game.TAB_INVENTORY);
+        for (Item item : MyInventory.getItems()) {
+            String name = item.getName();
+            if (name.contains(">"))
+                name = name.split(">")[1];
+            for (int i = 0; i < weapons.length; i++) {
+                for (int j = 0; j < weapons[i].length; j++) {
+                    if (weapons[i][j].equalsIgnoreCase(name)) {
+                        specialWeapon = item.getName();
+                        specAt = amountUsage[i];
+                        specEnergy = amountUsage[i];
+                        useSecondaryWeapon = true;
+                    }
+                }
+            }
+        }
     }
 }

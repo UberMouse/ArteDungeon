@@ -233,14 +233,16 @@ public class MyPlayer
     public static Item edibleItem() {
         Item[] is = MyInventory.getItems(true);
         for (Item i : is) {
-            if (i.getComponent().getActions() == null || i.getComponent().getActions()[0] == null) {
-                continue;
-            }
-            if (i.getComponent().getActions()[0].contains("Eat")) {
+            if (isEdible(i))
                 return i;
-            }
         }
         return null;
+    }
+
+    public static boolean isEdible(Item item) {
+        if (item.getComponent().getActions() == null || item.getComponent().getActions()[0] == null)
+            return false;
+        return item.getComponent().getActions()[0].contains("Eat");
     }
 
     /**

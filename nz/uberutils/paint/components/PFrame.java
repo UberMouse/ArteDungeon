@@ -22,9 +22,15 @@ public class PFrame extends PComponent
     private boolean shouldHandleMouse = true;
     private boolean shouldHandleKeys = true;
     private final String name;
+    private Font font;
 
     public PFrame(String name) {
+        this(name, null);
+    }
+
+    public PFrame(String name, Font font) {
         this.name = name;
+        this.font = font;
     }
 
     public void addComponent(PComponent component) {
@@ -84,12 +90,14 @@ public class PFrame extends PComponent
 
     public void repaint(Graphics2D g) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldDraw) {
                 if (comp.shouldPaint()) {
                     Font oldFont = g.getFont();
                     Color oldColor = g.getColor();
+                    if (font != null)
+                        g.setFont(font);
                     comp.repaint(g);
                     g.setFont(oldFont);
                     g.setColor(oldColor);
@@ -101,7 +109,9 @@ public class PFrame extends PComponent
                         if (component.forcePaint()) {
                             Font oldFont = g.getFont();
                             Color oldColor = g.getColor();
-                            component.repaint( g);
+                            if (font != null)
+                                g.setFont(font);
+                            component.repaint(g);
                             g.setFont(oldFont);
                             g.setColor(oldColor);
                         }
@@ -109,6 +119,8 @@ public class PFrame extends PComponent
                 else if (comp.forcePaint()) {
                     Font oldFont = g.getFont();
                     Color oldColor = g.getColor();
+                    if (font != null)
+                        g.setFont(font);
                     comp.repaint(g);
                     g.setFont(oldFont);
                     g.setColor(oldColor);
@@ -119,7 +131,7 @@ public class PFrame extends PComponent
 
     public void keyTyped(KeyEvent keyEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleKeys) {
                 if (comp.shouldHandleKeys())
@@ -139,7 +151,7 @@ public class PFrame extends PComponent
 
     public void keyPressed(KeyEvent keyEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleKeys) {
                 if (comp.shouldHandleKeys())
@@ -159,7 +171,7 @@ public class PFrame extends PComponent
 
     public void keyReleased(KeyEvent keyEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleKeys) {
                 if (comp.shouldHandleKeys())
@@ -179,7 +191,7 @@ public class PFrame extends PComponent
 
     public void mouseClicked(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
@@ -199,7 +211,7 @@ public class PFrame extends PComponent
 
     public void mousePressed(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
@@ -219,7 +231,7 @@ public class PFrame extends PComponent
 
     public void mouseReleased(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
@@ -239,7 +251,7 @@ public class PFrame extends PComponent
 
     public void mouseEntered(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
@@ -259,7 +271,7 @@ public class PFrame extends PComponent
 
     public void mouseExited(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
@@ -279,7 +291,7 @@ public class PFrame extends PComponent
 
     public void mouseDragged(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())
@@ -299,7 +311,7 @@ public class PFrame extends PComponent
 
     public void mouseMoved(MouseEvent mouseEvent) {
         Iterator<PComponent> it = components.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             PComponent comp = it.next();
             if (shouldHandleMouse) {
                 if (comp.shouldHandleMouse())

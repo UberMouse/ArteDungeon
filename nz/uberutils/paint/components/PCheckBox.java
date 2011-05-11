@@ -30,7 +30,7 @@ public class PCheckBox extends PComponent
     private Rectangle2D hoverArea = null;
     private int seperator;
 
-    public PCheckBox(int x, int y, String text, boolean state) {
+    public PCheckBox(int x, int y, String text, boolean state, int seperator) {
         super();
         this.x = x;
         this.y = y;
@@ -39,19 +39,23 @@ public class PCheckBox extends PComponent
         width = 12;
         height = 12;
         curCol = state ? ON : OFF;
-        seperator = 5;
+        this.seperator = seperator;
+    }
+
+    public PCheckBox(int x, int y, String text, boolean state) {
+        this(x, y, text, state, 3);
     }
 
     public PCheckBox(int x, int y, String text) {
-        this(x, y, text, false);
+        this(x, y, text, false, 3);
     }
 
     public PCheckBox(int x, int y, boolean state) {
-        this(x, y, "", state);
+        this(x, y, "", state, 3);
     }
 
     public PCheckBox(int x, int y) {
-        this(x, y, "", false);
+        this(x, y, "", false, 3);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class PCheckBox extends PComponent
             g.drawString(text, x, y);
             Rectangle2D bounds = g.getFontMetrics().getStringBounds(text, g);
             tmpx += seperator + bounds.getWidth();
-            tmpy -= bounds.getHeight() / 2;
+            tmpy -= bounds.getHeight() / 1.4;
         }
         if (hoverArea == null) {
             Rectangle2D bounds = g.getFontMetrics().getStringBounds(text, g);
@@ -70,7 +74,7 @@ public class PCheckBox extends PComponent
             hoverArea = new Rectangle(x, tmpy - 2, (int) bounds.getWidth() + (seperator + width) + 2, height);
         }
         g.setColor(Color.WHITE);
-        g.drawRect(tmpx - 1, tmpy - 1, height + 2, width + 2);
+        g.drawRect(tmpx - 1, tmpy - 1, height + 1, width + 1);
         g.setColor(curCol);
         g.fillRect(tmpx, tmpy, height, width);
     }

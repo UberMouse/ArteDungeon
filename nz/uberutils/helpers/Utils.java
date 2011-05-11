@@ -7,14 +7,13 @@ import com.rsbuddy.script.wrappers.*;
 import com.rsbuddy.script.wrappers.Component;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyInventory;
+import nz.uberutils.wrappers.LootItem;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -93,6 +92,44 @@ public class Utils
         for (int i : array) {
             for (int l : check) {
                 if (i == l)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if array of LootItems contains id(s) check.
+     *
+     * @param array the array
+     * @param check the check
+     * @return true, if successful
+     */
+    public static boolean arrayContains(LootItem[] array, int... check) {
+        if (array == null || check == null || array.length < 1)
+            return false;
+        for (LootItem i : array) {
+            for (int l : check) {
+                if (i.getId() == l)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if array of LootItems contains names(s) check.
+     *
+     * @param array the array
+     * @param check the check
+     * @return true, if successful
+     */
+    public static boolean arrayContains(LootItem[] array, String... check) {
+        if (array == null || check == null || array.length < 1)
+            return false;
+        for (LootItem i : array) {
+            for (String l : check) {
+                if (i.getName().equals(l))
                     return true;
             }
         }
@@ -423,29 +460,29 @@ public class Utils
      * @param text the text
      */
     public static void debug(Object text) {
-            if (true) {
-                String className = Thread.currentThread().getStackTrace()[2].getClassName();
-                if (className.contains("$"))
-                    className = className.split("\\$")[1];
-                StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-                StackTraceElement stacktrace = stackTraceElements[2];
-                String methodName = stacktrace.getMethodName();
-                int lineNumber = stacktrace.getLineNumber();
-                log.info("[" +
-                         stackTraceElements[3].getClassName() +
-                         "#" +
-                         stackTraceElements[3].getMethodName() +
-                         ":" +
-                         stackTraceElements[3].getLineNumber() +
-                         "] -> [" +
-                         className +
-                         "#" +
-                         methodName +
-                         ":" +
-                         lineNumber +
-                         "] -> " +
-                         text);
-            }
+        if (true) {
+            String className = Thread.currentThread().getStackTrace()[2].getClassName();
+            if (className.contains("$"))
+                className = className.split("\\$")[1];
+            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+            StackTraceElement stacktrace = stackTraceElements[2];
+            String methodName = stacktrace.getMethodName();
+            int lineNumber = stacktrace.getLineNumber();
+            log.info("[" +
+                     stackTraceElements[3].getClassName() +
+                     "#" +
+                     stackTraceElements[3].getMethodName() +
+                     ":" +
+                     stackTraceElements[3].getLineNumber() +
+                     "] -> [" +
+                     className +
+                     "#" +
+                     methodName +
+                     ":" +
+                     lineNumber +
+                     "] -> " +
+                     text);
+        }
     }
 
     public static int random(int min, int max) {
