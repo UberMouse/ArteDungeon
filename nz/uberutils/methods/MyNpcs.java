@@ -22,4 +22,19 @@ public class MyNpcs extends Npcs
             }
         });
     }
+
+    /**
+     * Gets nearest Npc to Player in Room
+     *
+     * @param name the name of the <tt>Npc</tt> to search for
+     * @return <tt>Npc</tt>, if one is found, else <tt>null</tt>
+     */
+    public static Npc getNearestNpc(final String name) {
+        return Npcs.getNearest(new Filter<Npc>()
+        {
+            public boolean accept(Npc Npc) {
+                return Npc != null && Npc.getName().toLowerCase().matches(name.toLowerCase()) && Npc.getHpPercent() > 0;
+            }
+        });
+    }
 }

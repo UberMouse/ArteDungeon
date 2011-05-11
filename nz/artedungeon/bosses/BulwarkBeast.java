@@ -17,6 +17,7 @@ import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyInventory;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,7 +54,8 @@ public class BulwarkBeast extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc(".*wark beast") != null;
+        return MyNpcs.getNearestNpc(".*wark beast") != null &&
+               Util.tileInRoom(MyNpcs.getNearestNpc(".*wark beast").getLocation());
     }
 
     @Override

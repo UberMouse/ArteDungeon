@@ -18,6 +18,7 @@ import nz.artedungeon.utils.MyCombat;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyCamera;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 import nz.uberutils.methods.MyPrayer;
 
 /**
@@ -51,7 +52,8 @@ public class SkeletalHorde extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc(".*skinweaver.*") != null && !talkedToSkinWeaver;
+        return MyNpcs.getNearestNpc(".*skinweaver*") != null &&
+               Util.tileInRoom(MyNpcs.getNearestNpc(".*skinweaver*").getLocation()) && !talkedToSkinWeaver;
     }
 
     @Override

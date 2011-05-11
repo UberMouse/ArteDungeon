@@ -25,7 +25,9 @@ public class Default extends Plugin
         return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc Npc) {
-                return Explore.getBossRoom().contains(Npc);
+                if (Explore.getBossRoom() != null)
+                    return Explore.getBossRoom().contains(Npc);
+                return false;
             }
         }) != null && Objects.getNearest(GameConstants.FINISHEDLADDERS) == null;
     }
