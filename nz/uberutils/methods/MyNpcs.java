@@ -29,7 +29,7 @@ public class MyNpcs extends Npcs
      * @param name the name of the <tt>Npc</tt> to search for
      * @return <tt>Npc</tt>, if one is found, else <tt>null</tt>
      */
-    public static Npc getNearestNpc(final String name) {
+    public static Npc getNearest(final String name) {
         return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc Npc) {

@@ -20,6 +20,7 @@ import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.FloodFill;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.Util;
+import nz.uberutils.helpers.Utils;
 
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
@@ -95,8 +96,9 @@ public class Explore extends RSBuddyCommon
         MyPlayer.setCurArea(roomArea);
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
             for (Plugin p : parent.getBosses()) {
+                Utils.debug(p.getClass().getSimpleName() + " is not valid");
                 if (p.isValid()) {
-
+                    Utils.debug(p.getClass().getSimpleName() + " is valid");
                     Plugin boss = null;
                     try {
                         Constructor ctor = p.getClass().getDeclaredConstructor();
@@ -110,6 +112,7 @@ public class Explore extends RSBuddyCommon
                     return room;
                 }
             }
+            Utils.debug("No boss class found, adding default one");
             Boss room = new Boss(roomArea, newDoors(roomArea), new Default(), parent);
             rooms.add(room);
             return room;

@@ -24,11 +24,11 @@ import java.util.ArrayList;
  */
 public class MyCombat extends RSBuddyCommon
 {
-    public static final int PARENT_IFACE = 884;
-    public static final int STYLE_ONE_IFACE = 11;
-    public static final int STYLE_TWO_IFACE = 12;
+    public static final int PARENT_IFACE      = 884;
+    public static final int STYLE_ONE_IFACE   = 11;
+    public static final int STYLE_TWO_IFACE   = 12;
     public static final int STYLE_THREE_IFACE = 13;
-    public static final int STYLE_FOUR_IFACE = 14;
+    public static final int STYLE_FOUR_IFACE  = 14;
 
     private static enum Weapons
     {
@@ -178,6 +178,8 @@ public class MyCombat extends RSBuddyCommon
     }
 
     public static boolean canUsePrayer(MyPrayer.Prayer prayer) {
+        if (prayer == null)
+            return false;
         return Skills.getCurrentLevel(Skills.PRAYER) >= prayer.getRequiredLevel();
     }
 

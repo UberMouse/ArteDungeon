@@ -54,7 +54,7 @@ public class BulwarkBeast extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyNpcs.getNearestNpc(".*wark beast") != null;
+        return MyNpcs.getNearest(".*wark beast") != null;
     }
 
     @Override

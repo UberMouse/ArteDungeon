@@ -52,7 +52,7 @@ public class SkeletalHorde extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyNpcs.getNearestNpc(".*skinweaver*") != null && !talkedToSkinWeaver;
+        return MyNpcs.getNearest(".*skinweaver*") != null && !talkedToSkinWeaver;
     }
 
     @Override

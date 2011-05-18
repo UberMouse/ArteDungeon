@@ -30,7 +30,7 @@ public class NightGazerKhighorahk extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyNpcs.getNearestNpc(".*Khighorahk.*") != null;
+        return MyNpcs.getNearest(".*Khighorahk.*") != null;
     }
 
     @Override

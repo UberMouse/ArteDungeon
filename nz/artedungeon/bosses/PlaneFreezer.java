@@ -27,7 +27,7 @@ public class PlaneFreezer extends Plugin
 {
     public boolean isValid() {
         try {
-            return MyNpcs.getNearestNpc(".*lakhr.*") != null ||
+            return MyNpcs.getNearest(".*lakhr.*") != null ||
                    (Objects.getNearest(GameConstants.LAKHRANZ_PILLERS) != null &&
                     Calculations.distanceTo(Util.getNearestNonWallTile(Objects.getNearest(GameConstants.FINISHEDLADDERS)
                                                                               .getLocation())) > 5);
