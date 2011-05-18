@@ -95,7 +95,7 @@ public class EnemyDef
         private int recomendedPray = -1;
         private double priorityMultiplier = 1;
 
-        Monsters(String[] weaknesses, int[] attackStyles) {
+        Monsters(final String[] weaknesses, final int[] attackStyles) {
             this.weaknesses = weaknesses;
             this.attackStyles = attackStyles;
         }

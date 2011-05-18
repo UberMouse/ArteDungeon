@@ -1,9 +1,6 @@
 package nz.artedungeon.bosses;
 
-import com.rsbuddy.script.methods.Calculations;
-import com.rsbuddy.script.methods.Camera;
-import com.rsbuddy.script.methods.Combat;
-import com.rsbuddy.script.methods.Objects;
+import com.rsbuddy.script.methods.*;
 import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.util.Random;
 import com.rsbuddy.script.wrappers.GameObject;
@@ -114,6 +111,8 @@ public class SkeletalHorde extends Plugin
             while (skinweaver.getMessage() == null && ++timeout <= 20)
                 sleep(100);
             if (skinweaver.getMessage() != null && skinweaver.getMessage().contains("little danger in"))
+                talkedToSkinWeaver = true;
+            else if(Widgets.getComponent(242, 0) != null)
                 talkedToSkinWeaver = true;
         }
     }

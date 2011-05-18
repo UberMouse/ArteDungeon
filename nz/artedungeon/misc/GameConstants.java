@@ -379,7 +379,7 @@ public interface GameConstants
     {
 
         public boolean accept(Npc npc) {
-            return npc != null && MyPlayer.currentRoom().contains(npc);
+            return npc != null && MyPlayer.currentRoom().contains(npc) && !npc.getName().contains("skinweaver");
         }
     };
 }

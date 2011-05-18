@@ -438,14 +438,14 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             if (Combat.isAutoRetaliateEnabled())
                 Combat.setAutoRetaliate(false);
             if (Explore.getBossRoom() != null) {
+                Boss room = (Boss) Explore.getBossRoom();
                 if (Explore.getBossRoom().contains(MyPlayer.location()) &&
                     MyPlayer.currentRoom().equals(Explore.getBossRoom()) &&
-                    Npcs.getNearest(GameConstants.INROOM_ENEMY_FILTER) != null) {
-                    status = ((Boss) Explore.getBossRoom()).status();
-                    return ((Boss) Explore.getBossRoom()).kill();
+                    room.getBoss().isValid()) {
+                    status = room.status();
+                    return room.kill();
                 }
             }
-
             //For testing bosses
             if (false) {
                 if (MyPlayer.currentRoom() != null) {
