@@ -109,11 +109,10 @@ public class Explore extends RSBuddyCommon
                     rooms.add(room);
                     return room;
                 }
-                Boss room = new Boss(roomArea, newDoors(roomArea), new Default(), parent);
-                rooms.add(room);
-                return room;
             }
-
+            Boss room = new Boss(roomArea, newDoors(roomArea), new Default(), parent);
+            rooms.add(room);
+            return room;
         }
         for (PuzzlePlugin p : parent.getPuzzles()) {
             if (p.isValid()) {
