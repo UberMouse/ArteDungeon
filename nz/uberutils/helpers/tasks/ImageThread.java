@@ -23,7 +23,7 @@ public class ImageThread extends LoopTask implements MessageListener
     private static boolean levelup;
     private static long startTime;
     private static String name;
-    private static int hour = 1;
+    private static int hour;
     private static boolean firstRun = true;
     private static boolean onFinish;
 
@@ -33,6 +33,7 @@ public class ImageThread extends LoopTask implements MessageListener
         ImageThread.levelup = levelup;
         ImageThread.name = name;
         ImageThread.onFinish = onFinish;
+        hour = 1;
         firstRun = true;
     }
 
@@ -42,7 +43,7 @@ public class ImageThread extends LoopTask implements MessageListener
 
     public boolean onStart() {
         try {
-            File f = new File(Environment.getStorageDirectory().getCanonicalPath() + "\\artebots\\");
+            File f = new File(Environment.getStorageDirectory().getCanonicalPath() + "\\artebots\\" + name + "\\");
             if (!f.exists())
                 f.mkdirs();
         } catch (IOException ignored) {
@@ -85,10 +86,12 @@ public class ImageThread extends LoopTask implements MessageListener
                             Environment.getStorageDirectory().getCanonicalPath() +
                             "\\artebots\\" +
                             ImageThread.name +
+                            "\\" +
+                            ImageThread.name +
                             "-" +
                             name +
                             "-" +
-                            String.valueOf(Utils.random(1, 9999)) +
+                            String.valueOf(Utils.random(1, 9999999)) +
                             ".png",
                             "png");
         } catch (IOException ignored) {

@@ -10,6 +10,7 @@ import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.utils.Util;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,28 +25,28 @@ public class NightGazerKhighorahk extends Plugin
 
     @Override
     public String getStatus() {
-        return null;
+        return "Killing Night Gazer Khigorahk";
     }
 
     @Override
     public boolean isValid() {
-        return false;
+        return MyNpcs.getNearestNpc(".*Khighorahk.*") != null;
     }
 
     @Override
     public String getAuthor() {
-        return null;
+        return "UberMouse";
     }
 
     @Override
     public String getName() {
-        return null;
+        return "Night Gazer Khigorahk";
     }
 
     @Override
     public int loop() {
         final Room cur = MyPlayer.currentRoom();
-        final Npc khighorahk = cur.getNearestNpc("Khighorahk");
+        final Npc khighorahk = cur.getNearestNpc(".*Khighorahk.*");
         if (khighorahk != null) {
             boolean specialActive = Util.arrayContains(SPECIAL_ANIMS, khighorahk.getAnimation());
             if (specialActive && Calculations.distanceTo(khighorahk.getLocation()) < 6) {

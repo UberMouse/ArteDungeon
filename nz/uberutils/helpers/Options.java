@@ -10,7 +10,7 @@ import java.util.prefs.Preferences;
  * User: Taylor
  * Date: 4/3/11
  * Time: 10:38 AM
- * Package: nz.artezombies.misc;
+ * Package: nz.artezombies.threads;
  */
 public class Options
 {

@@ -52,8 +52,7 @@ public class SkeletalHorde extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyNpcs.getNearestNpc(".*skinweaver*") != null &&
-               Util.tileInRoom(MyNpcs.getNearestNpc(".*skinweaver*").getLocation()) && !talkedToSkinWeaver;
+        return MyNpcs.getNearestNpc(".*skinweaver*") != null && !talkedToSkinWeaver;
     }
 
     @Override

@@ -14,6 +14,7 @@ import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.MyCombat;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +27,7 @@ public class PlaneFreezer extends Plugin
 {
     public boolean isValid() {
         try {
-            return Enemy.pickEnemy("lakhr") != null ||
+            return MyNpcs.getNearestNpc(".*lakhr.*") != null ||
                    (Objects.getNearest(GameConstants.LAKHRANZ_PILLERS) != null &&
                     Calculations.distanceTo(Util.getNearestNonWallTile(Objects.getNearest(GameConstants.FINISHEDLADDERS)
                                                                               .getLocation())) > 5);

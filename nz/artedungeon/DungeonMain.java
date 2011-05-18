@@ -30,19 +30,17 @@ import nz.artedungeon.misc.FailSafeThread;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.puzzles.*;
 import nz.artedungeon.strategies.*;
-import nz.artedungeon.utils.FloodFill;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.RoomUpdater;
 import nz.artedungeon.utils.Util;
+import nz.uberutils.arte.ArteNotifier;
 import nz.uberutils.helpers.Options;
-import nz.uberutils.helpers.PaintUtils;
 import nz.uberutils.helpers.Utils;
 import nz.uberutils.helpers.tasks.ImageThread;
 import nz.uberutils.paint.PaintController;
 import nz.uberutils.paint.components.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -69,9 +67,9 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                                                          MouseListener
 {
     // Arrays
-    private final LinkedList<Strategy> strategies = new LinkedList<Strategy>();
-    public static final LinkedList<Plugin> bosses = new LinkedList<Plugin>();
-    private final LinkedList<PuzzlePlugin> puzzles = new LinkedList<PuzzlePlugin>();
+    private final       LinkedList<Strategy>     strategies = new LinkedList<Strategy>();
+    public static final LinkedList<Plugin>       bosses     = new LinkedList<Plugin>();
+    private final       LinkedList<PuzzlePlugin> puzzles    = new LinkedList<PuzzlePlugin>();
 
     // Objects
 
@@ -92,28 +90,28 @@ public class DungeonMain extends ActiveScript implements PaintListener,
     private nz.uberutils.helpers.Skill magicSkill;
     private nz.uberutils.helpers.Skill dungSkill;
     private nz.uberutils.helpers.Skill conSkill;
-    public int dungeonsDone = 0;
+    public int dungeonsDone   = 0;
     public int prestiegeCount = 0;
-    private int lastDungeonsDone;
+    private int  lastDungeonsDone;
     private long startTime;
     private long lastTimeMillis;
-    private final Timer updateTimer = new Timer(300000);
-    public static int timesAborted = 0;
+    private final Timer updateTimer  = new Timer(300000);
+    public static int   timesAborted = 0;
 
     //General variables
-    private String status = "";
-    public int teleportFailSafe = 0;
-    private Point m = new Point(0, 0);
-    private Room currentRoom = new Normal(new RSArea(new Tile[]{}), new LinkedList<Door>(), this);
+    private String status           = "";
+    public  int    teleportFailSafe = 0;
+    private Point  m                = new Point(0, 0);
+    private Room   currentRoom      = new Normal(new RSArea(new Tile[]{}), new LinkedList<Door>(), this);
 
     //Paint images/vars
-    private Image pBackground = null;
-    private static final String PAINT_BASE = "http://uberdungeon.com/paintimages/";
-    private static final String STORAGE_BASE = Environment.getStorageDirectory() + "/uberdungeon/";
-    private static final ArrayList<PClickableURL> urls = new ArrayList<PClickableURL>();
-    public static int menuIndex = 0;
-    public static int subMenuIndex = 0;
-    private static final PFrame mainFrame = new PFrame("overview")
+    private              Image                    pBackground  = null;
+    private static final String                   PAINT_BASE   = "http://uberdungeon.com/paintimages/";
+    private static final String                   STORAGE_BASE = Environment.getStorageDirectory() + "/uberdungeon/";
+    private static final ArrayList<PClickableURL> urls         = new ArrayList<PClickableURL>();
+    public static        int                      menuIndex    = 0;
+    public static        int                      subMenuIndex = 0;
+    private static final PFrame                   mainFrame    = new PFrame("overview")
     {
         public boolean shouldPaint() {
             return DungeonMain.menuIndex == 0;
@@ -190,7 +188,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         getContainer().submit(new FailSafeThread());
         getContainer().submit(new RoomUpdater());
         getContainer().submit(new ImageThread("artedungeon"));
-        //getContainer().submit(new ArteNotifier(81, true));
+        getContainer().submit(new ArteNotifier(81, true));
         Mouse.setSpeed(1);
         startTime = System.currentTimeMillis();
         int offset = 0;
@@ -315,22 +313,23 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                 DungeonMain.showPaint = !showPaint;
             }
         });
-        try {
-            SwingUtilities.invokeAndWait(new Runnable()
-            {
-                public void run() {
-                    String complexity = JOptionPane.showInputDialog(null,
-                                                                    "Enter complexity level 1-4",
-                                                                    "Complexity",
-                                                                    JOptionPane.QUESTION_MESSAGE);
-                    try {
-                        MyPlayer.setComplexity(Integer.parseInt(complexity));
-                    } catch (NumberFormatException ignored) {
-                    }
-                }
-            });
-        } catch (Exception ignored) {
-        }
+        //        try {
+        //            SwingUtilities.invokeAndWait(new Runnable()
+        //            {
+        //                public void run() {
+        //                    String complexity = JOptionPane.showInputDialog(null,
+        //                                                                    "Enter complexity level 1-4",
+        //                                                                    "Complexity",
+        //                                                                    JOptionPane.QUESTION_MESSAGE);
+        //                    try {
+        //                        MyPlayer.setComplexity(Integer.parseInt(complexity));
+        //                    } catch (NumberFormatException ignored) {
+        //                    }
+        //                }
+        //            });
+        //        } catch (Exception ignored) {
+        //        }
+        MyPlayer.setComplexity(3);
         loadPlugins();
         return true;
     }
@@ -356,8 +355,8 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         strategies.add(new EquipItems(this));
         strategies.add(new WalkToBoss(this));
         strategies.add(new OpenDoor(this));
-        strategies.add(new TeleportHome(this));
         strategies.add(new WalkToRoom(this));
+        strategies.add(new TeleportHome(this));
         bosses.add(new AsteaFrostweb());
         bosses.add(new BloodChiller());
         bosses.add(new GluttonousBehemoth());
@@ -440,10 +439,13 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                 Combat.setAutoRetaliate(false);
             if (Explore.getBossRoom() != null) {
                 if (Explore.getBossRoom().contains(MyPlayer.location()) &&
-                    MyPlayer.currentRoom().equals(Explore.getBossRoom())) {
+                    MyPlayer.currentRoom().equals(Explore.getBossRoom()) &&
+                    Npcs.getNearest(GameConstants.INROOM_ENEMY_FILTER) != null) {
+                    status = ((Boss) Explore.getBossRoom()).status();
                     return ((Boss) Explore.getBossRoom()).kill();
                 }
             }
+
             //For testing bosses
             if (false) {
                 if (MyPlayer.currentRoom() != null) {
@@ -480,7 +482,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             for (Strategy strategy : strategies) {
                 if (strategy.isValid()) {
                     status = strategy.getStatus();
-                    if (status.length() < 1)
+                    if (status == null || status.length() < 1)
                         status = "Switching strategy";
                     return strategy.execute();
                 }

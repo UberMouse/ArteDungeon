@@ -23,7 +23,7 @@ public class LeaveDungeon extends Strategy
     }
 
     public int execute() {
-        if (parent.teleportFailSafe < 3) {
+        if (parent.teleportFailSafe < GameConstants.TELEPORT_FAILSAFE) {
             Component yes = Widgets.getComponent(236, 1);
             Component leave = Widgets.getComponent(939, 36);
             if (yes.isValid())
@@ -59,9 +59,9 @@ public class LeaveDungeon extends Strategy
 
     public boolean isValid() {
         return (Explore.exit() ||
-                parent.teleportFailSafe >= 3 ||
+                parent.teleportFailSafe >= GameConstants.TELEPORT_FAILSAFE ||
                 parent.prestige ||
-                Dungeon.curFloor() > GameConstants.MAX_FLOOR);
+                Dungeon.curFloor() >= GameConstants.MAX_FLOOR);
     }
 
 

@@ -20,7 +20,7 @@ public class GluttonousBehemoth extends Plugin
     public int loop() {
         try {
             MyCombat.doPrayerFor(new EnemyDef(Npcs.getNearest(GameConstants.GLUTTONOUS)));
-                    GameObject carcass = Objects.getNearest(49283);
+            GameObject carcass = Objects.getNearest(49283);
             if (carcass == null)
                 return Random.nextInt(400, 500);
             Tile carcassTile = carcass.getLocation();
@@ -80,7 +80,7 @@ public class GluttonousBehemoth extends Plugin
 
 
     public boolean isValid() {
-        return Npcs.getNearest(GameConstants.GLUTTONOUS) != null;
+        return Objects.getNearest(49283) != null;
     }
 
 }

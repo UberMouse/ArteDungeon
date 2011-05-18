@@ -6,9 +6,10 @@ import com.rsbuddy.script.wrappers.GameObject;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.MyPlayer;
+import nz.uberutils.helpers.Utils;
 
 // TODO: Auto-generated Javadoc
-public class Util extends nz.uberutils.helpers.Utils
+public class Util extends Utils
 {
     /**
      * Check if tile is in current room
@@ -17,9 +18,7 @@ public class Util extends nz.uberutils.helpers.Utils
      * @return true if it is
      */
     public static boolean tileInRoom(Tile tile) {
-        if (MyPlayer.curArea() != null)
-            return MyPlayer.curArea().contains(tile);
-        return false;
+        return MyPlayer.curArea() != null && MyPlayer.curArea().contains(tile);
     }
 
     /**

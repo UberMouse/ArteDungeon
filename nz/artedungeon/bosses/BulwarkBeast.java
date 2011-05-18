@@ -54,8 +54,7 @@ public class BulwarkBeast extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyNpcs.getNearestNpc(".*wark beast") != null &&
-               Util.tileInRoom(MyNpcs.getNearestNpc(".*wark beast").getLocation());
+        return MyNpcs.getNearestNpc(".*wark beast") != null;
     }
 
     @Override

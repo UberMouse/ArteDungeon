@@ -1,6 +1,7 @@
 package nz.uberutils.helpers;
 
 import com.rsbuddy.script.methods.*;
+import com.rsbuddy.script.task.Task;
 import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.wrappers.*;
 import nz.uberutils.methods.MyInventory;
@@ -94,15 +95,18 @@ public class MyPlayer
      * Attack.
      *
      * @param enemy the enemy
+     * @return boolean true if enemy was attacked or false if attacking failed
      */
     public static boolean attack(Npc enemy) {
         MyMovement.turnTo(enemy);
-        if (enemy != null && MyPlayer.get().getInteracting() == null) {
-            if (enemy.interact("Attack")) {
-                return true;
+        if (enemy.interact("Attack")) {
+            int i;
+            for (i = 0; i <= 15 && !MyPlayer.inCombat(); i++) {
+                Task.sleep(100);
+                if (MyPlayer.isMoving())
+                    i = 0;
             }
-            else
-                return false;
+            return i < 15;
         }
         return false;
     }

@@ -83,16 +83,16 @@ public class EquipItems extends Strategy
             return;
         if (ItemHandler.shouldEquip(toEquip, toEquip.getEquipmentIndex())) {
             //            if (ItemHandler.isBound(EquipmentIndex) && toEquip.getEquipmentIndex() != MyEquipment.AMMO) {
-            //                debug("Unbinding old item");
+
             //                ItemHandler.unBind(EquipmentIndex);
             //            }
             //            if ((EquipmentIndex == MyEquipment.WEAPON ||
             //                 EquipmentIndex == MyEquipment.AMMO) && !item.getName().contains("(b)")) {
-            //                debug("Binding item");
+
             //                ItemHandler.bind(item.getId());
             //                sleep(random(500, 760));
             //            }
-            Utils.debug("Wearing: " + item.getName());
+
             item.interact("wear");
             Game.openTab(Game.TAB_EQUIPMENT);
             Utils.sleep(Utils.random(25, 50));
@@ -101,7 +101,7 @@ public class EquipItems extends Strategy
             Mouse.click(true);
         }
         else if (!item.getName().contains("(b)")) {
-            Utils.debug("Dropping: " + item.getName());
+
             item.interact("rop");
         }
     }

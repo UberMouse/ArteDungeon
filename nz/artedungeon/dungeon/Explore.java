@@ -5,6 +5,7 @@ import com.rsbuddy.script.methods.Widgets;
 import com.rsbuddy.script.wrappers.GameObject;
 import com.rsbuddy.script.wrappers.Tile;
 import nz.artedungeon.DungeonMain;
+import nz.artedungeon.bosses.Default;
 import nz.artedungeon.common.Plugin;
 import nz.artedungeon.common.PuzzlePlugin;
 import nz.artedungeon.common.RSBuddyCommon;
@@ -29,9 +30,9 @@ public class Explore extends RSBuddyCommon
 {
     private static final LinkedList<Room> rooms = new LinkedList<Room>();
     private static final LinkedList<Door> doors = new LinkedList<Door>();
-    private static Room startRoom;
-    private static Room bossRoom;
-    private static String floorType;
+    private static Room    startRoom;
+    private static Room    bossRoom;
+    private static String  floorType;
     private static boolean exit;
 
     public static Room getStartRoom() {
@@ -95,6 +96,7 @@ public class Explore extends RSBuddyCommon
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
             for (Plugin p : parent.getBosses()) {
                 if (p.isValid()) {
+
                     Plugin boss = null;
                     try {
                         Constructor ctor = p.getClass().getDeclaredConstructor();
@@ -107,7 +109,11 @@ public class Explore extends RSBuddyCommon
                     rooms.add(room);
                     return room;
                 }
+                Boss room = new Boss(roomArea, newDoors(roomArea), new Default(), parent);
+                rooms.add(room);
+                return room;
             }
+
         }
         for (PuzzlePlugin p : parent.getPuzzles()) {
             if (p.isValid()) {

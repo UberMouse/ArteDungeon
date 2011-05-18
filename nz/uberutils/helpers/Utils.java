@@ -8,6 +8,8 @@ import com.rsbuddy.script.wrappers.Component;
 import nz.uberutils.methods.MyEquipment;
 import nz.uberutils.methods.MyInventory;
 import nz.uberutils.wrappers.LootItem;
+import org.rsbuddy.net.WorldData;
+import sun.rmi.runtime.Log;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,8 +24,8 @@ import java.util.logging.Logger;
 // TODO: Auto-generated Javadoc
 public class Utils
 {
-    private static final int WALL = 0x200000;
-    private static final Logger log = Logger.getAnonymousLogger();
+    private static final int    WALL = 0x200000;
+    private static final Logger log  = Logger.getAnonymousLogger();
 
     /**
      * Finds if the current world is a members world or not.
@@ -32,8 +34,15 @@ public class Utils
      * @author UberMouse
      */
     public static boolean isWorldMembers() {
-        int world = Integer.valueOf(Widgets.get(550).getComponent(20).getText().replaceAll("[^0-9]", ""));
-        Worlds.World w = Worlds.lookup(world);
+        int world = 0;
+        try {
+            world = Integer.valueOf(Widgets.get(550).getComponent(19).getText().replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            Game.openTab(Game.TAB_FRIENDS);
+            Game.openTab(Game.TAB_INVENTORY);
+            isWorldMembers();
+        }
+        WorldData w = WorldData.lookup(world);
         return w.isMember();
     }
 

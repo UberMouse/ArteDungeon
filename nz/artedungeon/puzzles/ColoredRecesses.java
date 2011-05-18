@@ -79,7 +79,7 @@ public class ColoredRecesses extends PuzzlePlugin
             for (GameObject tObj : MyPlayer.currentRoom().getObjects(color)) {
                 if (MyNpcs.getTopAt(tObj.getLocation()) == null) {
                     blocksAligned = false;
-                    Util.debug("hurp");
+
                     break o;
                 }
             }

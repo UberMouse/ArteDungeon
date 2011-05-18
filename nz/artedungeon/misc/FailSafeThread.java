@@ -19,7 +19,7 @@ import java.awt.*;
  * User: Taylor
  * Date: 2/28/11
  * Time: 11:56 AM
- * Package: nz.artedungeon.misc;
+ * Package: nz.artedungeon.threads;
  */
 public class FailSafeThread extends LoopTask
 {

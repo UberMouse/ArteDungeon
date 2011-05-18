@@ -26,10 +26,10 @@ public class PickupItems extends Strategy
                     Inventory.getItem(id).interact("eat");
             }
         }
-        if (pickup != null && !MyPlayer.isMoving()) {
+        if (pickup != null) {
             MyMovement.turnTo(pickup.getLocation());
             if (MyGroundItems.itemInteract(pickup, "take")) {
-                debug("Picking up item: " + pickup.getItem().getName());
+
                 int timeout = 0;
                 int count = Inventory.getCount();
                 while (count == Inventory.getCount() && ++timeout <= 15 && !MyPlayer.inCombat()) {

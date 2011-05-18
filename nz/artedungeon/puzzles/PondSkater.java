@@ -23,8 +23,8 @@ public class PondSkater extends PuzzlePlugin
     static boolean canSolve = true;
 
     public boolean isValid() {
-        Util.debug(MyPlayer.curArea().getCentralTile());
-        Util.debug(Util.tileInRoom(MyPlayer.curArea().getCentralTile()));
+
+
         return Npcs.getNearest(SKATER) != null && Util.tileInRoom(Npcs.getNearest(SKATER).getLocation());
     }
 

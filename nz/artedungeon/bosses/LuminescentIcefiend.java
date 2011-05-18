@@ -24,7 +24,7 @@ public class LuminescentIcefiend extends Plugin
             PILLAR = 51300, SPEC_ATTACK = 13338;
 
     public boolean isValid() {
-        return Npcs.getNearest(BOSS) != null && MyPlayer.currentRoom().contains(Npcs.getNearest(BOSS));
+        return Npcs.getNearest(BOSS) != null;
     }
 
     public String getStatus() {

@@ -11,6 +11,7 @@ import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 import java.util.ArrayList;
 
@@ -55,7 +56,7 @@ public class RiftSplitter extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc(".*riftsplitter") != null;
+        return MyNpcs.getNearest(".*riftsplitter") != null;
     }
 
     @Override

@@ -5,6 +5,7 @@ import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +33,7 @@ public class HobgoblinGeomancer extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc(".*goblin geoman.*") != null;
+        return MyNpcs.getNearest(".*goblin geoman.*") != null;
     }
 
     @Override

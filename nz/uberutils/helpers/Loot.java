@@ -53,7 +53,7 @@ public class Loot
         }
         if (Inventory.isFull() && !stackable && count <= 5)
             return;
-        if (count > 5)
+        if (count > 5 && Inventory.isFull())
             MyPlayer.eat();
         String name = loot.getItem().getName();
         int id = loot.getItem().getId();

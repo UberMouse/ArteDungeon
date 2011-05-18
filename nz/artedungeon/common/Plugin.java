@@ -7,6 +7,7 @@ import com.rsbuddy.script.ActiveScript;
 public abstract class Plugin extends ActiveScript implements MessageListener
 {
     private boolean startup = false;
+    private boolean finished;
 
 
     /**
@@ -62,6 +63,13 @@ public abstract class Plugin extends ActiveScript implements MessageListener
     }
 
     public void messageReceived(MessageEvent messageEvent) {
+        if(messageEvent.isAutomated()) {
+            if(messageEvent.getMessage().contains("You received item:"))
+                finished = true;
+        }
+    }
 
+    public boolean isFinished() {
+        return finished;
     }
 }

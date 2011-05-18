@@ -338,7 +338,7 @@ public class ColoredFerret extends PuzzlePlugin
                     if (!xBlocked) {
                         if (!MyPlayer.location().equals(xCheck)) {
                             MyMovement.turnTo(xCheck);
-                            nz.uberutils.helpers.Utils.debug("walking");
+
                             xCheck.interact("walk");
                             failCount = 0;
                         }
@@ -348,7 +348,7 @@ public class ColoredFerret extends PuzzlePlugin
                     else if (!yBlocked) {
                         if (!MyPlayer.location().equals(yCheck)) {
                             MyMovement.turnTo(yCheck);
-                            nz.uberutils.helpers.Utils.debug("walking");
+
                             yCheck.interact("walk");
                             failCount = 0;
                         }

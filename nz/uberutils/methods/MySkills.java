@@ -11,8 +11,7 @@ import nz.uberutils.helpers.Utils;
  * User: Taylor
  * Date: 5/11/11
  * Time: 1:04 PM
- * To change this template use File | Settings | File Templates.
- */
+  */
 public class MySkills {
     public static final String[] SKILL_NAMES = {"attack", "defence",
 		"strength", "constitution", "range", "prayer", "magic", "cooking",
@@ -24,7 +23,7 @@ public class MySkills {
 	/**
 	 * A table containing the experiences that begin each level.
 	 */
-	public static final int[] XP_TABLE = {0, 0, 83, 174, 276, 388, 512, 650,
+	public static final int[] XP_TABLE = {0, 83, 174, 276, 388, 512, 650,
 		801, 969, 1154, 1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523,
 		3973, 4470, 5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824, 12031,
 		13363, 14833, 16456, 18247, 20224, 22406, 24815, 27473, 30408,

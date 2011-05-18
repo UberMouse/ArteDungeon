@@ -131,9 +131,6 @@ public class DungeonStart extends Strategy
                     else {
                         for (Item item : MyInventory.getItems(true)) {
                             Equipable check = new Equipable(item.getName());
-                            Utils.debug(ItemHandler.shouldEquip(check, check.getEquipmentIndex()) +
-                                        " " +
-                                        check.getName());
                             if (check.getStyle() != ItemHandler.UNKNOWN &&
                                 !ItemHandler.shouldEquip(check, check.getEquipmentIndex())) {
                                 item.interact("Sell 50");

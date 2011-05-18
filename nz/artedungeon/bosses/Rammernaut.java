@@ -8,6 +8,7 @@ import nz.artedungeon.dungeon.Enemy;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,7 +45,7 @@ public class Rammernaut extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc("rammernaut") != null;
+        return MyNpcs.getNearest("rammernaut") != null;
     }
 
     @Override

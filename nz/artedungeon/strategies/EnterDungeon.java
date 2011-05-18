@@ -27,7 +27,7 @@ public class EnterDungeon extends Strategy
         GameObject entrance = Objects.getNearest(GameConstants.ENTRANCE);
         MyMovement.turnTo(entrance);
         if (Widgets.getComponent(939, 83).isValid() &&
-            (Integer.parseInt(Widgets.getComponent(939, 83).getText()) > GameConstants.MAX_FLOOR)) {
+            (Integer.parseInt(Widgets.getComponent(939, 83).getText()) >= GameConstants.MAX_FLOOR)) {
             parent.prestige = true;
             return random(400, 600);
         }
@@ -39,7 +39,7 @@ public class EnterDungeon extends Strategy
             Widgets.get(236).getComponent(1).click();
         else if (Widgets.get(947).getComponent(608).isValid()) {
             int curProgess = Integer.parseInt(Widgets.getComponent(939, 83).getText());
-            Component floor = Widgets.get(947).getComponent(608 + ((curProgess <
+            Component floor = Widgets.get(947).getComponent(608 + ((curProgess <=
                                                                     GameConstants.MAX_FLOOR) ? curProgess : 0));
             if (curProgess < 17)
                 Dungeon.setFloor(curProgess);

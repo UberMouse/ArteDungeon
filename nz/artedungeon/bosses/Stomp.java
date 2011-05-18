@@ -16,6 +16,7 @@ import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -90,7 +91,7 @@ public class Stomp extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc("stomp") != null;
+        return MyNpcs.getNearest("stomp") != null;
     }
 
     @Override

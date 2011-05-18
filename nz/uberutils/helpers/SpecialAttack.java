@@ -4,6 +4,7 @@ import com.rsbuddy.script.methods.Combat;
 import com.rsbuddy.script.methods.Game;
 import com.rsbuddy.script.methods.Settings;
 import com.rsbuddy.script.methods.Widgets;
+import com.rsbuddy.script.task.Task;
 import com.rsbuddy.script.util.Timer;
 import com.rsbuddy.script.wrappers.Item;
 import nz.uberutils.methods.MyEquipment;
@@ -134,11 +135,11 @@ public class SpecialAttack
     }
 
     public static void doSpecial() {
-        Utils.debug(primaryWeapon);
-        Utils.debug(specAt);
         if (useSecondaryWeapon && MyInventory.contains(specialWeapon)) {
             Game.openTab(Game.TAB_INVENTORY);
             MyInventory.getItem(specialWeapon).interact("wield");
+            for (int i = 0; i <= 15 && MyInventory.contains(specialWeapon); i++)
+                Task.sleep(100);
         }
         else if (getSpecialEnergy() >= specEnergy && !Combat.isSpecialEnabled()) {
             Timer fail = new Timer(4000);
@@ -157,6 +158,8 @@ public class SpecialAttack
         else if (useSecondaryWeapon && MyInventory.contains(primaryWeapon)) {
             Game.openTab(Game.TAB_INVENTORY);
             MyInventory.getItem(primaryWeapon).interact("wield");
+            for (int i = 0; i <= 15 && MyInventory.contains(primaryWeapon); i++)
+                Task.sleep(100);
         }
     }
 

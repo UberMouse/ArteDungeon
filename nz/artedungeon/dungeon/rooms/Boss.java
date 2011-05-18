@@ -44,4 +44,8 @@ public class Boss extends Room
     public Plugin getBoss() {
         return boss;
     }
+
+    public boolean isFinished() {
+        return boss.isFinished();
+    }
 }

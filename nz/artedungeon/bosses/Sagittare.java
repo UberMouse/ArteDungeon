@@ -11,6 +11,7 @@ import nz.artedungeon.dungeon.ItemHandler;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.methods.MyMovement;
+import nz.uberutils.methods.MyNpcs;
 
 /**
  * Created by IntelliJ IDEA.
@@ -55,7 +56,7 @@ public class Sagittare extends Plugin
 
     @Override
     public boolean isValid() {
-        return MyPlayer.currentRoom().getNearestNpc("sagittare") != null;
+        return MyNpcs.getNearest("sagittare") != null;
     }
 
     @Override

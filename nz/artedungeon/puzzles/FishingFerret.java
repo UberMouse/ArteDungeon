@@ -106,7 +106,7 @@ public class FishingFerret extends PuzzlePlugin
     public int loop() {
         if (MyPlayer.get().isIdle() && !getFerret().isMoving()) {
             if (inventoryCount("vile fish") < getFishNeeded(getFerret().getLocation(), getPad().getLocation())) {
-                Utils.debug(Objects.getNearest("ishing spot"));
+
                 if (Objects.getNearest("ishing spot").isOnScreen()) {
                     Objects.getNearest("ishing spot").interact("fish");
                 }

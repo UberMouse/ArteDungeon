@@ -23,14 +23,14 @@ public class JumpStairs extends Strategy
         parent.inDungeon = false;
         Dungeon.setFloor(0);
         Explore.setExit(false);
-        if (parent.teleportFailSafe == 3) {
+        if (parent.teleportFailSafe == GameConstants.TELEPORT_FAILSAFE) {
             DungeonMain.timesAborted++;
         }
         parent.teleportFailSafe = 0;
         GameObject stairs = Objects.getNearest(GameConstants.END_STAIRS);
         MyMovement.turnTo(stairs);
         if (stairs.interact("Jump")) {
-            debug("Jumped down stairs");
+
             sleep(1200, 1500);
         }
         return random(400, 600);
