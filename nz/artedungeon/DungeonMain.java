@@ -59,7 +59,7 @@ import java.util.LinkedList;
 @Manifest(authors = {"UberMouse"},
           keywords = "Dungeoneering",
           name = "ArteDungeon",
-          version = 0.23,
+          version = 0.24,
           description = "Gets you 99 dungeoneering, so you don't have to")
 public class DungeonMain extends ActiveScript implements PaintListener,
                                                          MessageListener,
@@ -199,6 +199,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         Options.addOption("pureMode", (defLevel == 1 || defLevel == 20 || defLevel == 40));
         Options.addOption("usePrayers", Skills.getCurrentLevel(Skills.PRAYER) >= 37);
         Options.addOption("switchStyles", true);
+        PaintController.reset();
         skillFrame.addComponent(new PClickableURL("http://www.uberdungeon.com", "Development blog", 10, 355));
         skillFrame.addComponent(new PClickableURL("https://arbidungeon.fogbugz.com/", "Report bugs", 10, 370));
         skillFrame.addComponent(new PClickableURL("http://www.uberdungeon.uservoice.com", "Feature request", 10, 385));
@@ -596,13 +597,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                 infoFrame.removeComponent(mainLayoutColTwo);
                 miscFrame.removeComponent(miscLayout);
             }
-            nz.uberutils.helpers.Skill[] skillIndex = {dungSkill,
-                                                       attSkill,
-                                                       strSkill,
-                                                       defSkill,
-                                                       rangeSkill,
-                                                       magicSkill,
-                                                       conSkill};
+            nz.uberutils.helpers.Skill[] skillIndex = {attSkill, strSkill, defSkill, rangeSkill, magicSkill, conSkill};
             int y = 375;
             for (nz.uberutils.helpers.Skill skill : skillIndex) {
                 if (skill.xpGained() > 0) {
@@ -610,7 +605,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
                     if (!skillFrame.containsComponent(skillComp)) {
                         skillFrame.addComponent(skillComp);
                     }
-                    y += 15;
+                    y += 20;
                 }
             }
             final Point loc = Mouse.getLocation();
@@ -750,7 +745,7 @@ public class DungeonMain extends ActiveScript implements PaintListener,
             Dungeon.iTimesDied();
         }
         if (txt.contains("Floor")) {
-            Dungeon.setFloor(Integer.parseInt(txt.split(">")[1].replaceAll("[a-zA-Z<>=]", "").trim()) + 1);
+            Dungeon.setFloor(Integer.parseInt(txt.split(">")[1].replaceAll("[a-zA-Z<>=]", "").trim()));
         }
         if (Explore.inDungeon()) {
             if (Explore.getBossRoom() != null) {

@@ -10,6 +10,8 @@ import nz.artedungeon.common.Plugin;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.utils.Util;
+import nz.uberutils.helpers.Utils;
+import nz.uberutils.methods.MyMovement;
 import nz.uberutils.methods.MyNpcs;
 
 /**
@@ -47,6 +49,8 @@ public class NightGazerKhighorahk extends Plugin
     public int loop() {
         final Room cur = MyPlayer.currentRoom();
         final Npc khighorahk = cur.getNearestNpc(".*Khighorahk.*");
+        if (MyPlayer.needToEat())
+            MyPlayer.eat();
         if (khighorahk != null) {
             boolean specialActive = Util.arrayContains(SPECIAL_ANIMS, khighorahk.getAnimation());
             if (specialActive && Calculations.distanceTo(khighorahk.getLocation()) < 6) {
@@ -56,6 +60,7 @@ public class NightGazerKhighorahk extends Plugin
                     Util.waitUntilMoving(10);
                     for (int i = 0; i < 7; i++) {
                         GameObject pillar = cur.getNearestObject(49265);
+                        MyMovement.turnTo(pillar);
                         if (pillar != null && Calculations.distanceTo(pillar) < 4) {
                             if (pillar.interact("Light")) {
                                 sleep(800, 1100);
@@ -79,13 +84,16 @@ public class NightGazerKhighorahk extends Plugin
                             break;
                         sleep(200, 250);
                     }
-                    for (int c = 0; c < 4; c++) {
-                        if (khighorahk.interact("Attack")) {
-                            for (int v = 0; v <= 15 && !MyPlayer.inCombat(); v++)
-                                sleep(100);
-                            break;
+                    if (cur.getObjects(49266, 49267).length >= 2) {
+                        for (int c = 0; c < 4; c++) {
+                            MyMovement.turnTo(khighorahk);
+                            if (!MyPlayer.inCombat() && khighorahk.interact("Attack")) {
+                                for (int v = 0; v <= 15 && !MyPlayer.inCombat(); v++)
+                                    sleep(100);
+                                break;
+                            }
+                            sleep(500, 800);
                         }
-                        sleep(500, 800);
                     }
                     safeTile = null;
                 }
@@ -93,12 +101,17 @@ public class NightGazerKhighorahk extends Plugin
             else {
                 GameObject[] litPillars = cur.getObjects(49266, 49267);
                 if (litPillars != null && litPillars.length < 2) {
-                    if (Objects.getNearest(49265).interact("Light"))
+                    GameObject unLitPillar = Objects.getNearest(49265);
+                    MyMovement.turnTo(unLitPillar);
+                    if (unLitPillar.interact("Light"))
                         sleep(800, 1200);
                 }
-                if (khighorahk.interact("Attack"))
-                    for (int v = 0; v <= 15 && !MyPlayer.inCombat(); v++)
-                        sleep(100);
+                if (cur.getObjects(49266, 49267).length >= 2) {
+                    MyMovement.turnTo(khighorahk);
+                    if (!MyPlayer.inCombat() && khighorahk.interact("Attack"))
+                        for (int v = 0; v <= 15 && !MyPlayer.inCombat(); v++)
+                            sleep(100);
+                }
             }
         }
         return Util.random(100, 200);

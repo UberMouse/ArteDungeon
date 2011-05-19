@@ -71,7 +71,7 @@ public class Sagittare extends Plugin
 
     @Override
     public int loop() {
-        if(MyPlayer.combatStyle() == ItemHandler.Style.RANGED)
+        if (MyPlayer.combatStyle() == ItemHandler.Style.RANGED)
             Explore.setExit(true);
         Npc sagittare = MyPlayer.currentRoom().getNearestNpc("sagittare");
         if (sagittare.getMessage() != null && sagittare.getMessage().contains("k off")) {
@@ -92,7 +92,7 @@ public class Sagittare extends Plugin
                     Util.clickRandomTileOnMap();
                 break;
             case EAT:
-                while (MyPlayer.hp() < 60 && MyPlayer.hasFood())
+                if (MyPlayer.hasFood())
                     MyPlayer.eat();
                 break;
         }

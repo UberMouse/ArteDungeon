@@ -96,9 +96,7 @@ public class Explore extends RSBuddyCommon
         MyPlayer.setCurArea(roomArea);
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
             for (Plugin p : parent.getBosses()) {
-                Utils.debug(p.getClass().getSimpleName() + " is not valid");
                 if (p.isValid()) {
-                    Utils.debug(p.getClass().getSimpleName() + " is valid");
                     Plugin boss = null;
                     try {
                         Constructor ctor = p.getClass().getDeclaredConstructor();
