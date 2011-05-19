@@ -56,7 +56,7 @@ public class LeaveDungeon extends Strategy
         return (Explore.exit() ||
                 parent.teleportFailSafe >= GameConstants.TELEPORT_FAILSAFE ||
                 parent.prestige ||
-                Dungeon.curFloor() >= GameConstants.MAX_FLOOR);
+                Dungeon.curFloor() > GameConstants.MAX_FLOOR);
     }
 
 

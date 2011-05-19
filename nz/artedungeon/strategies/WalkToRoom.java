@@ -29,13 +29,15 @@ public class WalkToRoom extends Strategy
         if (searchDoor != null) {
             end = searchDoor.getParent();
         }
-//        else if (!MyPlayer.currentRoom().hasEnemies()) {
-//            for (Room room : Explore.getRooms()) {
-//                if (room.containsKeys())
-//                    end = room;
-//            }
-//        }
+        //        else if (!MyPlayer.currentRoom().hasEnemies()) {
+        //            for (Room room : Explore.getRooms()) {
+        //                if (room.containsKeys())
+        //                    end = room;
+        //            }
+        //        }
         Room[] path = bfs.findPath(MyPlayer.currentRoom(), end);
+        if (path == null)
+            Explore.setExit(true);
         bfs.walkPath(path);
         return random(400, 600);
     }
@@ -51,14 +53,16 @@ public class WalkToRoom extends Strategy
             if (path != null)
                 return true;
         }
-//        if (!MyPlayer.currentRoom().hasEnemies()) {
-//            for (Room room : Explore.getRooms()) {
-//                if (room.containsKeys())
-//                    return true;
-//            }
-//            return false;
-//        }
-        return MyPlayer.currentRoom().getNearestDoor() == null && MyPlayer.currentRoom().getItem() == null && end != null;
+        //        if (!MyPlayer.currentRoom().hasEnemies()) {
+        //            for (Room room : Explore.getRooms()) {
+        //                if (room.containsKeys())
+        //                    return true;
+        //            }
+        //            return false;
+        //        }
+        return MyPlayer.currentRoom().getNearestDoor() == null &&
+               MyPlayer.currentRoom().getItem() == null &&
+               end != null;
     }
 
     private Door getDoor() {
