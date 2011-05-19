@@ -80,7 +80,7 @@ public class GluttonousBehemoth extends Plugin
 
 
     public boolean isValid() {
-        return Objects.getNearest(49283) != null;
+        return Objects.getNearest(49283) != null && Npcs.getNearest(GameConstants.INROOM_ENEMY_FILTER) != null;
     }
 
 }
