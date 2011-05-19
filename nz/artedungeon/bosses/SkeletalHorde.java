@@ -112,8 +112,6 @@ public class SkeletalHorde extends Plugin
                 sleep(100);
             if (skinweaver.getMessage() != null && skinweaver.getMessage().contains("little danger in"))
                 talkedToSkinWeaver = true;
-            else if(Widgets.getComponent(242, 0) != null)
-                talkedToSkinWeaver = true;
         }
     }
 

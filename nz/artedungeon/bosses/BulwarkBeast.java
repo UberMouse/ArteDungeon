@@ -107,7 +107,8 @@ public class BulwarkBeast extends Plugin
                     changeWeapons();
                     break;
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return Random.nextInt(400, 600);
     }
