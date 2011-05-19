@@ -12,10 +12,10 @@ import com.rsbuddy.script.wrappers.Tile;
  * Time: 9:15 PM
  * Package: nz.uberutils.methods;
  */
-public class MyNpcs extends Npcs
+public class MyNpcs
 {
     public static Npc getTopAt(final Tile tile) {
-        return getNearest(new Filter<Npc>()
+        return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc npc) {
                 return npc.getLocation().equals(tile);
@@ -24,7 +24,7 @@ public class MyNpcs extends Npcs
     }
 
     /**
-     * Gets nearest Npc to Player in Room
+     * Gets nearest Npc to Player in Room (With regex or .contains)
      *
      * @param name the name of the <tt>Npc</tt> to search for
      * @return <tt>Npc</tt>, if one is found, else <tt>null</tt>
@@ -33,7 +33,10 @@ public class MyNpcs extends Npcs
         return Npcs.getNearest(new Filter<Npc>()
         {
             public boolean accept(Npc Npc) {
-                return Npc != null && Npc.getName().toLowerCase().matches(name.toLowerCase()) && Npc.getHpPercent() > 0;
+                return Npc != null &&
+                       (Npc.getName().toLowerCase().matches(name.toLowerCase()) ||
+                        Npc.getName().toLowerCase().contains(name)) &&
+                       Npc.getHpPercent() > 0;
             }
         });
     }

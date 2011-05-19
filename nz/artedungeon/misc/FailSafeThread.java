@@ -42,8 +42,7 @@ public class FailSafeThread extends LoopTask
     public int loop() {
         try {
             if (leaving && !MyPlayer.get().isInCombat()) {
-                Toolkit.getDefaultToolkit().beep();
-                //leaveDungeon();
+                leaveDungeon();
                 return 500;
             }
             if (!posTimer.isRunning()) {
