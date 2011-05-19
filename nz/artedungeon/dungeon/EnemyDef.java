@@ -80,7 +80,7 @@ public class EnemyDef
         GLUTTONOUS_BEHEMOTH(new String[]{"crush", "magic"}, new int[]{0, 1, 2}, 2),
         ASTEA_FROSTWEB(new String[]{"range", "slash", "fire spells"}, new int[]{0, 2}, 2),
         ICY_BONES(new String[]{"stab"}, new int[]{0, 1, 2}, 0),
-        LUMINESCENT_ICEFIEND(new String[]{"stab", "fire spells"}, new int[]{0, 1}, 0),
+        LUMINESCENT_ICEFIEND(new String[]{"stab", "fire spells"}, new int[]{0, 1}, 1),
         PLANEFREEZER_LAKHRAHNAZ(new String[]{"stab", "range"}, new int[]{0, 1, 2}, 2),
         TOKASH_THE_BLOODCHILLER(new String[]{"fire spells", "magic", "crush"}, new int[]{0, 2}, 2),
 
