@@ -1,6 +1,6 @@
 #UberDungeon
 
-UberDungeon is a script for the immensely popular and successful bot, RSBuddy. For Java MMORPG Runescape. The program source code is completely open and free (Must be redistributed without authors permission) - whether you're a Java expert or just keen to explore. 
+UberDungeon is a script for the immensely popular and successful bot, RSBuddy. For Java MMORPG Runescape. The program source code is completely open and free (Must be redistributed with authors permission) - whether you're a Java expert or just keen to explore. 
 
 ###Get the code
 
