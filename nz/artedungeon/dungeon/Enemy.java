@@ -10,7 +10,7 @@ import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.Util;
 
 
-// TODO: Auto-generated Javadoc
+
 public class Enemy extends DungeonCommon
 {
 

@@ -5,7 +5,7 @@ import nz.artedungeon.DungeonMain;
 import nz.uberutils.helpers.Utils;
 
 
-// TODO: Auto-generated Javadoc
+
 public class RSBuddyCommon
 {
     protected static DungeonMain parent;

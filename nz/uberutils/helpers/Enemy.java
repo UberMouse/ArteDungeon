@@ -7,7 +7,7 @@ import com.rsbuddy.script.util.Filter;
 import com.rsbuddy.script.wrappers.Tile;
 
 
-// TODO: Auto-generated Javadoc
+
 public class Enemy {
 
 	private static Npc npc;

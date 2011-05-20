@@ -8,7 +8,7 @@ import nz.artedungeon.DungeonMain;
 import nz.artedungeon.dungeon.MyPlayer;
 import nz.uberutils.helpers.Utils;
 
-// TODO: Auto-generated Javadoc
+
 public class Util extends Utils
 {
     /**

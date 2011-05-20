@@ -18,15 +18,15 @@ import nz.artedungeon.dungeon.rooms.Puzzle;
 import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.utils.FloodFill;
+import nz.artedungeon.utils.PluginFactory;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.Util;
 import nz.uberutils.helpers.Utils;
 
-import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 
 
-// TODO: Auto-generated Javadoc
+
 public class Explore extends RSBuddyCommon
 {
     private static final LinkedList<Room> rooms = new LinkedList<Room>();
@@ -97,15 +97,10 @@ public class Explore extends RSBuddyCommon
         if (bossRoom == null && Objects.getNearest(GameConstants.BOSS_DOORS) != null) {
             for (Plugin p : parent.getBosses()) {
                 if (p.isValid()) {
-                    Plugin boss = null;
-                    try {
-                        Constructor ctor = p.getClass().getDeclaredConstructor();
-                        ctor.setAccessible(true);
-                        boss = (Plugin) ctor.newInstance();
-                    } catch (Exception ignored) {
-                        ignored.printStackTrace();
-                    }
-                    Boss room = new Boss(roomArea, newDoors(roomArea), boss, parent);
+                    Boss room = new Boss(roomArea,
+                                         newDoors(roomArea),
+                                         PluginFactory.instance().createPlugin(p.getClass().getSimpleName()),
+                                         parent);
                     rooms.add(room);
                     return room;
                 }
@@ -117,15 +112,11 @@ public class Explore extends RSBuddyCommon
         }
         for (PuzzlePlugin p : parent.getPuzzles()) {
             if (p.isValid()) {
-                PuzzlePlugin puzzle = null;
-                try {
-                    Constructor ctor = p.getClass().getDeclaredConstructor();
-                    ctor.setAccessible(true);
-                    puzzle = (PuzzlePlugin) ctor.newInstance();
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
-                }
-                Puzzle room = new Puzzle(roomArea, newDoors(roomArea), puzzle, parent);
+                Puzzle room = new Puzzle(roomArea,
+                                         newDoors(roomArea),
+                                         (PuzzlePlugin) PluginFactory.instance()
+                                                                     .createPlugin(p.getClass().getSimpleName()),
+                                         parent);
                 rooms.add(room);
                 return room;
             }

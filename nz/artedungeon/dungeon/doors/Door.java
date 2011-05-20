@@ -11,7 +11,7 @@ import nz.artedungeon.dungeon.rooms.Room;
 import nz.artedungeon.utils.Util;
 
 
-// TODO: Auto-generated Javadoc
+
 public abstract class Door extends DungeonCommon
 {
     protected final int id;

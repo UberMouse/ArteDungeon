@@ -30,6 +30,7 @@ import nz.artedungeon.misc.FailSafeThread;
 import nz.artedungeon.misc.GameConstants;
 import nz.artedungeon.puzzles.*;
 import nz.artedungeon.strategies.*;
+import nz.artedungeon.utils.PluginFactory;
 import nz.artedungeon.utils.RSArea;
 import nz.artedungeon.utils.RoomUpdater;
 import nz.artedungeon.utils.Util;
@@ -332,6 +333,11 @@ public class DungeonMain extends ActiveScript implements PaintListener,
         //        }
         MyPlayer.setComplexity(3);
         loadPlugins();
+        final ArrayList<Plugin> temp = new ArrayList<Plugin>();
+        temp.addAll(bosses);
+        temp.addAll(puzzles);
+        PluginFactory.instance().setPlugins(temp);
+        log(PluginFactory.instance().createPlugin(bosses.get(0).getClass().getSimpleName()).getClass().getSimpleName());
         return true;
     }
 

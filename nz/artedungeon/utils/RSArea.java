@@ -8,7 +8,7 @@ import com.rsbuddy.script.wrappers.Tile;
 import java.util.ArrayList;
 
 
-// TODO: Auto-generated Javadoc
+
 public class RSArea extends Area
 {
     private final Tile[] tiles;

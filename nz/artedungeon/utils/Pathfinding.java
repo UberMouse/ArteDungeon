@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-// TODO: Auto-generated Javadoc
+
 public class Pathfinding extends RSBuddyCommon
 {
 

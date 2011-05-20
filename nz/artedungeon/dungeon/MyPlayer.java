@@ -14,7 +14,7 @@ import nz.artedungeon.utils.RSArea;
 import nz.uberutils.methods.MyMovement;
 
 
-// TODO: Auto-generated Javadoc
+
 public class MyPlayer extends DungeonCommon
 {
     public static Room currentRoom() {

@@ -8,7 +8,7 @@ import nz.uberutils.methods.MyInventory;
 import nz.uberutils.methods.MyMovement;
 
 
-// TODO: Auto-generated Javadoc
+
 public class MyPlayer
 {
     /**

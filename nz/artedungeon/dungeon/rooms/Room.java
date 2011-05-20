@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-// TODO: Auto-generated Javadoc
+
 public abstract class Room extends DungeonCommon
 {
     protected final RSArea area;
