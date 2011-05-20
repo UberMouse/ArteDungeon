@@ -1,0 +1,30 @@
+//ToDo complete all these things :D
+Bosses[ ]:
+    Luminescent Icefiend[ ]:
+        Complete overhaul[ ]
+    Night Gazer Khighorahk[ ]:
+        General code improvements[ ]
+    Astea Frostweb[ ]:
+        Detect Protection prayers[ ]:
+			Attack spiders when protecting against our attack style[ ]
+    Sagattire[ ]:
+        Abort dungeon when using range[ ]
+		Improve defence against arrow AOE attack[ ]
+
+Puzzles[ ]:
+	Code puzzles[ ]
+
+Doors[ ]:
+	Fix issues with switching between two rooms[ ]
+	
+Item Handling[ ]:
+    Improve interaction[ ]
+	Fix binding code[ ]
+			
+Combat[ ]:
+
+Failsafes[ ]:
+
+Sleeps[ ]:
+
+Misc[ ]:

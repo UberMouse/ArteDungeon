@@ -1,6 +1,5 @@
 package nz.artedungeon.puzzles;
 
-import com.rsbuddy.client.RSItem;
 import com.rsbuddy.script.methods.Calculations;
 import com.rsbuddy.script.methods.Inventory;
 import com.rsbuddy.script.methods.Npcs;
